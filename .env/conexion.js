@@ -19,3 +19,5 @@ function conectar(error){
 }
 
 connection.connect(conectar);
+
+module.exports = connection;
