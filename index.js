@@ -34,7 +34,6 @@ app.get('/unidad',async (req,res)=>{
 
 app.get('/unidad/:id',async (req,res)=>{
     try{
-        console.log(req.params.id);
         const unidades = await unidadModel.obtenerUnidadesPorId([req.params.id]);
         res.header("Access-Control-Allow-Origin", "*");
         res.send(unidades);
