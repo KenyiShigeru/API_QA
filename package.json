@@ -17,5 +17,8 @@
     "nodemon": "^3.1.4",
     "residencias_quality_art": "file:",
     "sql": "^0.78.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.5"
   }
 }
