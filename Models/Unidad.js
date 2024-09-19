@@ -24,8 +24,6 @@ class UnidadModel{
 
     obtenerUnidadesPorId(id){
         return new Promise((resolve, reject) => {
-            let identificador = parseInt(id);
-            let consultita = 'SELECT nom_unidad FROM unidad where id_unidad = ?';
             this.conexion.query(consultita,id, (error, resultados) => {
                 if (error) {
                     return reject(error);
