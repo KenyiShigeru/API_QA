@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var cors = require('cors');
 var conexion = require('./.env/conexion');
 var {ProductoModel} = require('./Models/producto');
-var {UnidadModel} = require('./Models/Unidad');
+var {UnidadModel, Unidad} = require('./Models/Unidad');
 const { error } = require('console');
 
 
@@ -56,6 +56,17 @@ app.get('/productos', async (req, res) => {
     }
 });
 
+app.post('/unidad/:nom_unidad', async (req, res)=>{
+    try{
+        const resultado = await unidadModel.insertarUnidad(new Unidad(req.params.nom_unidad));
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(201).json({message:'Agregado con exito'});
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({error:'Error al ingresar la unidad'});
+    }
+})
 
 
 app.listen("3000",()=>console.log("El servidor esta corriendo en el puerto 3000"));
