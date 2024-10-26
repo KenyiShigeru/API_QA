@@ -2,7 +2,6 @@ var express = require('express');
 var mysql = require('mysql');
 var cors = require('cors');
 var conexion = require('./.env/conexion');
-var {ProductoModel} = require('./Models/producto');
 var {UnidadModel, Unidad} = require('./Models/Unidad');
 const { error } = require('console');
 
@@ -16,8 +15,10 @@ const unidadModel = new UnidadModel();
     optionSuccessStatus:200,
     }*/
 var app = express();
-
+//DE AQUI PARA abajo es para las rutas
 app.get('/',(req,res)=>res.send("<h1>Ruta de inicio con nodemon</h1>"));
+
+
 
 app.get('/unidad',async (req,res)=>{
     try{
