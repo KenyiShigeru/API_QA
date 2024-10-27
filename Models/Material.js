@@ -18,3 +18,5 @@ class MaterialModel
 
     
 }
+
+module.exports = {Material, MaterialModel};

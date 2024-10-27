@@ -43,5 +43,6 @@ class ProcesoModel
         });
     }
 
-
 }
+
+module.exports = {Proceso, ProcesoModel};

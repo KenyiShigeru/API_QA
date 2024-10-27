@@ -67,4 +67,4 @@ class SubclasificacionModel
 
 }
 
-module.exports = {Subclasificacion, SubclasificacionModel}
+module.exports = {Subclasificacion, SubclasificacionModel};

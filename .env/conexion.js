@@ -1,23 +1,25 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 datosConexion = 
 {
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'qualityart'
+    database: 'prueba2',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 };
 
-const connection = mysql.createConnection(datosConexion);
+const connection = mysql.createPool(datosConexion);
 
-function conectar(error){
-    if(error){
-        console.error('Error al conectar a la base de datos',error);
+connection.getConnection((error, connection) => {
+    if (error) {
+        console.error('Error al conectar a la base de datos:', error);
         return;
     }
-    console.log('Conexion a la base de datos creada correctamente');
-}
-
-connection.connect(conectar);
+    console.log('Conexión a la base de datos establecida correctamente');
+    connection.release(); // Liberar la conexión una vez realizada la prueba
+});
 
 module.exports = connection;

@@ -1,8 +1,6 @@
-const { resolve } = require('path');
+
 const conexion = require('../.env/conexion');
-const { rejects } = require('assert');
 const { obtenerIdMax } = require('../utils/herramientas');
-const { error } = require('console');
 class Unidad{
     constructor(nom_unidad){
         this.nom_unidad = nom_unidad;
@@ -16,15 +14,17 @@ class UnidadModel{
         this.conexion = conexion;
     }
 
-    obtenerUnidades(){
+    async obtenerUnidades(){
         return new Promise((resolve, reject) => {
-            let consultita = 'SELECT * FROM unidad';
-            this.conexion.query(consultita, (error, resultados) => {
-                if (error) {
-                    return reject(error);
-                };
-                resolve(resultados);
-            });
+            this.conexion.execute('call  obtener_unidades', 
+                (error, resultados) => {
+                    if (error)
+                    {
+                        return reject(error);
+                    }
+                    resolve(resultados[0]);//Se agrega ese parametro de cero
+                    //Por que si no me arroja datos de información de los campos
+            })
         });
     }
 

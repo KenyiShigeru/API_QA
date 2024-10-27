@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var cors = require('cors');
 var conexion = require('./.env/conexion');
 var {UnidadModel, Unidad} = require('./Models/Unidad');
+var {ProductoModel, Producto} = require('./Models/Producto');
 const { error } = require('console');
 
 
