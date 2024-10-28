@@ -29,38 +29,51 @@ class ClienteModel
     }
 
     // Crea un cliente mediante el procedimiento almacenado
-    insertarCliente(cliente) 
+    async insertarCliente(cliente) 
     {
+        
         return new Promise((resolve, reject) => {
             
             this.conexion.execute(
-                'CALL agg_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', // Nombre del procedimiento y parámetros
+                'CALL agg_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
                 [
-                    cliente.nom_cliente,
-                    cliente.apPaterno,
-                    cliente.apMaterno,
+                    cliente.nombre,
+                    cliente.apellidopaterno,
+                    cliente.apellidomaterno,
+                    cliente.rutaconstancia,
+                    cliente.rfc,
+                    cliente.nomnegocio,
+                    cliente.domicilio,
+                    cliente.telWP,
+                    cliente.telFJ,
+                    cliente.correo,
                     cliente.tpCliente,
-                    cliente.cons_fiscal,
-                    cliente.rfc_cliente,
-                    cliente.nombreNegocio,
-                    cliente.domcilio,
-                    cliente.telefonowp,
-                    cliente.telefonofijo,
-                    cliente.email,
-                    cliente.tipoCliente
+                    0
                 ],
                 (error, results) => {
                     if (error) {
-                        console.error('Error al ejecutar el procedimiento almacenado:', error);
                         return reject(error);
                     }
-                    resolve(results);
+                    resolve(results[0]);
                 }
             );
         });
     }
 
     // Obtiene todos los clientes
+
+    async obtenerClientes() {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('call obtenerClientes',
+                (error, results) =>{
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(results[0]);
+                }
+            )
+        });
+    }
     
     //Modifica el cliente
 

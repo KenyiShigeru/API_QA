@@ -8,7 +8,8 @@ datosConexion =
     database: 'prueba2',
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    namedPlaceholders: true
 };
 
 const connection = mysql.createPool(datosConexion);

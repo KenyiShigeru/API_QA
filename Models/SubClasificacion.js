@@ -30,26 +30,18 @@ class SubclasificacionModel
 
     async insertarSubclasificacion(subclasificacion)
     {
-        try
-        {
-            let nuevoId = await obtenerIdMax('subclasificaciones');
-            return new Promise((resolve, reject) => {
-                this.conexion.query('INSERT INTO subclasificaciones SET ?', 
-                    {
-                        id_subclasificacion: nuevoId, 
-                        nom_subclasificacion: subclasificacion.nom_subclasificacion
-                    }, (error, resultado) => {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute(
+                'CALL agg_subclasificacion(?)', 
+                subclasificacion,
+                (error, resultados) => {
                     if (error) {
                         return reject(error);
                     }
-                    resolve(resultado.insertId);
-                });
-            });
-        }
-        catch (error)
-        {
-            throw new Error("Error al insertar la subclasificación: " + error);
-        }
+                    resolve(resultados[0]);
+                }
+            )
+        });
     }
 
 
