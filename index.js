@@ -6,6 +6,7 @@ var {ProductoModel, Producto} = require('./Models/Producto');
 var {Cliente, ClienteModel} = require('./Models/Cliente');
 var {Clasificacion, ClasificacionModel} = require('./Models/Clasificacion');
 var {SubclasificacionModel} = require('./Models/SubClasificacion');
+var {MaterialModel} = require('./Models/Material');
 
 
 
@@ -14,6 +15,7 @@ const unidadModel = new UnidadModel();
 const clasificacionModel = new ClasificacionModel();
 const clienteModel = new ClienteModel();
 const subclasificacionModel = new SubclasificacionModel();
+const materialModel = new MaterialModel();
 /*const corsOptions ={
     origin:'*',
     credentials:true,
@@ -181,7 +183,54 @@ app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', a
     }
 });
 
+//Zona de los materiales
+app.get('/materiales',async (req,res)=>{
+    try{
+        const unidades = await materialModel.obtenerMateriales();
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send(unidades);
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+});
 
+app.post('/materiales/:nom_material/:des_material', async (req, res) => {
+    try {
+        const resultado = await materialModel.insertarMaterial(
+            [
+                req.params.nom_material, 
+                req.params.des_material
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(201).json({message:'Agregado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al insertar la subclasificación' });
+    }
+});
+
+app.put('/materiales/:id/:nom_material/:des_material', async (req, res) => {
+    try {
+        const resultado = await materialModel.modificarMaterial(
+            [
+                req.params.id ||null, 
+                req.params.nom_material || null, 
+                req.params.des_material || null
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el material' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el material' });
+    }
+});
 
 app.listen("3000",()=>console.log("El servidor esta corriendo en el puerto 3000"));
 
