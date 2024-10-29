@@ -1,12 +1,11 @@
 var express = require('express');
 var mysql = require('mysql');
 var cors = require('cors');
-var conexion = require('./.env/conexion');
 var {UnidadModel, Unidad} = require('./Models/Unidad');
 var {ProductoModel, Producto} = require('./Models/Producto');
 var {Cliente, ClienteModel} = require('./Models/Cliente');
 var {Clasificacion, ClasificacionModel} = require('./Models/Clasificacion');
-const { error } = require('console');
+var {SubclasificacionModel} = require('./Models/SubClasificacion');
 
 
 
@@ -14,6 +13,7 @@ const productoModel = new ProductoModel();
 const unidadModel = new UnidadModel();
 const clasificacionModel = new ClasificacionModel();
 const clienteModel = new ClienteModel();
+const subclasificacionModel = new SubclasificacionModel();
 /*const corsOptions ={
     origin:'*',
     credentials:true,
@@ -39,18 +39,6 @@ app.get('/unidad',async (req,res)=>{
     }
 });
 
-/*app.get('/unidad/:id',async (req,res)=>{
-    try{
-        const unidades = await unidadModel.obtenerUnidadesPorId([req.params.id]);
-        res.header("Access-Control-Allow-Origin", "*");
-        res.send(unidades);
-    }
-    catch(error)
-    {
-        console.error(error);
-        res.status(500).json({ error: 'Error al obtener los productos' });
-    }
-});*/
 
 app.get('/productos', async (req, res) => {
     try {
@@ -143,6 +131,55 @@ app.put("/clientes/:id/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia
     }
 });
 
+//Zona de las subclasificaciones
+app.get('/subclasificaciones',async (req,res)=>{
+    try{
+        const subclasificaciones = await subclasificacionModel.obtenerSubclasificaciones();
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send(subclasificaciones);
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+});
+
+
+app.post('/subclasificaciones/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
+    try {
+        const resultado = await subclasificacionModel.insertarSubclasificacion(
+            [
+                req.params.nom_subclasificacion, 
+                req.params.des_subclasificacion
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(201).json({message:'Agregado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al insertar la subclasificación' });
+    }
+});
+
+app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
+    try {
+        const resultado = await subclasificacionModel.modificarSubclasificacion(
+            [
+                req.params.id ||null, 
+                req.params.nom_subclasificacion || null, 
+                req.params.des_subclasificacion || null
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar la subclasificación' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar la subclasificación' });
+    }
+});
 
 
 
