@@ -113,7 +113,8 @@ app.get('/clientes', async (req, res) => {
     }
 });
 
-app.post("/clientes/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:nomnegocio/:domicilio/:telWP/:telFJ/:correo/:tpCliente", async (req, res) => {
+app.post("/clientes/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:nomnegocio/:domicilio/:telWP/:telFJ/:correo/:tpCliente", 
+    async (req, res) => {
     try {
         console.log(req.params);
         const resultado = await clienteModel.insertarCliente(req.params);
@@ -124,6 +125,26 @@ app.post("/clientes/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:r
         res.status(500).json({ error: 'Error al insertar el cliente' });
     }
 });
+
+app.put("/clientes/:id/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:nomnegocio/:domicilio/:telWP/:telFJ/:correo/:tpCliente", 
+    async (req, res) => {
+    try {
+        const resultado = await clienteModel.modificarCliente(req.params);
+        res.header("Access-Control-Allow-Origin", "*");
+        //La respuesta de la base de datos es un array con un objeto que tiene un mensaje por eso se toma el primer elemento
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el cliente' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el cliente' });
+    }
+});
+
+
+
 
 app.listen("3000",()=>console.log("El servidor esta corriendo en el puerto 3000"));
 
