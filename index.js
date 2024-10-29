@@ -27,7 +27,7 @@ app.use(cors({origin:'*'}));
 app.get('/',(req,res)=>res.send("<h1>Ruta de inicio con nodemon</h1>"));
 
 
-
+//Zona de las unidades
 app.get('/unidad',async (req,res)=>{
     try{
         const unidades = await unidadModel.obtenerUnidades();
@@ -42,6 +42,43 @@ app.get('/unidad',async (req,res)=>{
 });
 
 
+app.post('/unidad/:nom_unidad/:des_unidad', async (req, res)=>{
+    try{
+        const resultado = await unidadModel.insertarUnidad(
+            [
+                req.params.nom_unidad, 
+                req.params.des_unidad
+            ]
+        );
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(201).json({message:'Agregado con exito'});
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({error:'Error al ingresar la unidad'});
+    }
+})
+
+app.put('/unidad/:id/:nom_unidad/:des_unidad', async (req, res) => {
+    try {
+        const resultado = await unidadModel.modificarUnidad(
+            [
+                req.params.id ||null, 
+                req.params.nom_unidad || null, 
+                req.params.des_unidad || null
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar la clasificación' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar la clasificación' });
+    }
+});
+
 app.get('/productos', async (req, res) => {
     try {
         const productos = await productoModel.obtenerProductos();
@@ -52,18 +89,6 @@ app.get('/productos', async (req, res) => {
         res.status(500).json({ error: 'Error al obtener los productos' });
     }
 });
-
-app.post('/unidad/:nom_unidad', async (req, res)=>{
-    try{
-        const resultado = await unidadModel.insertarUnidad(new Unidad(req.params.nom_unidad));
-        res.header("Access-Control-Allow-Origin", "*");
-        res.status(201).json({message:'Agregado con exito'});
-    }
-    catch(error){
-        console.log(error)
-        res.status(500).json({error:'Error al ingresar la unidad'});
-    }
-})
 
 //Clasificaciones
 app.get('/clasificaciones',async (req,res)=>{
