@@ -1,5 +1,4 @@
 var express = require('express');
-var mysql = require('mysql');
 var cors = require('cors');
 var {UnidadModel, Unidad} = require('./Models/Unidad');
 var {ProductoModel, Producto} = require('./Models/Producto');
@@ -7,7 +6,7 @@ var {Cliente, ClienteModel} = require('./Models/Cliente');
 var {Clasificacion, ClasificacionModel} = require('./Models/Clasificacion');
 var {SubclasificacionModel} = require('./Models/SubClasificacion');
 var {MaterialModel} = require('./Models/Material');
-
+var {Material_Produccion, Material_ProduccionModel} = require('./Models/Material_Produccion');
 
 
 const productoModel = new ProductoModel();
@@ -16,6 +15,7 @@ const clasificacionModel = new ClasificacionModel();
 const clienteModel = new ClienteModel();
 const subclasificacionModel = new SubclasificacionModel();
 const materialModel = new MaterialModel();
+const material_ProduccionModel = new Material_ProduccionModel();
 /*const corsOptions ={
     origin:'*',
     credentials:true,
@@ -79,6 +79,63 @@ app.put('/unidad/:id/:nom_unidad/:des_unidad', async (req, res) => {
     }
 });
 
+//Zona de los materiales para produccion
+app.get('/matprod',async (req,res)=>{
+    try{
+        const materiales = await material_ProduccionModel.obtenerMaterial_Produccion();
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send(materiales);
+    
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+})
+
+app.post('/matprod/:id_material/:id_unidad/:medida_material/:proveedor', async (req, res) => {
+    try {
+        const resultado = await material_ProduccionModel.insertarMaterial_Produccion(
+            [
+                req.params.id_material ||null, 
+                req.params.id_unidad || null,
+                req.params.medida_material || null, 
+                req.params.proveedor || null
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(201).json({message:'Agregado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al insertar el material' });
+    }
+});
+
+app.put('/matprod/:id/:id_material/:id_unidad/:medida_material/:proveedor', async (req, res) => {
+    try {
+        const resultado = await material_ProduccionModel.modificarMaterial_Produccion(
+            [
+                req.params.id ||null,
+                req.params.id_material ||null, 
+                req.params.id_unidad || null,
+                req.params.medida_material || null, 
+                req.params.proveedor || null
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el material' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el material' });
+    }
+});
+
+
+
+//Zona de los productos
 app.get('/productos', async (req, res) => {
     try {
         const productos = await productoModel.obtenerProductos();

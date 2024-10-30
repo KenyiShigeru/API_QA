@@ -24,24 +24,47 @@ class Material_ProduccionModel
     obtenerMaterial_Produccion()
     {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT * FROM Material_Produccion', (error, resultados) => {
+            this.connection.query('call obtener_mat_prod', (error, resultados) => {
                 if (error) return reject(error);
-                resolve(resultados);
+                resolve(resultados[0]);
             });
         });
     }
 
     insertarMaterial_Produccion(material_produccion)
     {
+        try{
+            return new Promise(async (resolve, reject)=>
+            {
+                this.conexion.execute(
+                    'CALL agg_material_produccion(?, ?, ?, ?)', 
+                    material_produccion,
+                    (error, resultados) => {
+                        if (error) {
+                            return reject(error);
+                        }
+                        resolve(resultados[0]);
+                    }
+                );
+            });
+        }
+        catch(error)
+        {
+            throw new Error("Error al insertar la unidad: " + error)
+        }
+    }
+
+    modificarMaterial_Produccion(material_produccion)
+    {
         return new Promise((resolve, reject) => {
-            this.connection.query('INSERT INTO Material_Produccion SET ?', material_produccion, (error, resultado) => {
+            this.connection.execute('call mod_mat_prod(?,?,?,?,?)', material_produccion, (error, resultado) => {
                 if (error) return reject(error);
-                resolve(resultado.insertId);
+                resolve(resultado[0]);
             });
         });
     }
 
-    obtenerMaterial_ProduccionPorId(id)
+    /*obtenerMaterial_ProduccionPorId(id)
     {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT * FROM Material_Produccion WHERE id_tpmaterial = ?', [id], (error, resultados) => {
@@ -49,7 +72,7 @@ class Material_ProduccionModel
                 resolve(resultados[0] || null);
             });
         });
-    }
+    }*/
 
     obtenerMedidaMaterial(id)
     {
