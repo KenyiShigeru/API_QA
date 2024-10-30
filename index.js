@@ -7,6 +7,7 @@ var {Clasificacion, ClasificacionModel} = require('./Models/Clasificacion');
 var {SubclasificacionModel} = require('./Models/SubClasificacion');
 var {MaterialModel} = require('./Models/Material');
 var {Material_Produccion, Material_ProduccionModel} = require('./Models/Material_Produccion');
+var {AcabadosModel} = require('./Models/Acabados');
 
 
 const productoModel = new ProductoModel();
@@ -16,6 +17,7 @@ const clienteModel = new ClienteModel();
 const subclasificacionModel = new SubclasificacionModel();
 const materialModel = new MaterialModel();
 const material_ProduccionModel = new Material_ProduccionModel();
+const acabadosModel = new AcabadosModel();
 /*const corsOptions ={
     origin:'*',
     credentials:true,
@@ -25,6 +27,39 @@ var app = express();
 app.use(cors({origin:'*'}));
 //DE AQUI PARA abajo es para las rutas
 app.get('/',(req,res)=>res.send("<h1>Ruta de inicio con nodemon</h1>"));
+
+//Zona de los acabados
+app.get('/acabados',async (req,res)=>{
+    try{
+        const acabados = await acabadosModel.obtenerAcabados();
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send(acabados);
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+});
+
+
+app.post('/acabados/:nom_acabados/:des_acabados', async (req, res)=>{
+    try{
+        const resultado = await acabadosModel.insertarAcabado(
+            [ 
+                req.params.nom_acabados, 
+                req.params.des_acabados
+            ]
+        );
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(201).json({message:'Agregado con exito'});
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({error:'Error al ingresar el acabado'});
+    }
+});
+
 
 
 //Zona de las unidades
@@ -147,6 +182,49 @@ app.get('/productos', async (req, res) => {
     }
 });
 
+app.post('/productos/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_descuento/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+    try {
+        const resultado = await productoModel.insertarProducto(
+            [
+                req.params.id_clasificacion ||null, 
+                req.params.id_subclasificacion || null,
+                req.params.id_tpmaterial || null, 
+                req.params.id_unidad || null,
+                req.params.apl_descuento || null, 
+                req.params.precio_sin_inst || null,
+                req.params.precio_con_inst || null, 
+                req.params.observaciones || null
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(201).json({message:'Agregado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al insertar el producto' });
+    }
+});
+
+app.put('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_descuento/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+    try {
+        const resultado = await productoModel.modificarProducto(
+            [
+                req.params.id ||null, 
+                req.params.id_clasificacion ||null, 
+                req.params.id_subclasificacion || null,
+                req.params.id_tpmaterial || null, 
+                req.params.id_unidad || null,
+                req.params.apl_descuento || null, 
+                req.params.precio_sin_inst || null,
+                req.params.precio_con_inst || null, 
+                req.params.observaciones || null
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(201).json({message:'Actualizado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el proyecto' });
+    }
+    
+})
 //Clasificaciones
 app.get('/clasificaciones',async (req,res)=>{
     try{
@@ -160,6 +238,10 @@ app.get('/clasificaciones',async (req,res)=>{
         res.status(500).json({ error: 'Error al obtener los productos' });
     }
 });
+
+
+
+
 
 app.put('/clasificaciones/:id/:nom_clasificacion/:des_clasificacion', async (req, res) => {
     try {

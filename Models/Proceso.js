@@ -23,25 +23,14 @@ class ProcesoModel
     obtenerProcesos()
     {
         return new Promise((resolve, reject) => {
-            let consultita = 'SELECT * FROM Proceso';
-            this.conexion.query(consultita, (error, resultados) => {
-                if (error) {
-                    return reject(error);
-                }
-                resolve(resultados);
-            });
+            this.conexion.execute('call obtener_procesos', (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
         });
     }
 
-    obtenerProcesosPorID(id)
-    {
-        return new Promise((resolve, reject) => {
-            this.connection.query('SELECT * FROM Proceso WHERE id_proceso = ?', [id], (error, resultados) => {
-                if (error) return reject(error);
-                resolve(resultados[0] || null);
-            });
-        });
-    }
+    
 
 }
 

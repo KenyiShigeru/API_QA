@@ -25,56 +25,37 @@ class ProductoModel {
 
     obtenerProductos() {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT * FROM Producto', (error, resultados) => {
+            this.connection.execute('call obtener_productos', (error, resultados) => {
                 if (error) return reject(error);
-                resolve(resultados);
-            });
+                resolve(resultados[0]);
+            })
         });
     }
 
-    obtenerProductoPorId(id) {
-        return new Promise((resolve, reject) => {
-            this.connection.query('SELECT * FROM Producto WHERE id_Producto = ?', [id], (error, resultados) => {
-                if (error) return reject(error);
-                resolve(resultados[0] || null);
-            });
-        });
-    }
 
     async insertarProducto(producto) {
         try {
-            // Obtenemos el nuevo ID utilizando await
-            let nuevoId = await obtenerId.obtenerIdMax('producto');
+            
     
             // Luego insertamos el nuevo producto con los valores proporcionados
             return new Promise((resolve, reject) => {
-                this.connection.query(
-                    'INSERT INTO Producto ' +
-                    '(id_Producto, id_clasificacion, id_subclasificacion, id_tpMaterial, ' +
-                    'id_unidad, apl_inst, precio1_sin_s, precio2_con_s, ' +
-                    'precio3_sin_c, precio4_con_c, observaciones) ' +
-                    'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-                    nuevoId,  // Aquí insertamos el nuevo ID
-                    producto.id_clasificacion,
-                    producto.id_subclasificacion,
-                    producto.id_tpMaterial,
-                    producto.id_unidad,
-                    producto.apl_inst,
-                    producto.precio1_sin_s,
-                    producto.precio2_con_s,
-                    producto.precio3_sin_c,
-                    producto.precio4_con_c,
-                    producto.observaciones
-                ], (error, resultado) => {
-                    if (error) {
-                        return reject(error);
-                    }
-                    resolve(resultado.insertId); // Devolvemos el id insertado
-                });
+                this.connection.execute('call agg_producto(?,?,?,?,?,?,?,?)', producto, (error, resultados) => {
+                    if (error) return reject(error);
+                    resolve(resultados[0]);
+                })
             });
         } catch (error) {
             throw new Error("Error al insertar el producto: " + error);
         }
+    }
+
+    modificarProducto(producto) {
+        return new Promise((resolve, reject) => {
+            this.connection.execute('call modificar_productos(?,?,?,?,?,?,?,?,?)', producto, (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
     }
     
     
