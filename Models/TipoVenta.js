@@ -37,3 +37,5 @@ class TipoVentaModel
         });
     }
 }
+
+module.exports = {TipoVentaModel};

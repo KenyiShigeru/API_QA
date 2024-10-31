@@ -55,3 +55,5 @@ class EstatusCobranzaModel
         }
     }
 }
+
+module.exports = {EstatusCobranzaModel};
