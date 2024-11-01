@@ -133,10 +133,11 @@ app.get('/clientes', async (req, res) => {
 app.post("/clientes/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:nomnegocio/:domicilio/:telWP/:telFJ/:correo/:tpCliente", 
     async (req, res) => {
     try {
-        console.log(req.params);
+        //console.log(req.params);
         const resultado = await clienteModel.insertarCliente(req.params);
+        //console.log(resultado.id_cliente);
         res.header("Access-Control-Allow-Origin", "*");
-        res.status(201).json({message:'Agregado con exito'});
+        res.status(201).json({"message":resultado.id_registrado});
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al insertar el cliente' });
@@ -195,7 +196,7 @@ app.put('/cotizaciones', async (req, res) => {
     }
 })
 
-//Zona de los estatus de 
+//Zona de los estatus de cobranza
 app.get('/estatus', async (req, res) => {
     try {
         const estatus = await estatusModel.obtenerEstatus();
@@ -245,7 +246,7 @@ app.put('/estatus/:id/:nom_estatus/:des_estatus', async (req, res) => {
 //Zona de las formas de pago
 app.get('/fpago', async (req, res) => {
     try {
-        const fpago = await formaPagoModel.obtenerForma_Pago();
+        const fpago = await formaPagoModel.obtenerFormasPagos();
         res.header("Access-Control-Allow-Origin", "*");
         res.send(fpago);
     } catch (error) {
@@ -256,7 +257,7 @@ app.get('/fpago', async (req, res) => {
 
 app.post('/fpago/:nom_fpago/:des_fpago', async (req, res) => {
     try {
-        const resultado = await formaPagoModel.insertarForma_Pago(
+        const resultado = await formaPagoModel.insertarFormaPago(
             [
                 req.params.nom_fpago, 
                 req.params.des_fpago
@@ -550,7 +551,7 @@ app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', a
 //Zona de los tipos de pago
 app.get('/tipopago',async (req,res)=>{
     try{
-        const tiposPago = await tipoPagoModel.obtenerTiposPago();
+        const tiposPago = await tipoPagoModel.obtenerTiposPagos();
         res.header("Access-Control-Allow-Origin", "*");
         res.send(tiposPago);
     }
@@ -648,7 +649,7 @@ app.put('/tipotrabajo/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) =
 //Zona de los tipos de venta
 app.get('/tipoventa',async (req,res)=>{
     try{
-        const tiposVenta = await tipoVentaModel.obtenerTiposVenta();
+        const tiposVenta = await tipoVentaModel.obtenerTiposVentas();
         res.header("Access-Control-Allow-Origin", "*");
         res.send(tiposVenta);
     }
@@ -668,6 +669,7 @@ app.post('/tipoventa/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
             ]);
         res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
+        res.send(resultado);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al insertar el tipo de venta' });

@@ -35,7 +35,7 @@ class ClienteModel
         return new Promise((resolve, reject) => {
             
             this.conexion.execute(
-                'CALL agg_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                'CALL agg_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
                 [
                     cliente.nombre,
                     cliente.apellidopaterno,
@@ -47,14 +47,14 @@ class ClienteModel
                     cliente.telWP,
                     cliente.telFJ,
                     cliente.correo,
-                    cliente.tpCliente,
-                    0
+                    cliente.tpCliente
                 ],
                 (error, results) => {
                     if (error) {
                         return reject(error);
                     }
-                    resolve(results[0]);
+                    console.log(results[0][0].id_registrado);
+                    resolve(results[0][0]);
                 }
             );
         });
@@ -79,7 +79,7 @@ class ClienteModel
     async modificarCliente(cliente) {
         return new Promise((resolve, reject) => {
             this.conexion.execute(
-                'CALL modificar_clientes(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                'CALL modificar_clientes(?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', 
                 [
                     cliente.id,
                     cliente.nombre,

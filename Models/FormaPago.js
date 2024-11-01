@@ -45,7 +45,7 @@ class FormaPagoModel
         });
     }
 
-    modificarFormaPago(forma)
+    modificarForma_Pago(forma)
     {
         return new Promise((resolve, reject) =>
         {
