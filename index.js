@@ -199,7 +199,7 @@ app.put('/cotizaciones', async (req, res) => {
 //Zona de los estatus de cobranza
 app.get('/estatus', async (req, res) => {
     try {
-        const estatus = await estatusModel.obtenerEstatus();
+        const estatus = await estatusModel.obtenerEstatusCobranza();
         res.header("Access-Control-Allow-Origin", "*");
         res.send(estatus);
     } catch (error) {
