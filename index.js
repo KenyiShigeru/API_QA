@@ -14,10 +14,14 @@ var {FormaPagoModel} = require('./Models/FormaPago');
 var {TipoPagoModel} = require('./Models/TipoPago');
 var {TipoTrabajoModel} = require('./Models/TipoTrabajo');
 var {TipoVentaModel} = require('./Models/TipoVenta');
+var {ProcesoModel} = require('./Models/Proceso');
+var {TipoClienteModel} = require('./Models/TipoCliente');
+var {EstadoClienteModel} = require('./Models/EstadoCliente');
 
 
 
 const productoModel = new ProductoModel();
+const procesoModel = new ProcesoModel();
 const unidadModel = new UnidadModel();
 const clasificacionModel = new ClasificacionModel();
 const clienteModel = new ClienteModel();
@@ -31,6 +35,8 @@ const formaPagoModel = new FormaPagoModel();
 const tipoPagoModel = new TipoPagoModel();
 const tipoTrabajoModel = new TipoTrabajoModel();
 const tipoVentaModel = new TipoVentaModel();
+const tipoClienteModel = new TipoClienteModel();
+const estadoClienteModel = new EstadoClienteModel();
 
 /*const corsOptions ={
     origin:'*',
@@ -243,6 +249,53 @@ app.put('/estatus/:id/:nom_estatus/:des_estatus', async (req, res) => {
     }
 });
 
+//Zona de los estatus del cliente
+app.get('/estatuscliente', async (req, res) =>  {
+    try {
+        const estatus = await estadoClienteModel.obtenerestadosClientes();
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send(estatus);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los estatus' });
+    }
+});
+
+app.post('/estatuscliente/:nom_estatus/:des_estatus', async (req, res) => {
+    try {
+        const resultado = await estatusModel.insertarEstatus(
+            [
+                req.params.nom_estatus, 
+                req.params.des_estatus
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(201).json({message:'Agregado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al insertar el estatus' });
+    }
+});
+
+app.put('/estatuscliente/:id/:nom_estatus/:des_estatus', async (req, res) => {
+    try {
+        const resultado = await estatusModel.modificarEstatus(
+            [
+                req.params.id ||null, 
+                req.params.nom_estatus || null, 
+                req.params.des_estatus || null
+            ]);
+        res.header("Access-Control-Allow-Origin", "*");
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el estatus' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el estatus' });
+    }
+});
+
 //Zona de las formas de pago
 app.get('/fpago', async (req, res) => {
     try {
@@ -411,7 +464,7 @@ app.get('/procesos',async (req,res)=>{
 
 app.post('/procesos/:nom_proceso', async (req, res) => {
     try {
-        const resultado = await procesoModel.insertarProceso(
+        const resultado = await procesoModel.agregarProceso(
             [
                 req.params.nom_proceso
             ]);
@@ -545,6 +598,20 @@ app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', a
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al actualizar la subclasificación' });
+    }
+});
+
+//Zona de los tipos de cliente
+app.get('/tipocliente',async (req,res)=>{
+    try{
+        const tiposCliente = await tipoClienteModel.obtenerTiposClientes();
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send(tiposCliente);
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
     }
 });
 

@@ -24,7 +24,7 @@ class Material_ProduccionModel
     obtenerMaterial_Produccion()
     {
         return new Promise((resolve, reject) => {
-            this.connection.query('call obtener_mat_prod', (error, resultados) => {
+            this.connection.query('call consulta_material_produccion("")', (error, resultados) => {
                 if (error) return reject(error);
                 resolve(resultados[0]);
             });

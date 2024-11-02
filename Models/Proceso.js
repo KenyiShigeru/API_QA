@@ -23,7 +23,7 @@ class ProcesoModel
     obtenerProcesos()
     {
         return new Promise((resolve, reject) => {
-            this.conexion.execute('call obtener_procesos', (error, resultados) => {
+            this.conexion.execute('call consulta_proceso("")', (error, resultados) => {
                 if (error) return reject(error);
                 resolve(resultados[0]);
             })

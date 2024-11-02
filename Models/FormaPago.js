@@ -13,7 +13,7 @@ class FormaPagoModel
         {
             try
             {
-                this.conexion.execute('call obtener_formaPago', (error, resultados) =>
+                this.conexion.execute('call consulta_formaPago("")', (error, resultados) =>
                 {
                     if (error) return reject(error);
                     resolve(resultados[0]);

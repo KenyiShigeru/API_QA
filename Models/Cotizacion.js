@@ -27,7 +27,7 @@ class CotizacionModel
     obtenerCotizaciones()
     {
         return new Promise((resolve, reject) => {
-            this.conexion.execute('call obtener_cotizaciones', (error, resultados) => {
+            this.conexion.execute('call consulta_cotizacion("")', (error, resultados) => {
                 if (error) {
                     return reject(error);
                 }

@@ -1,0 +1,5 @@
+En el archivo de consultas terminé hasta el metodo de consultar cotizacion que está en 
+la linea numero 209 los procedimientos almacenados que siguen son tablas intermedias de referencias
+Solo ingresarlas en caso de requirirlo preguntarle al Cordero.
+
+Aún no empiezo con los procedimientos para agregar datos.

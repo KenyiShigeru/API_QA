@@ -25,7 +25,7 @@ class ProductoModel {
 
     obtenerProductos() {
         return new Promise((resolve, reject) => {
-            this.connection.execute('call obtener_productos', (error, resultados) => {
+            this.connection.execute('call consulta_producto("")', (error, resultados) => {
                 if (error) return reject(error);
                 resolve(resultados[0]);
             })

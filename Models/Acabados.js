@@ -11,7 +11,7 @@ class AcabadosModel
     {
         return new Promise((resolve, reject) =>
         {
-            this.conexion.execute('call obtener_acabados', (error, resultados) =>
+            this.conexion.execute('call consulta_acabado("")', (error, resultados) =>
             {
                 if (error)
                 {
