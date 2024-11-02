@@ -9,18 +9,14 @@ class EstatusCobranzaModel
 
     obtenerEstatusCobranza()
     {
-        try
-        {
-            this.conexion.execute('call obtener_estatusCobranza', (error, resultados) =>
-            {
-                if (error) return reject(error);
-                resolve(resultados[0]);
-            });
-        }
-        catch (error)
-        {
-            reject(error);
-        }
+       return new Promise((resolve, reject) =>
+       {
+           this.conexion.execute('call obtener_estatusCobranza', (error, resultados) =>
+           {
+               if (error) return reject(error);
+               resolve(resultados[0]);
+           });
+       });
     }
 
     insertarEstatusCobranza(estatusCobranza)
