@@ -1,0 +1,28 @@
+La descripción de como van las rutas para obtener es la siguiente
+siempre irá primero el nombre de la tabla y la flecha indica el nombre
+de la ruta que debe tener
+
+-----------------------------------------
+####Catalogos
+
+Tabla de Clasificacion -> /clasificaciones
+tabla de Subclasificaciones -> /subclasificacificaciones
+tabla de Material -> /materiales
+tabla de Unidad -> /unidad
+tabla de tipoPago -> /tipopago
+tabla de formaPago -> /fpago
+tabla de estatusCobranza -> /estatus
+tabla de proceso -> /procesos
+tabla de tipoCliente -> /tipocliente
+tabla de tipotrabajo -> /TipoTrabajo
+tabla de tipoventa -> /tipoventa
+tabla de acabados -> /acabados
+
+----------------------------------------
+###Tablas compuestas
+
+tabla de Producto -> /productos
+tabla de Cotizacion -> /cotizaciones
+tabla de Cliente -> /clientes
+
+Esos son los metodos para recuperar toda la información de esas tablas
