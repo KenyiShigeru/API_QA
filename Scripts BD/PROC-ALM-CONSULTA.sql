@@ -8,7 +8,7 @@ Create procedure consulta_clasificacion (
 )
 BEGIN
 
-	Select id_clasificacion, nom_clasificacion , desc_clasificacion  from clasificacion where nom_clasificacion like  CONCAT('%', nombre, '%');
+	Select id_clasificacion, nom_clasificacion , desc_clasificacion, alta_clasificacion   from clasificacion where nom_clasificacion like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -19,7 +19,7 @@ Create procedure consulta_subclasificacion (
 )
 BEGIN
 
-	Select id_subclasificacion , nom_subclasificacion, desc_subclasificacion  from subClasificacion where nom_subclasificacion  like  CONCAT('%', nombre, '%');
+	Select id_subclasificacion , nom_subclasificacion, desc_subclasificacion, alta_subclasificacion   from subClasificacion where nom_subclasificacion  like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -30,7 +30,7 @@ Create procedure consulta_material (
 )
 BEGIN
 
-	Select id_material  , nom_material, desc_material    from material  where nom_material   like  CONCAT('%', nombre, '%');
+	Select id_material  , nom_material, desc_material, alta_material   from material  where nom_material   like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -53,7 +53,7 @@ Create procedure consulta_material_produccion (
 )
 BEGIN
 
-	Select id_tpMaterial, nom_material , nom_unidad, mat_base , mat_altura, proveedor 
+	Select id_tpMaterial, nom_material , nom_unidad, mat_base , mat_altura, proveedor , alta_mat_prod 
     from material_produccion  mp
     inner join material m on m.id_material = mp.id_material
     inner join unidad u on u.id_unidad = mp.id_unidad
@@ -68,7 +68,7 @@ Create procedure consulta_producto (
 )
 BEGIN
 
-	Select id_producto , c.nom_clasificacion  , subc.nom_subclasificacion , m.nom_material , u.nom_unidad ,apl_inst  , precio_sin ,  precio_con , observaciones 
+	Select id_producto , c.nom_clasificacion  , subc.nom_subclasificacion , m.nom_material , u.nom_unidad ,apl_inst  , precio_sin ,  precio_con , observaciones , alta_producto 
     from producto p
     inner join clasificacion c on c.id_clasificacion = p.id_clasificacion
     inner join subclasificacion subc on subc.id_subclasificacion  = p.id_subclasificacion 
@@ -130,7 +130,9 @@ Create procedure consulta_acabado (
 )
 BEGIN
 
-	Select id_acabado   , nom_acabado ,desc_acabado    from acabado  where nom_acabado    like  CONCAT('%', nombre, '%');
+	Select id_acabado   , nom_acabado ,desc_acabado ,alta_acabado 
+    from acabado  
+    where nom_acabado    like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -141,7 +143,9 @@ Create procedure consulta_tipoVenta (
 )
 BEGIN
 
-	Select id_tpVenta , nom_tpVenta ,desc_tpVenta     from tipoVenta   where nom_tpVenta     like  CONCAT('%', nombre, '%');
+	Select id_tpVenta , nom_tpVenta ,desc_tpVenta  ,alta_tpVenta 
+    from tipoVenta  
+    where nom_tpVenta     like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -152,7 +156,9 @@ Create procedure consulta_tipoTrabajo (
 )
 BEGIN
 
-	Select id_tpTrabajo, nom_tpTrabajo ,  desc_tpTrabajo from tipoTrabajo   where nom_tpTrabajo      like  CONCAT('%', nombre, '%');
+	Select id_tpTrabajo, nom_tpTrabajo ,  desc_tpTrabajo, alta_tpTrabajo 
+    from tipoTrabajo  
+    where nom_tpTrabajo like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -163,7 +169,9 @@ Create procedure consulta_proceso (
 )
 BEGIN
 
-	Select id_proceso  , nom_proceso,  desc_proceso from proceso    where nom_proceso        like  CONCAT('%', nombre, '%');
+	Select id_proceso  , nom_proceso,  desc_proceso, alta_proceso 
+    from proceso   
+    where nom_proceso like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -175,7 +183,9 @@ Create procedure consulta_tipoPago (
 )
 BEGIN
 
-	Select id_tpPago , nom_tpPago, desc_tpPago    from tipoPago    where nom_tpPago         like  CONCAT('%', nombre, '%');
+	Select id_tpPago , nom_tpPago, desc_tpPago, alta_tpPago 
+    from tipoPago    
+    where nom_tpPago like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -186,7 +196,9 @@ Create procedure consulta_formaPago (
 )
 BEGIN
 
-	Select id_fmPago , nom_fmPago, desc_fmPago  from formaPago    where nom_fmPago          like  CONCAT('%', nombre, '%');
+	Select id_fmPago , nom_fmPago, desc_fmPago, alta_fmPago 
+    from formaPago  
+    where nom_fmPago like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -199,7 +211,9 @@ Create procedure consulta_estatusCobranza (
 )
 BEGIN
 
-	Select id_estCobranza , nom_estCobranza ,  desc_estCobranza   from estatusCobranza    where nom_estCobranza           like  CONCAT('%', nombre, '%');
+	Select id_estCobranza , nom_estCobranza ,  desc_estCobranza ,alta_estCobranza  
+    from estatusCobranza   
+    where nom_estCobranza   like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -215,8 +229,8 @@ BEGIN
     from cotizacion c
     inner join tipoVenta tpv on tpv.id_tpVenta = c.id_tpVenta
     inner join cliente cl on cl.id_cliente = c.id_cliente
-    where cl.nom_cliente           
-    like  CONCAT('%', nombre, '%');
+    where "Nombre Completo"         
+    like  CONCAT('%', nombre, '%') or cl.nom_negocio  like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -286,7 +300,7 @@ DELIMITER ;
 # 		ORDEN	DE	TRABAJO
 DELIMITER //
 Create procedure consulta_ordenTrabajo(
-    IN ID INT
+    IN nombre varchar(100)
 )
 BEGIN
 
@@ -295,7 +309,8 @@ BEGIN
     inner join cotizacion c on c.id_cotizacion = ot.id_cotizacion
     inner join cliente cl on cl.id_cliente =c.id_cliente
     inner join estatusCobranza ec on ec.id_estCobranza = ot.id_estCobranza
-    where ot.id_ordenTrabajo = 1;
+	where "Nombre Completo"         
+    like  CONCAT('%', nombre, '%') or cl.nom_negocio  like  CONCAT('%', nombre, '%');
 END //
 DELIMITER ;
 
@@ -336,13 +351,13 @@ CALL consulta_tipoPago("");
 CALL consulta_formaPago("");
 CALL consulta_estatusCobranza("");
 
-CALL consulta_cotizacion("");
+CALL consulta_cotizacion("CHAW");
 CALL consulta_acab_cotizacion(1);
 CALL consulta_trab_cotizacion(1);
 CALL consulta_proc_cotizacion(1);
 CALL consulta_productos_cotizacion(1);
 
-CALL consulta_ordenTrabajo(1);
+CALL consulta_ordenTrabajo("CHAW");
 CALL consulta_pagoOrdenTrabajo(1);
 
 SELECT ec.id_cliente, nom_cliente, (ot.totalPagado - c.total)

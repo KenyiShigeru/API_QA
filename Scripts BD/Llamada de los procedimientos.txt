@@ -1,0 +1,97 @@
+#CALL agg_tipoCliente (nom_tpcliente, desc_tpcliente  );
+#Call agg_cliente((nom_cliente, apPaterno, apMaterno, const_fiscal, RFC_cliente, nom_negocio, dom_cliente, telWP_cliente, telFJ_cliente, correo_cliente, id_tpCliente, @variable);
+
+#CALL agg_clasificacion(nom_clasificacion, desc_clasificacion ) 
+#CALL agg_subClasificacion(nom_subclasificacion, desc_subclasificacion ) 
+#CALL agg_material (nom_material, desc_material );
+#CALL agg_unidad (nom_unidad, desc_unidad );
+#CALL agg_material_produccion (id_material, id_unidad, mat_base, mat_altura , proveedor);
+
+#CALL agg_producto (id_clasificacion , id_subclasificacion , id_tpMaterial , id_unidad , apl_desc , precio_sin , precio_con , observaciones); // apl_desc es boolean  para saber si aplica descuento o no
+
+#CALL agg_acabado (nom_acabado, desc_acabado );
+#CALL agg_tipoVenta (nom_tpVenta, desc_tpVenta );
+#CALL agg_tipoTrabajo (nom_tpTrabajo, desc_tpTrabajo );
+#CALL agg_proceso (nom_proceso, desc_proceso );
+
+#CALL agg_cotizacion(id_cliente , id_tpVenta , subTotal , iva , total , fechaVigencia , estatus , factura , personal , observacion , eliminacion, @variable) ; ## estatus = False y Eliminacion = False, al iniciar la cotizacion ## Regresa el ultimo id registrado 
+#CALL agg_acab_cotizacion( id_cotizacion  ,  id_acabado);
+#CALL agg_trab_cotizacion( id_cotizacion  ,  id_tpTrabajo );
+#CALL agg_proc_cotizacion(  id_cotizacion  ,  id_proceso);
+#CALL agg_product_cotizacion( id_cotizacion  ,  id_producto   ,cantidad,  prod_base, prod_altura, precio_Uni , importe  );
+
+#CALL agg_ordenTrabajo(  id_cotizacion  ,  id_estCobranza    ,totalPagado);
+#CALL agg_pagoOrdenTrabajo(  id_ordenTrabajo   ,  id_tpPago     ,id_fmPago , comprobante , fecha_pago , montoPago);
+
+#CALL agg_estatusCobranza (nom_estCobranza, desc_estCobranza  );
+#CALL agg_tipoPago (nom_tpPago, desc_tpPago );
+#CALL agg_formaPago (nom_fmPago, desc_fmPago );
+
+
+
+
+## PARA CONSULTAS
+
+CALL consulta_clasificacion(nombre) 
+IMPRIME		 id_clasificacion, nom_clasificacion, desc_clasificacion 
+
+CALL consulta_subclasificacion(nombre)
+IMPRIME 	id_subclasificacion , nom_subclasificacion, desc_subclasificacion 
+
+CALL consulta_material(nombre)
+IMPRIME 	id_material  , nom_material, nom_material 
+
+CALL consulta_unidad(nombre)
+IMPRIME 	id_unidad   , nom_unidad, desc_unidad 
+
+CALL consulta_material_produccion(nombre)  // nombre  del material
+IMPRIME		 id_tpMaterial, nom_material , nom_unidad, mat_base , mat_altura, proveedor 
+
+CALL consulta_producto(nombre) //nombre del material, clasificacion o subclasificacion
+IMPRIME id_producto , c.nom_clasificacion  , subc.nom_subclasificacion , m.nom_material , u.nom_unidad ,apl_desc  , precio_sin ,  precio_con , observaciones
+
+CALL consulta_tpCliente(nombre)
+IMPRIME 	id_tpCliente ,nom_tpcliente, desc_tpcliente 
+
+CALL consulta_cliente(nombre)
+IMPRIME 	id_cliente ,concat(nom_cliente ," ", apPaterno ," ",apMaterno ), tpc.nom_tpcliente,const_fiscal ,  RFC_cliente , nom_negocio , dom_cliente , telWP_cliente ,  telFJ_cliente , correo_cliente 
+
+CALL consulta_estadoCliente(nombre)
+IMPRIME 	Select c.id_cliente ,concat(nom_cliente ," ", apPaterno ," ",apMaterno ), nom_negocio , dom_cliente , telWP_cliente ,  ec.adeudo 
+
+CALL consulta_acabado(nombre)
+IMPRIME 	id_acabado, nom_acabado , desc_acabado 
+
+CALL consulta_tipoVenta(nombre)
+IMPRIME 	id_tpVenta , nom_tpVenta, desc_tpVenta 
+
+CALL consulta_tipoTrabajo(nombre)
+IMPRIME 	id_tpTrabajo , nom_tpTrabajo, desc_tpTrabajo 
+
+CALL consulta_proceso(nombre)
+IMPRIME 	id_proceso , nom_proceso , desc_proceso 
+
+CALL consulta_tipoPago(nombre)
+IMPRIME 	id_tpPago , nom_tpPago , desc_tpPago 
+
+CALL consulta_formaPago(nombre)
+IMPRIME 	id_fmPago , nom_fmPago , desc_fmPago 
+
+CALL consulta_estatusCobranza(nombre)
+IMPRIME 	id_estCobranza , nom_estCobranza , desc_estCobranza 
+
+CALL consulta_cotizacion(nombre del cliente);
+IMPRIME		c.id_cotizacion, concat(nom_cliente ," ", apPaterno ," ",apMaterno ) AS "Nombre Completo",  tpv.nom_tpVenta, c.total, c.fechaVigencia, c.estatus, c.factura, c.personal, c.observacion
+
+CALL consulta_acab_cotizacion(id de la cotizacion);
+IMPRIME		ac.id_cotizacion,  a.id_acabado ,a.nom_acabado, a.desc_acabado 
+
+CALL consulta_trab_cotizacion(id de la cotizacion);
+IMPRIME		tc.id_cotizacion,  tpt.id_tpTrabajo  ,tpt.nom_tpTrabajo , tpt.desc_tpTrabajo 
+
+CALL consulta_proc_cotizacion(id de la cotizacion);
+IMPRIME		pc.id_cotizacion,  p.id_proceso   ,p.nom_proceso  , p.desc_proceso 
+
+CALL consulta_productos_cotizacion(id de la cotizacion);
+pc.id_cotizacion,  pc.id_producto,  pc.cantidad, CONCAT(sc.nom_subclasificacion , " -- ", m.nom_material) as "Descripcion", pc.prod_base, pc.prod_altura, pc.precio_Uni, pc.importe
+

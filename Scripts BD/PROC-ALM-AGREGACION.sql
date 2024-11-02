@@ -32,12 +32,14 @@ create procedure agg_cliente (
 )
 BEGIN
 
+	Declare id_registrado int;
 	insert into cliente (nom_cliente, apPaterno, apMaterno, const_fiscal, RFC_cliente, nom_negocio, dom_cliente, telWP_cliente, telFJ_cliente, correo_cliente, id_tpCliente) 
     values( p_nom_cliente, p_apPaterno, p_apMaterno, p_const_fiscal,p_rfc_cliente, p_nom_negocio, p_dom_cliente, p_telWP_cliente, p_telFJ_cliente, p_correo_cliente, p_id_tpCliente);
-
-	Select LAST_INSERT_ID() as ult_Cliente;
     
-    insert into estadoCliente  (id_cliente, adeudo) values ( LAST_INSERT_ID(), 0);
+    SET id_registrado = LAST_INSERT_ID();
+    
+    insert into estadoCliente(id_cliente , adeudo ) values(id_registrado, 0); # Se inicializa el estado del cliente
+    select id_registrado;
     
 END //
 DELIMITER ;
@@ -51,8 +53,8 @@ Create procedure agg_clasificacion (
 	IN p_desc_clasificacion VARCHAR(100)
 )
 BEGIN
-	insert into clasificacion ( nom_clasificacion , desc_clasificacion ) 
-    values( p_nom_clasificacion, p_desc_clasificacion);
+	insert into clasificacion ( nom_clasificacion , desc_clasificacion, alta_clasificacion  ) 
+    values( p_nom_clasificacion, p_desc_clasificacion, TRUE);
 END //
 DELIMITER ;
 
@@ -63,8 +65,8 @@ Create procedure agg_subClasificacion (
 	IN p_desc_subclasificacion VARCHAR(100)
 )
 BEGIN
-	insert into subClasificacion ( nom_subclasificacion, desc_subclasificacion ) 
-    values( p_nom_subclasificacion, p_desc_subclasificacion);
+	insert into subClasificacion ( nom_subclasificacion, desc_subclasificacion, alta_subclasificacion  ) 
+    values( p_nom_subclasificacion, p_desc_subclasificacion, TRUE);
 END //
 DELIMITER ;
 
@@ -75,8 +77,8 @@ Create procedure agg_material (
     IN p_desc_material VARCHAR(100)
 )
 BEGIN
-	insert into material ( nom_material, desc_material ) 
-    values( p_nom_material, p_desc_material );
+	insert into material ( nom_material, desc_material , alta_material ) 
+    values( p_nom_material, p_desc_material ,TRUE);
 END //
 DELIMITER ;
 
@@ -102,8 +104,8 @@ Create procedure agg_material_produccion (
     IN p_proveedor VARCHAR(30)
 )
 BEGIN
-	insert into material_produccion ( id_material, id_unidad, mat_base, mat_altura, proveedor) 
-    values( p_id_material, p_id_unidad, p_mat_base ,p_mat_altura, p_proveedor);
+	insert into material_produccion ( id_material, id_unidad, mat_base, mat_altura, proveedor, alta_mat_prod ) 
+    values( p_id_material, p_id_unidad, p_mat_base ,p_mat_altura, p_proveedor, TRUE);
 END //
 DELIMITER ;
 
@@ -123,8 +125,8 @@ create procedure agg_producto (
 )
 BEGIN
 
-	insert into producto  (id_clasificacion , id_subclasificacion , id_tpMaterial , id_unidad , apl_inst , precio_sin , precio_con , observaciones ) 
-    values( p_id_clasificacion, p_id_subclasificacion, p_id_tpMaterial, p_id_unidad,p_apl_inst, p_precio_sin, p_precio_con, p_observaciones);
+	insert into producto  (id_clasificacion , id_subclasificacion , id_tpMaterial , id_unidad , apl_inst , precio_sin , precio_con , observaciones, alta_producto  ) 
+    values( p_id_clasificacion, p_id_subclasificacion, p_id_tpMaterial, p_id_unidad,p_apl_inst, p_precio_sin, p_precio_con, p_observaciones, TRUE);
     
 END //
 DELIMITER ;
@@ -136,8 +138,8 @@ Create procedure agg_acabado (
     IN p_desc_acabado  VARCHAR(100)
 )
 BEGIN
-	insert into acabado ( nom_acabado, desc_acabado ) 
-    values( p_nom_acabado, p_desc_acabado);
+	insert into acabado ( nom_acabado, desc_acabado, alta_acabado ) 
+    values( p_nom_acabado, p_desc_acabado, TRUE);
 END //
 DELIMITER ;
 
@@ -148,8 +150,8 @@ Create procedure agg_tipoVenta (
     IN p_desc_tpVenta   VARCHAR(100)
 )
 BEGIN
-	insert into tipoVenta ( nom_tpVenta, desc_tpVenta ) 
-    values( p_nom_tpVenta, p_desc_tpVenta);
+	insert into tipoVenta ( nom_tpVenta, desc_tpVenta, alta_tpVenta  ) 
+    values( p_nom_tpVenta, p_desc_tpVenta, TRUE);
 END //
 DELIMITER ;
 
@@ -160,8 +162,8 @@ Create procedure agg_tipoTrabajo (
     IN p_desc_tpTrabajo    VARCHAR(100)
 )
 BEGIN
-	insert into tipoTrabajo ( nom_tpTrabajo, desc_tpTrabajo ) 
-    values( p_nom_tpTrabajo, p_desc_tpTrabajo);
+	insert into tipoTrabajo ( nom_tpTrabajo, desc_tpTrabajo, alta_tpTrabajo ) 
+    values( p_nom_tpTrabajo, p_desc_tpTrabajo, TRUE);
 END //
 DELIMITER ;
 
@@ -172,8 +174,8 @@ Create procedure agg_proceso (
 	IN p_desc_proceso    VARCHAR(100)
 )
 BEGIN
-	insert into proceso ( nom_proceso , desc_proceso) 
-    values( p_nom_proceso, p_desc_proceso);
+	insert into proceso ( nom_proceso , desc_proceso, alta_proceso ) 
+    values( p_nom_proceso, p_desc_proceso, TRUE);
 END //
 DELIMITER ;
 
@@ -184,8 +186,8 @@ Create procedure agg_tipoPago (
 	IN p_desc_tpPago     VARCHAR(100)
 )
 BEGIN
-	insert into tipoPago (  nom_tpPago,  desc_tpPago ) 
-    values( p_nom_tpPago ,p_desc_tpPago);
+	insert into tipoPago (  nom_tpPago,  desc_tpPago, alta_tpPago ) 
+    values( p_nom_tpPago ,p_desc_tpPago, TRUE );
 END //
 DELIMITER ;
 
@@ -196,8 +198,8 @@ Create procedure agg_formaPago (
 	IN p_desc_fmPago      VARCHAR(100)
 )
 BEGIN
-	insert into formaPago (  nom_fmPago  , desc_fmPago   ) 
-    values( p_nom_fmPago, p_desc_fmPago);
+	insert into formaPago (  nom_fmPago  , desc_fmPago, alta_fmPago    ) 
+    values( p_nom_fmPago, p_desc_fmPago, TRUE);
 END //
 DELIMITER ;
 
@@ -209,8 +211,8 @@ Create procedure agg_estatusCobranza (
 	IN p_desc_estCobranza      VARCHAR(100)
 )
 BEGIN
-	insert into estatusCobranza (  nom_estCobranza  , desc_estCobranza ) 
-    values( p_nom_estCobranza, p_desc_estCobranza);
+	insert into estatusCobranza (  nom_estCobranza  , desc_estCobranza, alta_estCobranza  ) 
+    values( p_nom_estCobranza, p_desc_estCobranza, TRUE);
 END //
 DELIMITER ;
 
