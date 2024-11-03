@@ -1,25 +1,7 @@
 const conexion = require('../.env/conexion');
 
 
-class Cliente
-{
-    constructor(nom_cliente, apPaterno, apMaterno, tpCliente
-        , cons_fiscal, rfc_cliente, nombreNegocio, domcilio, telefonowp, telefonofijo, email,tipoCliente)
-    {
-        this.nom_cliente = nom_cliente;
-        this.apPaterno = apPaterno;
-        this.apMaterno = apMaterno;
-        this.tpCliente = tpCliente;
-        this.cons_fiscal = cons_fiscal;
-        this.rfc_cliente = rfc_cliente;
-        this.nombreNegocio = nombreNegocio;
-        this.domcilio = domcilio;
-        this.telefonowp = telefonowp;
-        this.telefonofijo = telefonofijo;
-        this.email = email;
-        this.tipoCliente = tipoCliente;
-    }
-}
+
 
 class ClienteModel
 {
@@ -53,7 +35,7 @@ class ClienteModel
                     if (error) {
                         return reject(error);
                     }
-                    console.log(results[0][0].id_registrado);
+                    //console.log(results[0][0].id_registrado);
                     resolve(results[0][0]);
                 }
             );
@@ -107,4 +89,4 @@ class ClienteModel
     //Elimina el cliente
 }
 
-module.exports = {Cliente, ClienteModel};
+module.exports = {ClienteModel};

@@ -39,7 +39,7 @@ class EstatusCobranzaModel
     {
         try
         {
-            this.conexion.execute('call modificar_estatusCobranza(?, ?, ?)', estatusCobranza, (error, resultados) =>
+            this.conexion.execute('call modificar_estatusCobranza(?, ?, ?, ?)', estatusCobranza, (error, resultados) =>
             {
                 if (error) return reject(error);
                 resolve(resultados[0]);

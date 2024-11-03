@@ -49,7 +49,7 @@ class SubclasificacionModel
     {
         return new Promise((resolve, reject) => {
             this.conexion.execute(
-                'CALL modificar_subclasificaciones(?, ?, ?)', 
+                'CALL modificar_subclasificaciones(?, ?, ?, ?)', 
                 subclasificacion,
                 (error, resultados) => {
                     if (error) {

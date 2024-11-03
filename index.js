@@ -2,7 +2,7 @@ var express = require('express');
 var cors = require('cors');
 var {UnidadModel, Unidad} = require('./Models/Unidad');
 var {ProductoModel, Producto} = require('./Models/Producto');
-var {Cliente, ClienteModel} = require('./Models/Cliente');
+var {ClienteModel} = require('./Models/Cliente');
 var {Clasificacion, ClasificacionModel} = require('./Models/Clasificacion');
 var {SubclasificacionModel} = require('./Models/SubClasificacion');
 var {MaterialModel} = require('./Models/Material');
@@ -44,7 +44,12 @@ const estadoClienteModel = new EstadoClienteModel();
     optionSuccessStatus:200,
     }*/
 var app = express();
-app.use(cors({origin:'*'}));
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    next();
+});
 //DE AQUI PARA abajo es para las rutas
 app.get('/',(req,res)=>res.send("<h1>Ruta de inicio con nodemon</h1>"));
 
@@ -52,7 +57,6 @@ app.get('/',(req,res)=>res.send("<h1>Ruta de inicio con nodemon</h1>"));
 app.get('/acabados',async (req,res)=>{
     try{
         const acabados = await acabadosModel.obtenerAcabados();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(acabados);
     }
     catch(error)
@@ -71,7 +75,6 @@ app.post('/acabados/:nom_acabados/:des_acabados', async (req, res)=>{
                 req.params.des_acabados
             ]
         );
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     }
     catch(error){
@@ -81,11 +84,46 @@ app.post('/acabados/:nom_acabados/:des_acabados', async (req, res)=>{
 });
 
 
+app.put('/acabados/:id/:nom_acabados/:des_acabados', async (req, res)=>{
+    try{
+        const resultado = await acabadosModel.modificarAcabado(
+            [
+                req.params.id, 
+                req.params.nom_acabados, 
+                req.params.des_acabados,
+                1
+            ]
+        );
+        res.status(201).json({message:'Modificado con exito'});
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({error:'Error al modificar el acabado'});
+    }
+});
+
+app.delete('/acabados/:id/:nom_acabados/:des_acabados', async (req, res)=>{
+    try{
+        const resultado = await acabadosModel.modificarAcabado(
+            [
+                req.params.id, 
+                req.params.nom_acabados, 
+                req.params.des_acabados,
+                0
+            ]
+        );
+        res.status(200).json({message:'Modificado con exito'});
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({error:'Error al modificar el acabado'});
+    }
+});
+
 //Zona de las clasificaciones
 app.get('/clasificaciones',async (req,res)=>{
     try{
         const unidades = await clasificacionModel.obtenerClasificaciones();    
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(unidades);
     }
     catch(error)
@@ -103,7 +141,6 @@ app.post('/clasificaciones/:nom_clasificacion/:des_clasificacion', async (req, r
                 req.params.nom_clasificacion, 
                 req.params.des_clasificacion
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -114,8 +151,29 @@ app.post('/clasificaciones/:nom_clasificacion/:des_clasificacion', async (req, r
 
 app.put('/clasificaciones/:id/:nom_clasificacion/:des_clasificacion', async (req, res) => {
     try {
-        const resultado = await clasificacionModel.modificarClasificacion([req.params.id, req.params.nom_clasificacion, req.params.des_clasificacion]);
-        res.header("Access-Control-Allow-Origin", "*");
+        const resultado = await clasificacionModel.modificarClasificacion(
+            [
+                req.params.id, 
+                req.params.nom_clasificacion, 
+                req.params.des_clasificacion,
+                1
+            ]);
+        res.status(200).json({message:'Actualizado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar la clasificación' });
+    }
+});
+
+app.delete('/clasificaciones/:id/:nom_clasificacion/:des_clasificacion', async (req, res) => {
+    try {
+        const resultado = await clasificacionModel.modificarClasificacion(
+            [
+                req.params.id, 
+                req.params.nom_clasificacion, 
+                req.params.des_clasificacion,
+                0
+            ]);
         res.status(201).json({message:'Actualizado con exito'});
     } catch (error) {
         console.error(error);
@@ -128,7 +186,6 @@ app.put('/clasificaciones/:id/:nom_clasificacion/:des_clasificacion', async (req
 app.get('/clientes', async (req, res) => {
     try {
         const clientes = await clienteModel.obtenerClientes();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(clientes);
     } catch (error) {
         console.error(error);
@@ -142,7 +199,6 @@ app.post("/clientes/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:r
         //console.log(req.params);
         const resultado = await clienteModel.insertarCliente(req.params);
         //console.log(resultado.id_cliente);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({"message":resultado.id_registrado});
     } catch (error) {
         console.error(error);
@@ -154,7 +210,6 @@ app.put("/clientes/:id/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia
     async (req, res) => {
     try {
         const resultado = await clienteModel.modificarCliente(req.params);
-        res.header("Access-Control-Allow-Origin", "*");
         //La respuesta de la base de datos es un array con un objeto que tiene un mensaje por eso se toma el primer elemento
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
@@ -172,7 +227,6 @@ app.put("/clientes/:id/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia
 app.get('/cotizaciones', async (req, res) => {
     try {
         const cotizaciones = await cotizacionModel.obtenerCotizaciones();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(cotizaciones);
     } catch (error) {
         console.error(error);
@@ -180,10 +234,22 @@ app.get('/cotizaciones', async (req, res) => {
     }
 });
 
-app.post('/cotizaciones', async (req, res) => {
+app.post('/cotizaciones/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavigencia/:estatus/:facturar/:personal/:observaciones', async (req, res) => {
     try {
-        const resultado = await cotizacionModel.insertarCotizacion(req.body);
-        res.header("Access-Control-Allow-Origin", "*");
+        const resultado = await cotizacionModel.insertarCotizacion(
+            [
+                req.params.idCliente,
+                req.params.idtpVenta,
+                req.params.subtotal,
+                req.params.iva,
+                req.params.total,
+                req.params.fechavigencia,
+                req.params.estatus,
+                req.params.facturar,
+                req.params.personal,
+                req.params.observaciones,
+                0
+        ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -191,22 +257,56 @@ app.post('/cotizaciones', async (req, res) => {
     }
 });
 
-app.put('/cotizaciones', async (req, res) => {
+app.put('/cotizaciones/:id/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavigencia/:estatus/:facturar/:personal/:observaciones', async (req, res) => {
     try {
-        const resultado = await cotizacionModel.modificarCotizacion(req.body);
-        res.header("Access-Control-Allow-Origin", "*");
+        const resultado = await cotizacionModel.modificarCotizacion([
+            req.params.id,
+            req.params.idCliente,
+            req.params.idtpVenta,
+            req.params.subtotal,
+            req.params.iva,
+            req.params.total,
+            req.params.fechavigencia,
+            req.params.estatus,
+            req.params.facturar,
+            req.params.personal,
+            req.params.observaciones,
+            0
+    ]);
         res.status(201).json({message:'Actualizado con exito'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al actualizar la cotización' });
     }
-})
+});
+
+app.delete('/cotizaciones/:id/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavigencia/:estatus/:facturar/:personal/:observaciones', async (req, res) => {
+    try {
+        const resultado = await cotizacionModel.modificarCotizacion([
+            req.params.id,
+            req.params.idCliente,
+            req.params.idtpVenta,
+            req.params.subtotal,
+            req.params.iva,
+            req.params.total,
+            req.params.fechavigencia,
+            req.params.estatus,
+            req.params.facturar,
+            req.params.personal,
+            req.params.observaciones,
+            1
+    ]);
+        res.status(201).json({message:'Actualizado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar la cotización' });
+    }
+});
 
 //Zona de los estatus de cobranza
 app.get('/estatus', async (req, res) => {
     try {
         const estatus = await estatusModel.obtenerEstatusCobranza();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(estatus);
     } catch (error) {
         console.error(error);
@@ -221,7 +321,6 @@ app.post('/estatus/:nom_estatus/:des_estatus', async (req, res) => {
                 req.params.nom_estatus, 
                 req.params.des_estatus
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -231,15 +330,35 @@ app.post('/estatus/:nom_estatus/:des_estatus', async (req, res) => {
 
 app.put('/estatus/:id/:nom_estatus/:des_estatus', async (req, res) => {
     try {
-        const resultado = await estatusModel.modificarEstatus(
+        const resultado =  estatusModel.modificarEstatusCobranza(
             [
                 req.params.id ||null, 
                 req.params.nom_estatus || null, 
-                req.params.des_estatus || null
+                req.params.des_estatus || null,
+                1
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el estatus' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el estatus' });
+    }
+});
+
+app.delete('/estatus/:id/:nom_estatus/:des_estatus', async (req, res) => {
+    try {
+        const resultado =  estatusModel.modificarEstatusCobranza(
+            [
+                req.params.id ||null, 
+                req.params.nom_estatus || null, 
+                req.params.des_estatus || null,
+                1
+            ]);
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(200).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el estatus' });
         }
@@ -253,7 +372,6 @@ app.put('/estatus/:id/:nom_estatus/:des_estatus', async (req, res) => {
 app.get('/estatuscliente', async (req, res) =>  {
     try {
         const estatus = await estadoClienteModel.obtenerestadosClientes();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(estatus);
     } catch (error) {
         console.error(error);
@@ -268,7 +386,6 @@ app.post('/estatuscliente/:nom_estatus/:des_estatus', async (req, res) => {
                 req.params.nom_estatus, 
                 req.params.des_estatus
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -284,7 +401,6 @@ app.put('/estatuscliente/:id/:nom_estatus/:des_estatus', async (req, res) => {
                 req.params.nom_estatus || null, 
                 req.params.des_estatus || null
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
@@ -300,7 +416,6 @@ app.put('/estatuscliente/:id/:nom_estatus/:des_estatus', async (req, res) => {
 app.get('/fpago', async (req, res) => {
     try {
         const fpago = await formaPagoModel.obtenerFormasPagos();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(fpago);
     } catch (error) {
         console.error(error);
@@ -315,7 +430,6 @@ app.post('/fpago/:nom_fpago/:des_fpago', async (req, res) => {
                 req.params.nom_fpago, 
                 req.params.des_fpago
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -329,11 +443,31 @@ app.put('/fpago/:id/:nom_fpago/:des_fpago', async (req, res) => {
             [
                 req.params.id ||null, 
                 req.params.nom_fpago || null, 
-                req.params.des_fpago || null
+                req.params.des_fpago || null,
+                1
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar la forma de pago' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar la forma de pago' });
+    }
+});
+
+app.delete('/fpago/:id/:nom_fpago/:des_fpago', async (req, res) => {
+    try {
+        const resultado = await formaPagoModel.modificarForma_Pago(
+            [
+                req.params.id ||null, 
+                req.params.nom_fpago || null, 
+                req.params.des_fpago || null,
+                0
+            ]);
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(200).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar la forma de pago' });
         }
@@ -347,7 +481,6 @@ app.put('/fpago/:id/:nom_fpago/:des_fpago', async (req, res) => {
 app.get('/matprod',async (req,res)=>{
     try{
         const materiales = await material_ProduccionModel.obtenerMaterial_Produccion();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(materiales);
     
     }
@@ -358,16 +491,16 @@ app.get('/matprod',async (req,res)=>{
     }
 })
 
-app.post('/matprod/:id_material/:id_unidad/:medida_material/:proveedor', async (req, res) => {
+app.post('/matprod/:id_material/:id_unidad/:base/:altura/:proveedor', async (req, res) => {
     try {
         const resultado = await material_ProduccionModel.insertarMaterial_Produccion(
             [
                 req.params.id_material ||null, 
                 req.params.id_unidad || null,
-                req.params.medida_material || null, 
+                req.params.base || null,
+                req.params.altura || null,
                 req.params.proveedor || null
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -375,17 +508,18 @@ app.post('/matprod/:id_material/:id_unidad/:medida_material/:proveedor', async (
     }
 });
 
-app.put('/matprod/:id/:id_material/:id_unidad/:medida_material/:proveedor', async (req, res) => {
+app.put('/matprod/:id/:id_material/:id_unidad/:base/:altura/:proveedor', async (req, res) => {
     try {
         const resultado = await material_ProduccionModel.modificarMaterial_Produccion(
             [
                 req.params.id ||null,
                 req.params.id_material ||null, 
                 req.params.id_unidad || null,
-                req.params.medida_material || null, 
-                req.params.proveedor || null
+                req.params.base || null,
+                req.params.altura || null,
+                req.params.proveedor || null,
+                1
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
@@ -397,12 +531,33 @@ app.put('/matprod/:id/:id_material/:id_unidad/:medida_material/:proveedor', asyn
     }
 });
 
+app.delete('/matprod/:id/:id_material/:id_unidad/:base/:altura/:proveedor', async (req, res) => {
+    try {
+        const resultado = await material_ProduccionModel.modificarMaterial_Produccion(
+            [
+                req.params.id ||null,
+                req.params.id_material ||null, 
+                req.params.id_unidad || null,
+                req.params.base || null,
+                req.params.altura || null,
+                req.params.proveedor || null,
+                0
+            ]);
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(200).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el material' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el material' });
+    }
+});
 
 //Zona de los materiales
 app.get('/materiales',async (req,res)=>{
     try{
         const unidades = await materialModel.obtenerMateriales();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(unidades);
     }
     catch(error)
@@ -419,7 +574,6 @@ app.post('/materiales/:nom_material/:des_material', async (req, res) => {
                 req.params.nom_material, 
                 req.params.des_material
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -433,9 +587,29 @@ app.put('/materiales/:id/:nom_material/:des_material', async (req, res) => {
             [
                 req.params.id ||null, 
                 req.params.nom_material || null, 
-                req.params.des_material || null
+                req.params.des_material || null,
+                1
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el material' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el material' });
+    }
+});
+
+app.delete('/materiales/:id/:nom_material/:des_material', async (req, res) => {
+    try {
+        const resultado = await materialModel.modificarMaterial(
+            [
+                req.params.id ||null, 
+                req.params.nom_material || null, 
+                req.params.des_material || null,
+                0
+            ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
@@ -448,11 +622,11 @@ app.put('/materiales/:id/:nom_material/:des_material', async (req, res) => {
 });
 
 
+
 //Zona de los procesos
 app.get('/procesos',async (req,res)=>{
     try{
         const procesos = await procesoModel.obtenerProcesos();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(procesos);
     }
     catch(error)
@@ -468,7 +642,6 @@ app.post('/procesos/:nom_proceso', async (req, res) => {
             [
                 req.params.nom_proceso
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -481,11 +654,30 @@ app.put('/procesos/:id/:nom_proceso', async (req, res) => {
         const resultado = await procesoModel.modificarProceso(
             [
                 req.params.id ||null, 
-                req.params.nom_proceso || null
+                req.params.nom_proceso || null,
+                1
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el material' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el material' });
+    }
+});
+
+app.delete('/procesos/:id/:nom_proceso', async (req, res) => {
+    try {
+        const resultado = await procesoModel.modificarProceso(
+            [
+                req.params.id ||null, 
+                req.params.nom_proceso || null,
+                0
+            ]);
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(200).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el material' });
         }
@@ -499,7 +691,6 @@ app.put('/procesos/:id/:nom_proceso', async (req, res) => {
 app.get('/productos', async (req, res) => {
     try {
         const productos = await productoModel.obtenerProductos();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(productos);
     } catch (error) {
         console.error(error);
@@ -507,7 +698,7 @@ app.get('/productos', async (req, res) => {
     }
 });
 
-app.post('/productos/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_descuento/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+app.post('/productos/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
     try {
         const resultado = await productoModel.insertarProducto(
             [
@@ -515,12 +706,11 @@ app.post('/productos/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_u
                 req.params.id_subclasificacion || null,
                 req.params.id_tpmaterial || null, 
                 req.params.id_unidad || null,
-                req.params.apl_descuento || null, 
+                req.params.apl_inst || null, 
                 req.params.precio_sin_inst || null,
                 req.params.precio_con_inst || null, 
                 req.params.observaciones || null
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -528,7 +718,7 @@ app.post('/productos/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_u
     }
 });
 
-app.put('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_descuento/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+app.put('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
     try {
         const resultado = await productoModel.modificarProducto(
             [
@@ -537,13 +727,36 @@ app.put('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:i
                 req.params.id_subclasificacion || null,
                 req.params.id_tpmaterial || null, 
                 req.params.id_unidad || null,
-                req.params.apl_descuento || null, 
+                req.params.apl_inst || null, 
                 req.params.precio_sin_inst || null,
                 req.params.precio_con_inst || null, 
-                req.params.observaciones || null
+                req.params.observaciones || null,
+                1
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Actualizado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el proyecto' });
+    }
+    
+});
+
+app.delete('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+    try {
+        const resultado = await productoModel.modificarProducto(
+            [
+                req.params.id ||null, 
+                req.params.id_clasificacion ||null, 
+                req.params.id_subclasificacion || null,
+                req.params.id_tpmaterial || null, 
+                req.params.id_unidad || null,
+                req.params.apl_inst || null, 
+                req.params.precio_sin_inst || null,
+                req.params.precio_con_inst || null, 
+                req.params.observaciones || null,
+                0
+            ]);
+        res.status(200).json({message:'Actualizado con exito'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al actualizar el proyecto' });
@@ -555,7 +768,6 @@ app.put('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:i
 app.get('/subclasificaciones',async (req,res)=>{
     try{
         const subclasificaciones = await subclasificacionModel.obtenerSubclasificaciones();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(subclasificaciones);
     }
     catch(error)
@@ -573,7 +785,6 @@ app.post('/subclasificaciones/:nom_subclasificacion/:des_subclasificacion', asyn
                 req.params.nom_subclasificacion, 
                 req.params.des_subclasificacion
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -587,9 +798,29 @@ app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', a
             [
                 req.params.id ||null, 
                 req.params.nom_subclasificacion || null, 
-                req.params.des_subclasificacion || null
+                req.params.des_subclasificacion || null,
+                1
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
+        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+            res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar la subclasificación' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar la subclasificación' });
+    }
+});
+
+app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
+    try {
+        const resultado = await subclasificacionModel.modificarSubclasificacion(
+            [
+                req.params.id ||null, 
+                req.params.nom_subclasificacion || null, 
+                req.params.des_subclasificacion || null,
+                0
+            ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
@@ -605,7 +836,6 @@ app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', a
 app.get('/tipocliente',async (req,res)=>{
     try{
         const tiposCliente = await tipoClienteModel.obtenerTiposClientes();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(tiposCliente);
     }
     catch(error)
@@ -615,11 +845,43 @@ app.get('/tipocliente',async (req,res)=>{
     }
 });
 
+app.post('/tipocliente/:nom_tipocliente/:des_tipocliente', async (req, res) => {
+    try {
+        const resultado = await tipoClienteModel.insertarTipoCliente(
+            [
+                req.params.nom_tipocliente, 
+                req.params.des_tipocliente
+            ]);
+        res.status(201).json({message:'Agregado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al insertar el tipo de cliente' });
+    }
+});
+
+app.put('/tipocliente/:id/:nom_tipocliente/:des_tipocliente', async (req, res) => {
+    try {
+        const resultado = await tipoClienteModel.modificarTipoPago(
+            [
+                req.params.id ||null, 
+                req.params.nom_tipocliente || null, 
+                req.params.des_tipocliente || null
+            ]);
+        if (resultado[0].mensaje === 'Tipo de cliente actualizado correctamente.') {
+            res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el tipo de cliente' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el tipo de cliente' });
+    }
+});
+
 //Zona de los tipos de pago
 app.get('/tipopago',async (req,res)=>{
     try{
         const tiposPago = await tipoPagoModel.obtenerTiposPagos();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(tiposPago);
     }
     catch(error)
@@ -636,7 +898,6 @@ app.post('/tipopago/:nom_tipopago/:des_tipopago', async (req, res) => {
                 req.params.nom_tipopago, 
                 req.params.des_tipopago
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -650,11 +911,31 @@ app.put('/tipopago/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
             [
                 req.params.id ||null, 
                 req.params.nom_tipopago || null, 
-                req.params.des_tipopago || null
+                req.params.des_tipopago || null,
+                1
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         if (resultado[0].mensaje === 'Tipo de pago actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el tipo de pago' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el tipo de pago' });
+    }
+});
+
+app.delete('/tipopago/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
+    try {
+        const resultado = await tipoPagoModel.modificarTipoPago(
+            [
+                req.params.id ||null, 
+                req.params.nom_tipopago || null, 
+                req.params.des_tipopago || null,
+                0
+            ]);
+        if (resultado[0].mensaje === 'Tipo de pago actualizado correctamente.') {
+            res.status(200).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el tipo de pago' });
         }
@@ -668,7 +949,6 @@ app.put('/tipopago/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
 app.get('/tipotrabajo',async (req,res)=>{
     try{
         const tiposTrabajo = await tipoTrabajoModel.obtenerTiposTrabajo();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(tiposTrabajo);
     }
     catch(error)
@@ -685,7 +965,6 @@ app.post('/tipotrabajo/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
                 req.params.nom_tipotrabajo, 
                 req.params.des_tipotrabajo
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -699,11 +978,31 @@ app.put('/tipotrabajo/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) =
             [
                 req.params.id ||null, 
                 req.params.nom_tipotrabajo || null, 
-                req.params.des_tipotrabajo || null
+                req.params.des_tipotrabajo || null,
+                1
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         if (resultado[0].mensaje === 'Tipo de trabajo actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el tipo de trabajo' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el tipo de trabajo' });
+    }
+});
+
+app.delete('/tipotrabajo/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
+    try {
+        const resultado = await tipoTrabajoModel.modificarTipoTrabajo(
+            [
+                req.params.id ||null, 
+                req.params.nom_tipotrabajo || null, 
+                req.params.des_tipotrabajo || null,
+                0
+            ]);
+        if (resultado[0].mensaje === 'Tipo de trabajo actualizado correctamente.') {
+            res.status(200).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el tipo de trabajo' });
         }
@@ -717,7 +1016,6 @@ app.put('/tipotrabajo/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) =
 app.get('/tipoventa',async (req,res)=>{
     try{
         const tiposVenta = await tipoVentaModel.obtenerTiposVentas();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(tiposVenta);
     }
     catch(error)
@@ -734,7 +1032,6 @@ app.post('/tipoventa/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
                 req.params.nom_tipos_venta, 
                 req.params.des_tipos_venta
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
         res.send(resultado);
     } catch (error) {
@@ -749,11 +1046,31 @@ app.put('/tipoventa/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => 
             [
                 req.params.id ||null, 
                 req.params.nom_tipos_venta || null, 
-                req.params.des_tipos_venta || null
+                req.params.des_tipos_venta || null,
+                1
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         if (resultado[0].mensaje === 'Tipo de venta actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
+        } else {
+            res.status(500).json({ error: 'No se pudo actualizar el tipo de venta' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el tipo de venta' });
+    }
+});
+
+app.delete('/tipoventa/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
+    try {
+        const resultado = await tipoVentaModel.modificarTipoVenta(
+            [
+                req.params.id ||null, 
+                req.params.nom_tipos_venta || null, 
+                req.params.des_tipos_venta || null,
+                0
+            ]);
+        if (resultado[0].mensaje === 'Tipo de venta actualizado correctamente.') {
+            res.status(200).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el tipo de venta' });
         }
@@ -767,7 +1084,6 @@ app.put('/tipoventa/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => 
 app.get('/unidad',async (req,res)=>{
     try{
         const unidades = await unidadModel.obtenerUnidades();
-        res.header("Access-Control-Allow-Origin", "*");
         res.send(unidades);
     }
     catch(error)
@@ -786,7 +1102,6 @@ app.post('/unidad/:nom_unidad/:des_unidad', async (req, res)=>{
                 req.params.des_unidad
             ]
         );
-        res.header("Access-Control-Allow-Origin", "*");
         res.status(201).json({message:'Agregado con exito'});
     }
     catch(error){
@@ -803,7 +1118,6 @@ app.put('/unidad/:id/:nom_unidad/:des_unidad', async (req, res) => {
                 req.params.nom_unidad || null, 
                 req.params.des_unidad || null
             ]);
-        res.header("Access-Control-Allow-Origin", "*");
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {

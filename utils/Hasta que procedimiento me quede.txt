@@ -2,4 +2,9 @@ En el archivo de consultas terminé hasta el metodo de consultar cotizacion que 
 la linea numero 209 los procedimientos almacenados que siguen son tablas intermedias de referencias
 Solo ingresarlas en caso de requirirlo preguntarle al Cordero.
 
-Aún no empiezo con los procedimientos para agregar datos.
+En los archivos de agregar llegué hasta cotizaciones faltan sus tablas intermedias des_acabados
+debo continuar a partir de la linea 245.
+
+En el archivo de modificadores terminé todos los procedimientos almacenados y en base a 
+este hice los deletes solamente cambiando sus estados de alta por baja como se hace
+con boleanos se les cambia el valor por defecto de 1 a 0

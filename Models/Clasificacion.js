@@ -50,7 +50,7 @@ class ClasificacionModel
     {
         return new Promise((resolve, reject) => {
             this.conexion.execute(
-                'CALL modificar_clasificaciones(?, ?, ?)', 
+                'CALL modificar_clasificaciones(?, ?, ?, ?)', 
                 clasificacion,
                 (error, resultados) => {
                     if (error) {

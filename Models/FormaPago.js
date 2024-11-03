@@ -51,7 +51,7 @@ class FormaPagoModel
         {
             try
             {
-                this.conexion.execute('call modificar_formaPago(?, ?, ?)', forma, (error, resultados) =>
+                this.conexion.execute('call modificar_formaPago(?, ?, ?, ?)', forma, (error, resultados) =>
                 {
                     if (error) return reject(error);
                     resolve(resultados[0]);

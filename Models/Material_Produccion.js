@@ -37,7 +37,7 @@ class Material_ProduccionModel
             return new Promise(async (resolve, reject)=>
             {
                 this.conexion.execute(
-                    'CALL agg_material_produccion(?, ?, ?, ?)', 
+                    'CALL agg_material_produccion(?, ?, ?, ?, ?)', 
                     material_produccion,
                     (error, resultados) => {
                         if (error) {
@@ -57,7 +57,7 @@ class Material_ProduccionModel
     modificarMaterial_Produccion(material_produccion)
     {
         return new Promise((resolve, reject) => {
-            this.connection.execute('call mod_mat_prod(?,?,?,?,?)', material_produccion, (error, resultado) => {
+            this.connection.execute('call mod_mat_prod(?,?,?,?,?,?,?)', material_produccion, (error, resultado) => {
                 if (error) return reject(error);
                 resolve(resultado[0]);
             });
