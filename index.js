@@ -12,7 +12,7 @@ const materialProduccionRoutes = require('./routes/matprodRoutes');
 const procesosRoutes = require('./routes/procesosRoute');
 const productosRoutes = require('./routes/productosRoute');
 const subclasificacionesRoutes = require('./routes/subclasificacionRoutes');
-const TipoClienteRoutes = require('./routes/tipoclienteRoutes');
+const tipoClienteRoutes = require('./routes/tipoclienteRoutes');
 const tipoPagoRoutes = require('./routes/tipoPagoRoutes');
 const tipoTrabajosRoutes = require('./routes/tipotrabajoRoutes');
 const tipoVentasRoutes = require('./routes/tipoventaRoutes');
@@ -33,10 +33,11 @@ app.use((req, res, next) => {
 //DE AQUI PARA abajo es para las rutas
 app.get('/',(req,res)=>res.send("<h1>Ruta de inicio con nodemon</h1>"));
 
+//Zona de los acabados
 app.use('/acabados',acabadosRoutes);
 
-app.use('/clasificaciones', clasificacionesRoutes);
 //Zona de las clasificaciones
+app.use('/clasificaciones', clasificacionesRoutes);
 
 //Zona de los clientes
 app.use('/clientes',clientesRoutes);
@@ -66,12 +67,11 @@ app.use('/procesos',procesosRoutes);
 //Zona de los productos
 app.use('/producto',productosRoutes);
 
-
 //Zona de las subclasificaciones
 app.use('/subclasificaciones',subclasificacionesRoutes);
 
 //Zona de los tipos de cliente
-app.use('/tipocliente',TipoClienteRoutes);
+app.use('/tipocliente',tipoClienteRoutes);
 
 
 //Zona de los tipos de pago
