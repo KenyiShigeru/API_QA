@@ -16,12 +16,13 @@ routes.get('/',async (req,res)=>{
 });
 
 
-routes.post('/:nom_unidad/:des_unidad', async (req, res)=>{
+routes.post('/', async (req, res)=>{
     try{
+        const {nom_unidad, des_unidad} = req.body;
         const resultado = await unidadModel.insertarUnidad(
             [
-                req.params.nom_unidad, 
-                req.params.des_unidad
+                nom_unidad, 
+                des_unidad
             ]
         );
         res.status(201).json({message:'Agregado con exito'});
@@ -32,13 +33,14 @@ routes.post('/:nom_unidad/:des_unidad', async (req, res)=>{
     }
 })
 
-routes.put('/:id/:nom_unidad/:des_unidad', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const { id, nom_unidad, des_unidad } = req.body;
         const resultado = await unidadModel.modificarUnidad(
             [
-                req.params.id ||null, 
-                req.params.nom_unidad || null, 
-                req.params.des_unidad || null
+                id ||null, 
+                nom_unidad || null, 
+                des_unidad || null
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});

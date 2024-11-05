@@ -14,12 +14,13 @@ routes.get('/',async (req,res)=>{
     }
 });
 
-routes.post('/:nom_material/:des_material', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const { nom_material, des_material } = req.body;
         const resultado = await materialModel.insertarMaterial(
             [
-                req.params.nom_material, 
-                req.params.des_material
+                nom_material, 
+                des_material
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -28,13 +29,14 @@ routes.post('/:nom_material/:des_material', async (req, res) => {
     }
 });
 
-routes.put('/:id/:nom_material/:des_material', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const {id,nom_material, des_material } = req.body;
         const resultado = await materialModel.modificarMaterial(
             [
-                req.params.id ||null, 
-                req.params.nom_material || null, 
-                req.params.des_material || null,
+                id ||null, 
+                nom_material || null, 
+                des_material || null,
                 1
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
@@ -48,13 +50,14 @@ routes.put('/:id/:nom_material/:des_material', async (req, res) => {
     }
 });
 
-routes.delete('/:id/:nom_material/:des_material', async (req, res) => {
+routes.delete('/', async (req, res) => {
     try {
+        const {id,nom_material, des_material } = req.body;
         const resultado = await materialModel.modificarMaterial(
             [
-                req.params.id ||null, 
-                req.params.nom_material || null, 
-                req.params.des_material || null,
+                id ||null, 
+                nom_material || null, 
+                des_material || null,
                 0
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {

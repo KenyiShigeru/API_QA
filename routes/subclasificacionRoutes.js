@@ -15,12 +15,13 @@ routes.get('/',async (req,res)=>{
 });
 
 
-routes.post('/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const { nom_subclasificacion, des_subclasificacion } = req.body;
         const resultado = await subclasificacionModel.insertarSubclasificacion(
             [
-                req.params.nom_subclasificacion, 
-                req.params.des_subclasificacion
+                nom_subclasificacion, 
+                des_subclasificacion
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -29,13 +30,14 @@ routes.post('/:nom_subclasificacion/:des_subclasificacion', async (req, res) => 
     }
 });
 
-routes.put('/:id/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const { id, nom_subclasificacion, des_subclasificacion } = req.body;
         const resultado = await subclasificacionModel.modificarSubclasificacion(
             [
-                req.params.id ||null, 
-                req.params.nom_subclasificacion || null, 
-                req.params.des_subclasificacion || null,
+                id ||null, 
+                nom_subclasificacion || null, 
+                des_subclasificacion || null,
                 1
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
@@ -49,13 +51,14 @@ routes.put('/:id/:nom_subclasificacion/:des_subclasificacion', async (req, res) 
     }
 });
 
-routes.delete('/:id/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const { id, nom_subclasificacion, des_subclasificacion } = req.body;
         const resultado = await subclasificacionModel.modificarSubclasificacion(
             [
-                req.params.id ||null, 
-                req.params.nom_subclasificacion || null, 
-                req.params.des_subclasificacion || null,
+                id ||null, 
+                nom_subclasificacion || null, 
+                des_subclasificacion || null,
                 0
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {

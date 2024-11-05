@@ -51,6 +51,21 @@ class AcabadosModel
             });
         });
     }
+
+    /*darBajaAcabado(acabado)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.conexion.execute('', acabado, (error, resultados) =>
+            {
+                if (error)
+                {
+                    return reject(error);
+                }
+                resolve(resultados[0]);
+            });
+        });
+    }*/
 }
 
 module.exports = {AcabadosModel};

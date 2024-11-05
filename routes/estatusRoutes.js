@@ -12,12 +12,13 @@ routes.get('/', async (req, res) => {
     }
 });
 
-routes.post('/:nom_estatus/:des_estatus', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const { nom_estatus, des_estatus } = req.body;
         const resultado = await estatusModel.insertarEstatus(
             [
-                req.params.nom_estatus, 
-                req.params.des_estatus
+                nom_estatus, 
+                des_estatus
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -26,13 +27,14 @@ routes.post('/:nom_estatus/:des_estatus', async (req, res) => {
     }
 });
 
-routes.put('/:id/:nom_estatus/:des_estatus', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
-        const resultado =  estatusModel.modificarEstatusCobranza(
+        const { nom_estatus, des_estatus } = req.body;
+        const resultado = await estatusModel.modificarEstatusCobranza(
             [
-                req.params.id ||null, 
-                req.params.nom_estatus || null, 
-                req.params.des_estatus || null,
+                req.params.id,
+                nom_estatus, 
+                des_estatus,
                 1
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
@@ -46,17 +48,18 @@ routes.put('/:id/:nom_estatus/:des_estatus', async (req, res) => {
     }
 });
 
-routes.delete('/:id/:nom_estatus/:des_estatus', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
-        const resultado =  estatusModel.modificarEstatusCobranza(
+        const { nom_estatus, des_estatus } = req.body;
+        const resultado = await estatusModel.modificarEstatusCobranza(
             [
-                req.params.id ||null, 
-                req.params.nom_estatus || null, 
-                req.params.des_estatus || null,
-                1
+                req.params.id,
+                nom_estatus, 
+                des_estatus,
+                0
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
-            res.status(200).json({message:'Actualizado con exito'});
+            res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el estatus' });
         }

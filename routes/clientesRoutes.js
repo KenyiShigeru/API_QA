@@ -12,11 +12,38 @@ routes.get('/', async (req, res) => {
     }
 });
 
-routes.post("/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:nomnegocio/:domicilio/:telWP/:telFJ/:correo/:tpCliente", 
+routes.post("/", 
     async (req, res) => {
     try {
+        const {
+            nombre,
+            apellidopaterno,
+            apellidomaterno,
+            rutaconstancia,
+            rfc,
+            nomnegocio,
+            domicilio,
+            telWP,
+            telFJ,
+            correo,
+            tpCliente
+        } = req.body;
         //console.log(req.params);
-        const resultado = await clienteModel.insertarCliente(req.params);
+        const resultado = await clienteModel.insertarCliente(
+            [
+                nombre,
+                apellidopaterno,
+                apellidomaterno,
+                rutaconstancia,
+                rfc,
+                nomnegocio,
+                domicilio,
+                telWP,
+                telFJ,
+                correo,
+                tpCliente
+            ]
+        );
         //console.log(resultado.id_cliente);
         res.status(201).json({"message":resultado.id_registrado});
     } catch (error) {
@@ -25,10 +52,39 @@ routes.post("/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:no
     }
 });
 
-routes.put("/:id/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:nomnegocio/:domicilio/:telWP/:telFJ/:correo/:tpCliente", 
+routes.put("/", 
     async (req, res) => {
     try {
-        const resultado = await clienteModel.modificarCliente(req.params);
+        const {
+            id,
+            nombre,
+            apellidopaterno,
+            apellidomaterno,
+            rutaconstancia,
+            rfc,
+            nomnegocio,
+            domicilio,
+            telWP,
+            telFJ,
+            correo,
+            tpCliente
+        } = req.body;
+        const resultado = await clienteModel.modificarCliente(
+            [
+                id,
+                nombre,
+                apellidopaterno,
+                apellidomaterno,
+                rutaconstancia,
+                rfc,
+                nomnegocio,
+                domicilio,
+                telWP,
+                telFJ,
+                correo,
+                tpCliente
+            ]
+        );
         //La respuesta de la base de datos es un array con un objeto que tiene un mensaje por eso se toma el primer elemento
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});

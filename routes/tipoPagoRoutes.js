@@ -14,12 +14,13 @@ routes.get('/',async (req,res)=>{
     }
 });
 
-routes.post('/:nom_tipopago/:des_tipopago', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const { nom_tipopago, des_tipopago } = req.body;
         const resultado = await tipoPagoModel.insertarTipoPago(
             [
-                req.params.nom_tipopago, 
-                req.params.des_tipopago
+                nom_tipopago, 
+                des_tipopago
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -28,13 +29,13 @@ routes.post('/:nom_tipopago/:des_tipopago', async (req, res) => {
     }
 });
 
-routes.put('/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
         const resultado = await tipoPagoModel.modificarTipoPago(
             [
-                req.params.id ||null, 
-                req.params.nom_tipopago || null, 
-                req.params.des_tipopago || null,
+                id ||null, 
+                nom_tipopago || null, 
+                des_tipopago || null,
                 1
             ]);
         if (resultado[0].mensaje === 'Tipo de pago actualizado correctamente.') {
@@ -48,17 +49,17 @@ routes.put('/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
     }
 });
 
-routes.delete('/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
+routes.delete('/', async (req, res) => {
     try {
         const resultado = await tipoPagoModel.modificarTipoPago(
             [
-                req.params.id ||null, 
-                req.params.nom_tipopago || null, 
-                req.params.des_tipopago || null,
-                0
+                id ||null, 
+                nom_tipopago || null, 
+                des_tipopago || null,
+                1
             ]);
         if (resultado[0].mensaje === 'Tipo de pago actualizado correctamente.') {
-            res.status(200).json({message:'Actualizado con exito'});
+            res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el tipo de pago' });
         }

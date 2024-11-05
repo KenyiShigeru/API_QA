@@ -12,12 +12,13 @@ routes.get('/', async (req, res) =>  {
     }
 });
 
-routes.post('/:nom_estatus/:des_estatus', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const { nom_estatus, des_estatus } = req.body;
         const resultado = await estatusModel.insertarEstatus(
             [
-                req.params.nom_estatus, 
-                req.params.des_estatus
+                nom_estatus, 
+                des_estatus
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -26,13 +27,14 @@ routes.post('/:nom_estatus/:des_estatus', async (req, res) => {
     }
 });
 
-routes.put('/:id/:nom_estatus/:des_estatus', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const { id, nom_estatus, des_estatus } = req.body;
         const resultado = await estatusModel.modificarEstatus(
             [
-                req.params.id ||null, 
-                req.params.nom_estatus || null, 
-                req.params.des_estatus || null
+                id ||null,
+                nom_estatus,
+                des_estatus
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});

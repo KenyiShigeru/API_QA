@@ -30,6 +30,8 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "Content-Type");
     next();
 });
+
+app.use(express.json());
 //DE AQUI PARA abajo es para las rutas
 app.get('/',(req,res)=>res.send("<h1>Ruta de inicio con nodemon</h1>"));
 

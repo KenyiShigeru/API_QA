@@ -14,12 +14,13 @@ routes.get('/',async (req,res)=>{
     }
 });
 
-routes.post('/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const { nom_tipotrabajo, des_tipotrabajo } = req.body;
         const resultado = await tipoTrabajoModel.insertarTipoTrabajo(
             [
-                req.params.nom_tipotrabajo, 
-                req.params.des_tipotrabajo
+                nom_tipotrabajo, 
+                des_tipotrabajo
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -28,13 +29,14 @@ routes.post('/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
     }
 });
 
-routes.put('/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const { id, nom_tipotrabajo, des_tipotrabajo } = req.body;
         const resultado = await tipoTrabajoModel.modificarTipoTrabajo(
             [
-                req.params.id ||null, 
-                req.params.nom_tipotrabajo || null, 
-                req.params.des_tipotrabajo || null,
+                id ||null, 
+                nom_tipotrabajo || null, 
+                des_tipotrabajo || null,
                 1
             ]);
         if (resultado[0].mensaje === 'Tipo de trabajo actualizado correctamente.') {
@@ -48,13 +50,14 @@ routes.put('/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
     }
 });
 
-routes.delete('/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
+routes.delete('/', async (req, res) => {
     try {
+        const { id, nom_tipotrabajo, des_tipotrabajo } = req.body;
         const resultado = await tipoTrabajoModel.modificarTipoTrabajo(
             [
-                req.params.id ||null, 
-                req.params.nom_tipotrabajo || null, 
-                req.params.des_tipotrabajo || null,
+                id ||null, 
+                nom_tipotrabajo || null, 
+                des_tipotrabajo || null,
                 0
             ]);
         if (resultado[0].mensaje === 'Tipo de trabajo actualizado correctamente.') {

@@ -12,12 +12,13 @@ routes.get('/', async (req, res) => {
     }
 });
 
-routes.post('/:nom_fpago/:des_fpago', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const { nom_fpago, des_fpago } = req.body;
         const resultado = await formaPagoModel.insertarFormaPago(
             [
-                req.params.nom_fpago, 
-                req.params.des_fpago
+                nom_fpago, 
+                des_fpago
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -26,13 +27,14 @@ routes.post('/:nom_fpago/:des_fpago', async (req, res) => {
     }
 });
 
-routes.put('/:id/:nom_fpago/:des_fpago', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const { id, nom_fpago, des_fpago } = req.body;
         const resultado = await formaPagoModel.modificarForma_Pago(
             [
-                req.params.id ||null, 
-                req.params.nom_fpago || null, 
-                req.params.des_fpago || null,
+                id ||null, 
+                nom_fpago || null, 
+                des_fpago || null,
                 1
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
@@ -46,17 +48,18 @@ routes.put('/:id/:nom_fpago/:des_fpago', async (req, res) => {
     }
 });
 
-routes.delete('/:id/:nom_fpago/:des_fpago', async (req, res) => {
+routes.delete('/', async (req, res) => {
     try {
+        const { id, nom_fpago, des_fpago } = req.body;
         const resultado = await formaPagoModel.modificarForma_Pago(
             [
-                req.params.id ||null, 
-                req.params.nom_fpago || null, 
-                req.params.des_fpago || null,
+                id ||null, 
+                nom_fpago || null, 
+                des_fpago || null,
                 0
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
-            res.status(200).json({message:'Actualizado con exito'});
+            res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar la forma de pago' });
         }

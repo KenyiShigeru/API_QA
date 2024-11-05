@@ -15,12 +15,13 @@ routes.get('/',async (req,res)=>{
 });
 
 
-routes.post('/:nom_clasificacion/:des_clasificacion', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const { nom_clasificacion, des_clasificacion } = req.body;
         const resultado = await clasificacionModel.insertarClasificacion(
             [
-                req.params.nom_clasificacion, 
-                req.params.des_clasificacion
+                nom_clasificacion, 
+                des_clasificacion
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -30,13 +31,14 @@ routes.post('/:nom_clasificacion/:des_clasificacion', async (req, res) => {
 });
 
 
-routes.put('/:id/:nom_clasificacion/:des_clasificacion', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const { id,nom_clasificacion, des_clasificacion } = req.body;
         const resultado = await clasificacionModel.modificarClasificacion(
             [
-                req.params.id, 
-                req.params.nom_clasificacion, 
-                req.params.des_clasificacion,
+                id,
+                nom_clasificacion, 
+                des_clasificacion,
                 1
             ]);
         res.status(200).json({message:'Actualizado con exito'});
@@ -46,13 +48,14 @@ routes.put('/:id/:nom_clasificacion/:des_clasificacion', async (req, res) => {
     }
 });
 
-routes.delete('/:id/:nom_clasificacion/:des_clasificacion', async (req, res) => {
+routes.delete('/', async (req, res) => {
     try {
+        const { id, nom_clasificacion, des_clasificacion } = req.body;
         const resultado = await clasificacionModel.modificarClasificacion(
             [
-                req.params.id, 
-                req.params.nom_clasificacion, 
-                req.params.des_clasificacion,
+                id,
+                nom_clasificacion,
+                des_clasificacion,
                 0
             ]);
         res.status(201).json({message:'Actualizado con exito'});

@@ -14,12 +14,13 @@ routes.get('/',async (req,res)=>{
     }
 });
 
-routes.post('/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const { nom_tipos_venta, des_tipos_venta } = req.body;
         const resultado = await tipoVentaModel.insertarTipoVenta(
             [
-                req.params.nom_tipos_venta, 
-                req.params.des_tipos_venta
+                nom_tipos_venta, 
+                des_tipos_venta
             ]);
         res.status(201).json({message:'Agregado con exito'});
         res.send(resultado);
@@ -29,13 +30,14 @@ routes.post('/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
     }
 });
 
-routes.put('/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const { id, nom_tipos_venta, des_tipos_venta } = req.body;
         const resultado = await tipoVentaModel.modificarTipoVenta(
             [
-                req.params.id ||null, 
-                req.params.nom_tipos_venta || null, 
-                req.params.des_tipos_venta || null,
+                id ||null, 
+                nom_tipos_venta || null, 
+                des_tipos_venta || null,
                 1
             ]);
         if (resultado[0].mensaje === 'Tipo de venta actualizado correctamente.') {
@@ -49,13 +51,14 @@ routes.put('/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
     }
 });
 
-routes.delete('/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
+routes.delete('/', async (req, res) => {
     try {
+        const { id, nom_tipos_venta, des_tipos_venta } = req.params;
         const resultado = await tipoVentaModel.modificarTipoVenta(
             [
-                req.params.id ||null, 
-                req.params.nom_tipos_venta || null, 
-                req.params.des_tipos_venta || null,
+                id ||null, 
+                nom_tipos_venta || null, 
+                des_tipos_venta || null,
                 0
             ]);
         if (resultado[0].mensaje === 'Tipo de venta actualizado correctamente.') {

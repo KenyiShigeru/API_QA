@@ -12,18 +12,28 @@ routes.get('/', async (req, res) => {
     }
 });
 
-routes.post('/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const
+        { 
+            id_clasificacion, 
+            id_subclasificacion, 
+            id_tpmaterial, 
+            id_unidad, 
+            apl_inst, 
+            precio_sin_inst, 
+            precio_con_inst, 
+            observaciones } = req.body;
         const resultado = await productoModel.insertarProducto(
             [
-                req.params.id_clasificacion ||null, 
-                req.params.id_subclasificacion || null,
-                req.params.id_tpmaterial || null, 
-                req.params.id_unidad || null,
-                req.params.apl_inst || null, 
-                req.params.precio_sin_inst || null,
-                req.params.precio_con_inst || null, 
-                req.params.observaciones || null
+                id_clasificacion ||null, 
+                id_subclasificacion || null,
+                id_tpmaterial || null, 
+                id_unidad || null,
+                apl_inst || null, 
+                precio_sin_inst || null,
+                precio_con_inst || null, 
+                observaciones || null
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -32,19 +42,31 @@ routes.post('/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:
     }
 });
 
-routes.put('/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const 
+        { 
+            id, 
+            id_clasificacion, 
+            id_subclasificacion, 
+            id_tpmaterial, 
+            id_unidad, 
+            apl_inst, 
+            precio_sin_inst, 
+            precio_con_inst, 
+            observaciones 
+        } = req.body;
         const resultado = await productoModel.modificarProducto(
             [
-                req.params.id ||null, 
-                req.params.id_clasificacion ||null, 
-                req.params.id_subclasificacion || null,
-                req.params.id_tpmaterial || null, 
-                req.params.id_unidad || null,
-                req.params.apl_inst || null, 
-                req.params.precio_sin_inst || null,
-                req.params.precio_con_inst || null, 
-                req.params.observaciones || null,
+                id ||null, 
+                id_clasificacion ||null, 
+                id_subclasificacion || null,
+                id_tpmaterial || null, 
+                id_unidad || null,
+                apl_inst || null, 
+                precio_sin_inst || null,
+                precio_con_inst || null, 
+                observaciones || null,
                 1
             ]);
         res.status(201).json({message:'Actualizado con exito'});
@@ -55,22 +77,34 @@ routes.put('/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unida
     
 });
 
-routes.delete('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const 
+        { 
+            id, 
+            id_clasificacion, 
+            id_subclasificacion, 
+            id_tpmaterial, 
+            id_unidad, 
+            apl_inst, 
+            precio_sin_inst, 
+            precio_con_inst, 
+            observaciones 
+        } = req.body;
         const resultado = await productoModel.modificarProducto(
             [
-                req.params.id ||null, 
-                req.params.id_clasificacion ||null, 
-                req.params.id_subclasificacion || null,
-                req.params.id_tpmaterial || null, 
-                req.params.id_unidad || null,
-                req.params.apl_inst || null, 
-                req.params.precio_sin_inst || null,
-                req.params.precio_con_inst || null, 
-                req.params.observaciones || null,
+                id ||null, 
+                id_clasificacion ||null, 
+                id_subclasificacion || null,
+                id_tpmaterial || null, 
+                id_unidad || null,
+                apl_inst || null, 
+                precio_sin_inst || null,
+                precio_con_inst || null, 
+                observaciones || null,
                 0
             ]);
-        res.status(200).json({message:'Actualizado con exito'});
+        res.status(201).json({message:'Actualizado con exito'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al actualizar el proyecto' });

@@ -14,12 +14,13 @@ routes.get('/',async (req,res)=>{
     }
 });
 
-routes.post('/:nom_tipocliente/:des_tipocliente', async (req, res) => {
+routes.post('/', async (req, res) => {
     try {
+        const { nom_tipocliente, des_tipocliente } = req.body;
         const resultado = await tipoClienteModel.insertarTipoCliente(
             [
-                req.params.nom_tipocliente, 
-                req.params.des_tipocliente
+                nom_tipocliente, 
+                des_tipocliente
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -28,13 +29,14 @@ routes.post('/:nom_tipocliente/:des_tipocliente', async (req, res) => {
     }
 });
 
-routes.put('/:id/:nom_tipocliente/:des_tipocliente', async (req, res) => {
+routes.put('/', async (req, res) => {
     try {
+        const { id, nom_tipocliente, des_tipocliente } = req.params;
         const resultado = await tipoClienteModel.modificarTipoPago(
             [
-                req.params.id ||null, 
-                req.params.nom_tipocliente || null, 
-                req.params.des_tipocliente || null
+                id ||null, 
+                nom_tipocliente || null, 
+                des_tipocliente || null
             ]);
         if (resultado[0].mensaje === 'Tipo de cliente actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
