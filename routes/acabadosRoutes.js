@@ -33,6 +33,7 @@ router.post('/acabados/:nom_acabados/:des_acabados', async (req, res)=>{
     }
 });
 
+//
 
 router.put('/acabados/:id/:nom_acabados/:des_acabados', async (req, res)=>{
     try{
