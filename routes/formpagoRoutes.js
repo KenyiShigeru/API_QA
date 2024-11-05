@@ -1,4 +1,8 @@
-app.get('/fpago', async (req, res) => {
+const express = require('express');
+const routes = express.Router();
+var {FormaPagoModel} = require('../Models/FormaPago');
+const formaPagoModel = new FormaPagoModel();
+routes.get('/', async (req, res) => {
     try {
         const fpago = await formaPagoModel.obtenerFormasPagos();
         res.send(fpago);
@@ -8,7 +12,7 @@ app.get('/fpago', async (req, res) => {
     }
 });
 
-app.post('/fpago/:nom_fpago/:des_fpago', async (req, res) => {
+routes.post('/:nom_fpago/:des_fpago', async (req, res) => {
     try {
         const resultado = await formaPagoModel.insertarFormaPago(
             [
@@ -22,7 +26,7 @@ app.post('/fpago/:nom_fpago/:des_fpago', async (req, res) => {
     }
 });
 
-app.put('/fpago/:id/:nom_fpago/:des_fpago', async (req, res) => {
+routes.put('/:id/:nom_fpago/:des_fpago', async (req, res) => {
     try {
         const resultado = await formaPagoModel.modificarForma_Pago(
             [
@@ -42,7 +46,7 @@ app.put('/fpago/:id/:nom_fpago/:des_fpago', async (req, res) => {
     }
 });
 
-app.delete('/fpago/:id/:nom_fpago/:des_fpago', async (req, res) => {
+routes.delete('/:id/:nom_fpago/:des_fpago', async (req, res) => {
     try {
         const resultado = await formaPagoModel.modificarForma_Pago(
             [
@@ -61,3 +65,5 @@ app.delete('/fpago/:id/:nom_fpago/:des_fpago', async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar la forma de pago' });
     }
 });
+
+module.exports = routes;

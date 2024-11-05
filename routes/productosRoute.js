@@ -1,4 +1,8 @@
-app.get('/productos', async (req, res) => {
+const express = require('express');
+const routes = express.Router();
+var {ProductoModel} = require('../Models/Producto');
+const productoModel = new ProductoModel();
+routes.get('/', async (req, res) => {
     try {
         const productos = await productoModel.obtenerProductos();
         res.send(productos);
@@ -8,7 +12,7 @@ app.get('/productos', async (req, res) => {
     }
 });
 
-app.post('/productos/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+routes.post('/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
     try {
         const resultado = await productoModel.insertarProducto(
             [
@@ -28,7 +32,7 @@ app.post('/productos/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_u
     }
 });
 
-app.put('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+routes.put('/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
     try {
         const resultado = await productoModel.modificarProducto(
             [
@@ -51,7 +55,7 @@ app.put('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:i
     
 });
 
-app.delete('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
+routes.delete('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial/:id_unidad/:apl_inst/:precio_sin_inst/:precio_con_inst/:observaciones', async (req, res) => {
     try {
         const resultado = await productoModel.modificarProducto(
             [
@@ -73,3 +77,6 @@ app.delete('/productos/:id/:id_clasificacion/:id_subclasificacion/:id_tpmaterial
     }
     
 });
+
+
+module.exports = routes;

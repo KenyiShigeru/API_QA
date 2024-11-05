@@ -1,4 +1,8 @@
-app.get('/clientes', async (req, res) => {
+const express = require('express');
+const routes = express.Router();
+var {ClienteModel} = require('../Models/Cliente');
+const clienteModel = new ClienteModel();
+routes.get('/', async (req, res) => {
     try {
         const clientes = await clienteModel.obtenerClientes();
         res.send(clientes);
@@ -8,7 +12,7 @@ app.get('/clientes', async (req, res) => {
     }
 });
 
-app.post("/clientes/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:nomnegocio/:domicilio/:telWP/:telFJ/:correo/:tpCliente", 
+routes.post("/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:nomnegocio/:domicilio/:telWP/:telFJ/:correo/:tpCliente", 
     async (req, res) => {
     try {
         //console.log(req.params);
@@ -21,7 +25,7 @@ app.post("/clientes/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:r
     }
 });
 
-app.put("/clientes/:id/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:nomnegocio/:domicilio/:telWP/:telFJ/:correo/:tpCliente", 
+routes.put("/:id/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia/:rfc/:nomnegocio/:domicilio/:telWP/:telFJ/:correo/:tpCliente", 
     async (req, res) => {
     try {
         const resultado = await clienteModel.modificarCliente(req.params);
@@ -36,3 +40,5 @@ app.put("/clientes/:id/:nombre/:apellidopaterno/:apellidomaterno/:rutaconstancia
         res.status(500).json({ error: 'Error al actualizar el cliente' });
     }
 });
+
+module.exports = routes;

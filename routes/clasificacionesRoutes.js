@@ -1,4 +1,8 @@
-app.get('/clasificaciones',async (req,res)=>{
+const express = require('express');
+const routes = express.Router();
+var {ClasificacionModel} = require('../Models/Clasificacion');
+const clasificacionModel = new ClasificacionModel();
+routes.get('/',async (req,res)=>{
     try{
         const unidades = await clasificacionModel.obtenerClasificaciones();    
         res.send(unidades);
@@ -11,7 +15,7 @@ app.get('/clasificaciones',async (req,res)=>{
 });
 
 
-app.post('/clasificaciones/:nom_clasificacion/:des_clasificacion', async (req, res) => {
+routes.post('/:nom_clasificacion/:des_clasificacion', async (req, res) => {
     try {
         const resultado = await clasificacionModel.insertarClasificacion(
             [
@@ -26,7 +30,7 @@ app.post('/clasificaciones/:nom_clasificacion/:des_clasificacion', async (req, r
 });
 
 
-app.put('/clasificaciones/:id/:nom_clasificacion/:des_clasificacion', async (req, res) => {
+routes.put('/:id/:nom_clasificacion/:des_clasificacion', async (req, res) => {
     try {
         const resultado = await clasificacionModel.modificarClasificacion(
             [
@@ -42,7 +46,7 @@ app.put('/clasificaciones/:id/:nom_clasificacion/:des_clasificacion', async (req
     }
 });
 
-app.delete('/clasificaciones/:id/:nom_clasificacion/:des_clasificacion', async (req, res) => {
+routes.delete('/:id/:nom_clasificacion/:des_clasificacion', async (req, res) => {
     try {
         const resultado = await clasificacionModel.modificarClasificacion(
             [
@@ -58,3 +62,4 @@ app.delete('/clasificaciones/:id/:nom_clasificacion/:des_clasificacion', async (
     }
 });
 
+module.exports = routes;

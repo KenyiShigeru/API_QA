@@ -1,4 +1,8 @@
-app.get('/tipotrabajo',async (req,res)=>{
+const express = require('express');
+const routes = express.Router();
+var {TipoTrabajoModel} = require('../Models/TipoTrabajo');
+const tipoTrabajoModel = new TipoTrabajoModel();
+routes.get('/',async (req,res)=>{
     try{
         const tiposTrabajo = await tipoTrabajoModel.obtenerTiposTrabajo();
         res.send(tiposTrabajo);
@@ -10,7 +14,7 @@ app.get('/tipotrabajo',async (req,res)=>{
     }
 });
 
-app.post('/tipotrabajo/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
+routes.post('/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
     try {
         const resultado = await tipoTrabajoModel.insertarTipoTrabajo(
             [
@@ -24,7 +28,7 @@ app.post('/tipotrabajo/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
     }
 });
 
-app.put('/tipotrabajo/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
+routes.put('/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
     try {
         const resultado = await tipoTrabajoModel.modificarTipoTrabajo(
             [
@@ -44,7 +48,7 @@ app.put('/tipotrabajo/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) =
     }
 });
 
-app.delete('/tipotrabajo/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
+routes.delete('/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res) => {
     try {
         const resultado = await tipoTrabajoModel.modificarTipoTrabajo(
             [
@@ -63,3 +67,5 @@ app.delete('/tipotrabajo/:id/:nom_tipotrabajo/:des_tipotrabajo', async (req, res
         res.status(500).json({ error: 'Error al actualizar el tipo de trabajo' });
     }
 });
+
+module.exports = routes;

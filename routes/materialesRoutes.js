@@ -1,4 +1,8 @@
-app.get('/materiales',async (req,res)=>{
+const express = require('express');
+const routes = express.Router();
+var {MaterialModel} = require('../Models/Material');
+const materialModel = new MaterialModel();
+routes.get('/',async (req,res)=>{
     try{
         const unidades = await materialModel.obtenerMateriales();
         res.send(unidades);
@@ -10,7 +14,7 @@ app.get('/materiales',async (req,res)=>{
     }
 });
 
-app.post('/materiales/:nom_material/:des_material', async (req, res) => {
+routes.post('/:nom_material/:des_material', async (req, res) => {
     try {
         const resultado = await materialModel.insertarMaterial(
             [
@@ -24,7 +28,7 @@ app.post('/materiales/:nom_material/:des_material', async (req, res) => {
     }
 });
 
-app.put('/materiales/:id/:nom_material/:des_material', async (req, res) => {
+routes.put('/:id/:nom_material/:des_material', async (req, res) => {
     try {
         const resultado = await materialModel.modificarMaterial(
             [
@@ -44,7 +48,7 @@ app.put('/materiales/:id/:nom_material/:des_material', async (req, res) => {
     }
 });
 
-app.delete('/materiales/:id/:nom_material/:des_material', async (req, res) => {
+routes.delete('/:id/:nom_material/:des_material', async (req, res) => {
     try {
         const resultado = await materialModel.modificarMaterial(
             [
@@ -64,3 +68,4 @@ app.delete('/materiales/:id/:nom_material/:des_material', async (req, res) => {
     }
 });
 
+module.exports = routes;

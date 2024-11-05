@@ -1,4 +1,8 @@
-app.get('/subclasificaciones',async (req,res)=>{
+const express = require('express');
+const routes = express.Router();
+var {SubclasificacionModel} = require('../Models/SubClasificacion');
+const subclasificacionModel = new SubclasificacionModel();
+routes.get('/',async (req,res)=>{
     try{
         const subclasificaciones = await subclasificacionModel.obtenerSubclasificaciones();
         res.send(subclasificaciones);
@@ -11,7 +15,7 @@ app.get('/subclasificaciones',async (req,res)=>{
 });
 
 
-app.post('/subclasificaciones/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
+routes.post('/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
     try {
         const resultado = await subclasificacionModel.insertarSubclasificacion(
             [
@@ -25,7 +29,7 @@ app.post('/subclasificaciones/:nom_subclasificacion/:des_subclasificacion', asyn
     }
 });
 
-app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
+routes.put('/:id/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
     try {
         const resultado = await subclasificacionModel.modificarSubclasificacion(
             [
@@ -45,7 +49,7 @@ app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', a
     }
 });
 
-app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
+routes.delete('/:id/:nom_subclasificacion/:des_subclasificacion', async (req, res) => {
     try {
         const resultado = await subclasificacionModel.modificarSubclasificacion(
             [
@@ -64,3 +68,6 @@ app.put('/subclasificaciones/:id/:nom_subclasificacion/:des_subclasificacion', a
         res.status(500).json({ error: 'Error al actualizar la subclasificación' });
     }
 });
+
+
+module.exports = routes

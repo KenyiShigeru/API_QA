@@ -1,4 +1,8 @@
-app.get('/estatuscliente', async (req, res) =>  {
+const express = require('express');
+const routes = express.Router();
+var {EstadoClienteModel} = require('../Models/EstadoCliente');
+const estadoClienteModel = new EstadoClienteModel();
+routes.get('/', async (req, res) =>  {
     try {
         const estatus = await estadoClienteModel.obtenerestadosClientes();
         res.send(estatus);
@@ -8,7 +12,7 @@ app.get('/estatuscliente', async (req, res) =>  {
     }
 });
 
-app.post('/estatuscliente/:nom_estatus/:des_estatus', async (req, res) => {
+routes.post('/:nom_estatus/:des_estatus', async (req, res) => {
     try {
         const resultado = await estatusModel.insertarEstatus(
             [
@@ -22,7 +26,7 @@ app.post('/estatuscliente/:nom_estatus/:des_estatus', async (req, res) => {
     }
 });
 
-app.put('/estatuscliente/:id/:nom_estatus/:des_estatus', async (req, res) => {
+routes.put('/:id/:nom_estatus/:des_estatus', async (req, res) => {
     try {
         const resultado = await estatusModel.modificarEstatus(
             [
@@ -40,3 +44,5 @@ app.put('/estatuscliente/:id/:nom_estatus/:des_estatus', async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar el estatus' });
     }
 });
+
+module.exports = routes;

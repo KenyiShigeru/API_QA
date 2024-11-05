@@ -1,4 +1,8 @@
-app.get('/tipocliente',async (req,res)=>{
+const express = require('express');
+const routes = express.Router();
+var {TipoClienteModel} = require('../Models/TipoCliente');
+const tipoClienteModel = new TipoClienteModel();
+routes.get('/',async (req,res)=>{
     try{
         const tiposCliente = await tipoClienteModel.obtenerTiposClientes();
         res.send(tiposCliente);
@@ -10,7 +14,7 @@ app.get('/tipocliente',async (req,res)=>{
     }
 });
 
-app.post('/tipocliente/:nom_tipocliente/:des_tipocliente', async (req, res) => {
+routes.post('/:nom_tipocliente/:des_tipocliente', async (req, res) => {
     try {
         const resultado = await tipoClienteModel.insertarTipoCliente(
             [
@@ -24,7 +28,7 @@ app.post('/tipocliente/:nom_tipocliente/:des_tipocliente', async (req, res) => {
     }
 });
 
-app.put('/tipocliente/:id/:nom_tipocliente/:des_tipocliente', async (req, res) => {
+routes.put('/:id/:nom_tipocliente/:des_tipocliente', async (req, res) => {
     try {
         const resultado = await tipoClienteModel.modificarTipoPago(
             [
@@ -42,3 +46,5 @@ app.put('/tipocliente/:id/:nom_tipocliente/:des_tipocliente', async (req, res) =
         res.status(500).json({ error: 'Error al actualizar el tipo de cliente' });
     }
 });
+
+module.exports = routes;

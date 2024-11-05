@@ -1,4 +1,8 @@
-app.get('/matprod',async (req,res)=>{
+const express = require('express');
+const routes = express.Router();
+var {Material_ProduccionModel} = require('../Models/Material_Produccion');
+const material_ProduccionModel = new Material_ProduccionModel();
+routes.get('/',async (req,res)=>{
     try{
         const materiales = await material_ProduccionModel.obtenerMaterial_Produccion();
         res.send(materiales);
@@ -11,7 +15,7 @@ app.get('/matprod',async (req,res)=>{
     }
 })
 
-app.post('/matprod/:id_material/:id_unidad/:base/:altura/:proveedor', async (req, res) => {
+routes.post('/:id_material/:id_unidad/:base/:altura/:proveedor', async (req, res) => {
     try {
         const resultado = await material_ProduccionModel.insertarMaterial_Produccion(
             [
@@ -28,7 +32,7 @@ app.post('/matprod/:id_material/:id_unidad/:base/:altura/:proveedor', async (req
     }
 });
 
-app.put('/matprod/:id/:id_material/:id_unidad/:base/:altura/:proveedor', async (req, res) => {
+routes.put('/:id/:id_material/:id_unidad/:base/:altura/:proveedor', async (req, res) => {
     try {
         const resultado = await material_ProduccionModel.modificarMaterial_Produccion(
             [
@@ -51,7 +55,7 @@ app.put('/matprod/:id/:id_material/:id_unidad/:base/:altura/:proveedor', async (
     }
 });
 
-app.delete('/matprod/:id/:id_material/:id_unidad/:base/:altura/:proveedor', async (req, res) => {
+routes.delete('/:id/:id_material/:id_unidad/:base/:altura/:proveedor', async (req, res) => {
     try {
         const resultado = await material_ProduccionModel.modificarMaterial_Produccion(
             [
@@ -73,3 +77,5 @@ app.delete('/matprod/:id/:id_material/:id_unidad/:base/:altura/:proveedor', asyn
         res.status(500).json({ error: 'Error al actualizar el material' });
     }
 });
+
+module.exports = routes;

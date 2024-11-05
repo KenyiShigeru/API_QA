@@ -1,4 +1,8 @@
-app.get('/procesos',async (req,res)=>{
+const express = require('express');
+const routes = express.Router();
+var {ProcesoModel} = require('../Models/Proceso');
+const procesoModel = new ProcesoModel();
+routes.get('/',async (req,res)=>{
     try{
         const procesos = await procesoModel.obtenerProcesos();
         res.send(procesos);
@@ -10,7 +14,7 @@ app.get('/procesos',async (req,res)=>{
     }
 });
 
-app.post('/procesos/:nom_proceso', async (req, res) => {
+routes.post('/:nom_proceso', async (req, res) => {
     try {
         const resultado = await procesoModel.agregarProceso(
             [
@@ -23,7 +27,7 @@ app.post('/procesos/:nom_proceso', async (req, res) => {
     }
 });
 
-app.put('/procesos/:id/:nom_proceso', async (req, res) => {
+routes.put('/:id/:nom_proceso', async (req, res) => {
     try {
         const resultado = await procesoModel.modificarProceso(
             [
@@ -42,7 +46,7 @@ app.put('/procesos/:id/:nom_proceso', async (req, res) => {
     }
 });
 
-app.delete('/procesos/:id/:nom_proceso', async (req, res) => {
+routes.delete('/:id/:nom_proceso', async (req, res) => {
     try {
         const resultado = await procesoModel.modificarProceso(
             [
@@ -60,3 +64,5 @@ app.delete('/procesos/:id/:nom_proceso', async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar el material' });
     }
 })
+
+module.exports = routes;

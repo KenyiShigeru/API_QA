@@ -61,4 +61,4 @@ class ProductoModel {
     
 }
 
-module.exports = { Producto, ProductoModel };
+module.exports = {ProductoModel};

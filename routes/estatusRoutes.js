@@ -1,4 +1,8 @@
-app.get('/estatus', async (req, res) => {
+const express = require('express');
+const routes = express.Router();
+var {EstatusCobranzaModel} =  require('../Models/EstatusCobranza');
+const estatusModel = new EstatusCobranzaModel();
+routes.get('/', async (req, res) => {
     try {
         const estatus = await estatusModel.obtenerEstatusCobranza();
         res.send(estatus);
@@ -8,7 +12,7 @@ app.get('/estatus', async (req, res) => {
     }
 });
 
-app.post('/estatus/:nom_estatus/:des_estatus', async (req, res) => {
+routes.post('/:nom_estatus/:des_estatus', async (req, res) => {
     try {
         const resultado = await estatusModel.insertarEstatus(
             [
@@ -22,7 +26,7 @@ app.post('/estatus/:nom_estatus/:des_estatus', async (req, res) => {
     }
 });
 
-app.put('/estatus/:id/:nom_estatus/:des_estatus', async (req, res) => {
+routes.put('/:id/:nom_estatus/:des_estatus', async (req, res) => {
     try {
         const resultado =  estatusModel.modificarEstatusCobranza(
             [
@@ -42,7 +46,7 @@ app.put('/estatus/:id/:nom_estatus/:des_estatus', async (req, res) => {
     }
 });
 
-app.delete('/estatus/:id/:nom_estatus/:des_estatus', async (req, res) => {
+routes.delete('/:id/:nom_estatus/:des_estatus', async (req, res) => {
     try {
         const resultado =  estatusModel.modificarEstatusCobranza(
             [
@@ -61,3 +65,5 @@ app.delete('/estatus/:id/:nom_estatus/:des_estatus', async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar el estatus' });
     }
 });
+
+module.exports = routes;

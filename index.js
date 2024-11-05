@@ -1,46 +1,22 @@
 var express = require('express');
 var cors = require('cors');
 const acabadosRoutes = require('./routes/acabadosRoutes');
-
-
-
-
-
-var {UnidadModel, Unidad} = require('./Models/Unidad');
-var {ProductoModel, Producto} = require('./Models/Producto');
-var {ClienteModel} = require('./Models/Cliente');
-var {Clasificacion, ClasificacionModel} = require('./Models/Clasificacion');
-var {SubclasificacionModel} = require('./Models/SubClasificacion');
-var {MaterialModel} = require('./Models/Material');
-var {Material_Produccion, Material_ProduccionModel} = require('./Models/Material_Produccion');
-var {CotizacionModel} = require('./Models/Cotizacion');
-var {EstatusCobranzaModel} =  require('./Models/EstatusCobranza');
-var {FormaPagoModel} = require('./Models/FormaPago');
-var {TipoPagoModel} = require('./Models/TipoPago');
-var {TipoTrabajoModel} = require('./Models/TipoTrabajo');
-var {TipoVentaModel} = require('./Models/TipoVenta');
-var {ProcesoModel} = require('./Models/Proceso');
-var {TipoClienteModel} = require('./Models/TipoCliente');
-var {EstadoClienteModel} = require('./Models/EstadoCliente');
-
-
-
-const productoModel = new ProductoModel();
-const procesoModel = new ProcesoModel();
-const unidadModel = new UnidadModel();
-const clasificacionModel = new ClasificacionModel();
-const clienteModel = new ClienteModel();
-const subclasificacionModel = new SubclasificacionModel();
-const materialModel = new MaterialModel();
-const material_ProduccionModel = new Material_ProduccionModel();
-const cotizacionModel = new CotizacionModel();
-const estatusModel = new EstatusCobranzaModel();
-const formaPagoModel = new FormaPagoModel();
-const tipoPagoModel = new TipoPagoModel();
-const tipoTrabajoModel = new TipoTrabajoModel();
-const tipoVentaModel = new TipoVentaModel();
-const tipoClienteModel = new TipoClienteModel();
-const estadoClienteModel = new EstadoClienteModel();
+const clasificacionesRoutes = require('./routes/clasificacionesRoutes');
+const clientesRoutes = require('./routes/clientesRoutes');
+const cotizacionesRoutes = require('./routes/cotizacionesRoutes');
+const estatusClienteRoutes = require('./routes/estatclienRoutes');
+const estatusCobranzaRoutes = require('./routes/estatusRoutes');
+const formaspagoRoutes = require('./routes/formpagoRoutes');
+const materialesRoutes = require('./routes/materialesRoutes');
+const materialProduccionRoutes = require('./routes/matprodRoutes');
+const procesosRoutes = require('./routes/procesosRoute');
+const productosRoutes = require('./routes/productosRoute');
+const subclasificacionesRoutes = require('./routes/subclasificacionRoutes');
+const TipoClienteRoutes = require('./routes/tipoclienteRoutes');
+const tipoPagoRoutes = require('./routes/tipoPagoRoutes');
+const tipoTrabajosRoutes = require('./routes/tipotrabajoRoutes');
+const tipoVentasRoutes = require('./routes/tipoventaRoutes');
+const unidadesRoutes = require('./routes/unidadRoute');
 
 /*const corsOptions ={
     origin:'*',
@@ -57,49 +33,58 @@ app.use((req, res, next) => {
 //DE AQUI PARA abajo es para las rutas
 app.get('/',(req,res)=>res.send("<h1>Ruta de inicio con nodemon</h1>"));
 
-app.use("/acabados",acabadosRoutes);
+app.use('/acabados',acabadosRoutes);
 
-app.use('/clasificaciones', );
+app.use('/clasificaciones', clasificacionesRoutes);
 //Zona de las clasificaciones
 
 //Zona de los clientes
-
+app.use('/clientes',clientesRoutes);
 
 //Zona de las cotizaciones
+app.use('/cotizaciones',cotizacionesRoutes);
+
 
 //Zona de los estatus de cobranza
+app.use('/estatuscobranza',estatusCobranzaRoutes);
 
 //Zona de los estatus del cliente
-
+app.use('/estatuscliente',estatusClienteRoutes);
 
 //Zona de las formas de pago
+app.use('/formaspago',formaspagoRoutes);
 
 //Zona de los materiales de produccion
-
+app.use('/materialesproduccion',materialProduccionRoutes);
 
 //Zona de los materiales
-
+app.use('/materiales',materialesRoutes);
 
 //Zona de los procesos
+app.use('/procesos',procesosRoutes);
 
 //Zona de los productos
+app.use('/producto',productosRoutes);
 
 
 //Zona de las subclasificaciones
-
+app.use('/subclasificaciones',subclasificacionesRoutes);
 
 //Zona de los tipos de cliente
+app.use('/tipocliente',TipoClienteRoutes);
 
 
 //Zona de los tipos de pago
-
+app.use('/tipopago',tipoPagoRoutes);
         
 //Zona de los tipos de trabajo
-
+app.use('/tipotrabajo',tipoTrabajosRoutes);
 
 //Zona de los tipos de venta
+app.use('/tipoventa',tipoVentasRoutes);
 
 //Zona de las unidades
+app.use('/unidades',unidadesRoutes);
 
 
 app.listen("3000",()=>console.log("El servidor esta corriendo en el puerto 3000"));

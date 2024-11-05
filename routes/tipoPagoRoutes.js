@@ -1,4 +1,8 @@
-app.get('/tipopago',async (req,res)=>{
+const express = require('express');
+const routes = express.Router();
+var {TipoPagoModel} = require('../Models/TipoPago');
+const tipoPagoModel = new TipoPagoModel();
+routes.get('/',async (req,res)=>{
     try{
         const tiposPago = await tipoPagoModel.obtenerTiposPagos();
         res.send(tiposPago);
@@ -10,7 +14,7 @@ app.get('/tipopago',async (req,res)=>{
     }
 });
 
-app.post('/tipopago/:nom_tipopago/:des_tipopago', async (req, res) => {
+routes.post('/:nom_tipopago/:des_tipopago', async (req, res) => {
     try {
         const resultado = await tipoPagoModel.insertarTipoPago(
             [
@@ -24,7 +28,7 @@ app.post('/tipopago/:nom_tipopago/:des_tipopago', async (req, res) => {
     }
 });
 
-app.put('/tipopago/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
+routes.put('/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
     try {
         const resultado = await tipoPagoModel.modificarTipoPago(
             [
@@ -44,7 +48,7 @@ app.put('/tipopago/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
     }
 });
 
-app.delete('/tipopago/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
+routes.delete('/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
     try {
         const resultado = await tipoPagoModel.modificarTipoPago(
             [
@@ -63,3 +67,5 @@ app.delete('/tipopago/:id/:nom_tipopago/:des_tipopago', async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar el tipo de pago' });
     }
 });
+
+module.exports = routes;

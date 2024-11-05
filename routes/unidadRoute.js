@@ -1,4 +1,9 @@
-app.get('/unidad',async (req,res)=>{
+const express = require('express');
+const routes = express.Router();
+
+var {UnidadModel} = require('../Models/Unidad');
+const unidadModel = new UnidadModel();
+routes.get('/',async (req,res)=>{
     try{
         const unidades = await unidadModel.obtenerUnidades();
         res.send(unidades);
@@ -11,7 +16,7 @@ app.get('/unidad',async (req,res)=>{
 });
 
 
-app.post('/unidad/:nom_unidad/:des_unidad', async (req, res)=>{
+routes.post('/:nom_unidad/:des_unidad', async (req, res)=>{
     try{
         const resultado = await unidadModel.insertarUnidad(
             [
@@ -27,7 +32,7 @@ app.post('/unidad/:nom_unidad/:des_unidad', async (req, res)=>{
     }
 })
 
-app.put('/unidad/:id/:nom_unidad/:des_unidad', async (req, res) => {
+routes.put('/:id/:nom_unidad/:des_unidad', async (req, res) => {
     try {
         const resultado = await unidadModel.modificarUnidad(
             [
@@ -45,3 +50,6 @@ app.put('/unidad/:id/:nom_unidad/:des_unidad', async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar la clasificación' });
     }
 });
+
+
+module.exports = routes;

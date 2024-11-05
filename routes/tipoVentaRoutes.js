@@ -1,4 +1,8 @@
-app.get('/tipoventa',async (req,res)=>{
+const express = require('express');
+const routes = express.Router();
+var {TipoVentaModel} = require('../Models/TipoVenta');
+const tipoVentaModel = new TipoVentaModel();
+routes.get('/',async (req,res)=>{
     try{
         const tiposVenta = await tipoVentaModel.obtenerTiposVentas();
         res.send(tiposVenta);
@@ -10,7 +14,7 @@ app.get('/tipoventa',async (req,res)=>{
     }
 });
 
-app.post('/tipoventa/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
+routes.post('/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
     try {
         const resultado = await tipoVentaModel.insertarTipoVenta(
             [
@@ -25,7 +29,7 @@ app.post('/tipoventa/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
     }
 });
 
-app.put('/tipoventa/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
+routes.put('/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
     try {
         const resultado = await tipoVentaModel.modificarTipoVenta(
             [
@@ -45,7 +49,7 @@ app.put('/tipoventa/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => 
     }
 });
 
-app.delete('/tipoventa/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
+routes.delete('/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) => {
     try {
         const resultado = await tipoVentaModel.modificarTipoVenta(
             [
@@ -64,3 +68,5 @@ app.delete('/tipoventa/:id/:nom_tipos_venta/:des_tipos_venta', async (req, res) 
         res.status(500).json({ error: 'Error al actualizar el tipo de venta' });
     }
 });
+
+module.exports = routes;

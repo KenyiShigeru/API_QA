@@ -1,4 +1,8 @@
-app.get('/cotizaciones', async (req, res) => {
+const express = require('express');
+const routes = express.Router();
+var {CotizacionModel} = require('../Models/Cotizacion');
+const cotizacionModel = new CotizacionModel();
+routes.get('/', async (req, res) => {
     try {
         const cotizaciones = await cotizacionModel.obtenerCotizaciones();
         res.send(cotizaciones);
@@ -8,7 +12,7 @@ app.get('/cotizaciones', async (req, res) => {
     }
 });
 
-app.post('/cotizaciones/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavigencia/:estatus/:facturar/:personal/:observaciones', async (req, res) => {
+routes.post('/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavigencia/:estatus/:facturar/:personal/:observaciones', async (req, res) => {
     try {
         const resultado = await cotizacionModel.insertarCotizacion(
             [
@@ -31,7 +35,7 @@ app.post('/cotizaciones/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavigenc
     }
 });
 
-app.put('/cotizaciones/:id/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavigencia/:estatus/:facturar/:personal/:observaciones', async (req, res) => {
+routes.put('/:id/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavigencia/:estatus/:facturar/:personal/:observaciones', async (req, res) => {
     try {
         const resultado = await cotizacionModel.modificarCotizacion([
             req.params.id,
@@ -54,7 +58,7 @@ app.put('/cotizaciones/:id/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavig
     }
 });
 
-app.delete('/cotizaciones/:id/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavigencia/:estatus/:facturar/:personal/:observaciones', async (req, res) => {
+routes.delete('/:id/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fechavigencia/:estatus/:facturar/:personal/:observaciones', async (req, res) => {
     try {
         const resultado = await cotizacionModel.modificarCotizacion([
             req.params.id,
@@ -76,3 +80,6 @@ app.delete('/cotizaciones/:id/:idCliente/:idtpVenta/:subtotal/:iva/:total/:fecha
         res.status(500).json({ error: 'Error al actualizar la cotización' });
     }
 });
+
+
+module.exports = routes;
