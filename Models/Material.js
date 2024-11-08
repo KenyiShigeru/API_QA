@@ -63,6 +63,22 @@ class MaterialModel
             });
         });
     }
+
+    //Elimina un material
+    borrarMaterial(material)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.conexion.execute('update material set alta_material = ? where id_material = ?', material, (error, resultados) =>
+            {
+                if (error)
+                {
+                    return reject(error);
+                }
+                resolve(resultados[0]);
+            });
+        });
+    }
 }
 
 module.exports = {Material, MaterialModel};

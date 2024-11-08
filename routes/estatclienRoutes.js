@@ -27,12 +27,12 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
-        const { id, nom_estatus, des_estatus } = req.body;
+        const { nom_estatus, des_estatus } = req.body;
         const resultado = await estatusModel.modificarEstatus(
             [
-                id ||null,
+                req.params.id ||null,
                 nom_estatus,
                 des_estatus
             ]);

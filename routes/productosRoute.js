@@ -42,11 +42,10 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
         const 
-        { 
-            id, 
+        {  
             id_clasificacion, 
             id_subclasificacion, 
             id_tpmaterial, 
@@ -58,7 +57,7 @@ routes.put('/', async (req, res) => {
         } = req.body;
         const resultado = await productoModel.modificarProducto(
             [
-                id ||null, 
+                req.params.id ||null, 
                 id_clasificacion ||null, 
                 id_subclasificacion || null,
                 id_tpmaterial || null, 
@@ -77,11 +76,10 @@ routes.put('/', async (req, res) => {
     
 });
 
-routes.put('/', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
         const 
-        { 
-            id, 
+        {  
             id_clasificacion, 
             id_subclasificacion, 
             id_tpmaterial, 
@@ -93,7 +91,7 @@ routes.put('/', async (req, res) => {
         } = req.body;
         const resultado = await productoModel.modificarProducto(
             [
-                id ||null, 
+                req.params.id ||null, 
                 id_clasificacion ||null, 
                 id_subclasificacion || null,
                 id_tpmaterial || null, 

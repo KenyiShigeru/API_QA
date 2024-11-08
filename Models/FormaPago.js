@@ -63,6 +63,25 @@ class FormaPagoModel
             }
         });
     }
+
+    borrarForma_Pago(forma)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            try
+            {
+                this.conexion.execute('update formaPago set estatus = ? where eliminacion = ?', forma, (error, resultados) =>
+                {
+                    if (error) return reject(error);
+                    resolve(resultados[0]);
+                });
+            }
+            catch (error)
+            {
+                reject(error);
+            }
+        });
+    }
 }
 
 module.exports = {FormaPagoModel};

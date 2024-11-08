@@ -33,12 +33,12 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
         const { id_material, id_unidad, base, altura, proveedor } = req.body;
         const resultado = await material_ProduccionModel.modificarMaterial_Produccion(
             [
-                id ||null,
+                req.params.id ||null,
                 id_material ||null, 
                 id_unidad || null,
                 base || null,
@@ -57,12 +57,12 @@ routes.put('/', async (req, res) => {
     }
 });
 
-routes.delete('/', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
         const { id_material, id_unidad, base, altura, proveedor } = req.body;
         const resultado = await material_ProduccionModel.modificarMaterial_Produccion(
             [
-                id ||null,
+                req.params.id ||null,
                 id_material ||null, 
                 id_unidad || null,
                 base || null,

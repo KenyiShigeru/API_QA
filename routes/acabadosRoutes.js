@@ -28,11 +28,11 @@ router.post('/', async (req, res) => {
 });
 
 // Ruta PUT para modificar un acabado usando req.body
-router.put('/', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         
-        const {id, nom_acabados, des_acabados } = req.body;
-        const resultado = await acabadosModel.modificarAcabado([id, nom_acabados, des_acabados, 1]);
+        const {nom_acabados, des_acabados } = req.body;
+        const resultado = await acabadosModel.modificarAcabado([req.params.id, nom_acabados, des_acabados, 1]);
         res.status(200).json({ message: 'Modificado con éxito' });
     } catch (error) {
         console.log(error);
@@ -41,10 +41,10 @@ router.put('/', async (req, res) => {
 });
 
 // Ruta DELETE para "eliminar" un acabado usando req.body
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
-        const { id, nom_acabados, des_acabados } = req.body;
-        const resultado = await acabadosModel.modificarAcabado([id, nom_acabados, des_acabados, 0]);
+        const { nom_acabados, des_acabados } = req.body;
+        const resultado = await acabadosModel.modificarAcabado([req.params.id, nom_acabados, des_acabados, 0]);
         res.status(200).json({ message: 'Modificado con éxito' });
     } catch (error) {
         console.log(error);

@@ -28,12 +28,12 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
-        const { id, nom_proceso } = req.body;
+        const { nom_proceso } = req.body;
         const resultado = await procesoModel.modificarProceso(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_proceso || null,
                 1
             ]);
@@ -48,12 +48,12 @@ routes.put('/', async (req, res) => {
     }
 });
 
-routes.delete('/', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
-        const { id, nom_proceso } = req.body;
+        const { nom_proceso } = req.body;
         const resultado = await procesoModel.modificarProceso(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_proceso || null,
                 0
             ]);

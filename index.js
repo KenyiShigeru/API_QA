@@ -18,11 +18,6 @@ const tipoTrabajosRoutes = require('./routes/tipotrabajoRoutes');
 const tipoVentasRoutes = require('./routes/tipoventaRoutes');
 const unidadesRoutes = require('./routes/unidadRoute');
 
-/*const corsOptions ={
-    origin:'*',
-    credentials:true,
-    optionSuccessStatus:200,
-    }*/
 var app = express();
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -46,7 +41,6 @@ app.use('/clientes',clientesRoutes);
 
 //Zona de las cotizaciones
 app.use('/cotizaciones',cotizacionesRoutes);
-
 
 //Zona de los estatus de cobranza
 app.use('/estatuscobranza',estatusCobranzaRoutes);
@@ -75,7 +69,6 @@ app.use('/subclasificaciones',subclasificacionesRoutes);
 //Zona de los tipos de cliente
 app.use('/tipocliente',tipoClienteRoutes);
 
-
 //Zona de los tipos de pago
 app.use('/tipopago',tipoPagoRoutes);
         
@@ -87,6 +80,5 @@ app.use('/tipoventa',tipoVentasRoutes);
 
 //Zona de las unidades
 app.use('/unidades',unidadesRoutes);
-
 
 app.listen("3000",()=>console.log("El servidor esta corriendo en el puerto 3000"));

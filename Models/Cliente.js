@@ -1,8 +1,5 @@
 const conexion = require('../.env/conexion');
 
-
-
-
 class ClienteModel
 {
     constructor()

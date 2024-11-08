@@ -30,12 +30,12 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
-        const { id, nom_tipos_venta, des_tipos_venta } = req.body;
+        const {  nom_tipos_venta, des_tipos_venta } = req.body;
         const resultado = await tipoVentaModel.modificarTipoVenta(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_tipos_venta || null, 
                 des_tipos_venta || null,
                 1
@@ -51,12 +51,12 @@ routes.put('/', async (req, res) => {
     }
 });
 
-routes.delete('/', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
-        const { id, nom_tipos_venta, des_tipos_venta } = req.params;
+        const { nom_tipos_venta, des_tipos_venta } = req.params;
         const resultado = await tipoVentaModel.modificarTipoVenta(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_tipos_venta || null, 
                 des_tipos_venta || null,
                 0

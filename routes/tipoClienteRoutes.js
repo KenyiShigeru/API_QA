@@ -29,12 +29,12 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
-        const { id, nom_tipocliente, des_tipocliente } = req.params;
+        const { nom_tipocliente, des_tipocliente } = req.params;
         const resultado = await tipoClienteModel.modificarTipoPago(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_tipocliente || null, 
                 des_tipocliente || null
             ]);

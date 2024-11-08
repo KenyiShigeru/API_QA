@@ -33,12 +33,12 @@ routes.post('/', async (req, res)=>{
     }
 })
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
-        const { id, nom_unidad, des_unidad } = req.body;
+        const { nom_unidad, des_unidad } = req.body;
         const resultado = await unidadModel.modificarUnidad(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_unidad || null, 
                 des_unidad || null
             ]);

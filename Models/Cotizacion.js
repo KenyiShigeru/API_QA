@@ -62,6 +62,19 @@ class CotizacionModel
         });
     }
 
+    async borrarCotizacion(cotizacion)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('update cotizacion set estatus = ? where eliminacion = ?', cotizacion, (error, resultados) => {
+                if (error) {
+                    return reject(error);
+                }
+                resolve(resultados[0]);
+            }
+            );
+        });
+    }
+
 }
 
 module.exports = {Cotizacion, CotizacionModel};

@@ -47,11 +47,10 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
         const 
          {
-            id,
             idCliente,
             idtpVenta,
             subtotal,
@@ -64,7 +63,7 @@ routes.put('/', async (req, res) => {
             observaciones
         } = req.body;
         const resultado = await cotizacionModel.modificarCotizacion([
-            id,
+            req.params.id,
             idCliente,
             idtpVenta,
             subtotal,
@@ -84,34 +83,10 @@ routes.put('/', async (req, res) => {
     }
 });
 
-routes.delete('/', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
-        const 
-         {
-            id,
-            idCliente,
-            idtpVenta,
-            subtotal,
-            iva,
-            total,
-            fechavigencia,
-            estatus,
-            facturar,
-            personal,
-            observaciones
-        } = req.body;
-        const resultado = await cotizacionModel.modificarCotizacion([
-            id,
-            idCliente,
-            idtpVenta,
-            subtotal,
-            iva,
-            total,
-            fechavigencia,
-            estatus,
-            facturar,
-            personal,
-            observaciones,
+        const resultado = await cotizacionModel.borrarCotizacion([
+            req.params.id,
             0
     ]);
         res.status(201).json({message:'Actualizado con exito'});

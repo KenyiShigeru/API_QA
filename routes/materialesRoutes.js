@@ -29,12 +29,12 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
-        const {id,nom_material, des_material } = req.body;
+        const {nom_material, des_material } = req.body;
         const resultado = await materialModel.modificarMaterial(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_material || null, 
                 des_material || null,
                 1
@@ -50,14 +50,11 @@ routes.put('/', async (req, res) => {
     }
 });
 
-routes.delete('/', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
-        const {id,nom_material, des_material } = req.body;
-        const resultado = await materialModel.modificarMaterial(
+        const resultado = await materialModel.borrarMaterial(
             [
-                id ||null, 
-                nom_material || null, 
-                des_material || null,
+                req.params.id,
                 0
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {

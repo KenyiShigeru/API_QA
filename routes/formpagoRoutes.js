@@ -27,12 +27,12 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
-        const { id, nom_fpago, des_fpago } = req.body;
+        const { nom_fpago, des_fpago } = req.body;
         const resultado = await formaPagoModel.modificarForma_Pago(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_fpago || null, 
                 des_fpago || null,
                 1
@@ -48,14 +48,11 @@ routes.put('/', async (req, res) => {
     }
 });
 
-routes.delete('/', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
-        const { id, nom_fpago, des_fpago } = req.body;
-        const resultado = await formaPagoModel.modificarForma_Pago(
+        const resultado = await formaPagoModel.borrarForma_Pago(
             [
-                id ||null, 
-                nom_fpago || null, 
-                des_fpago || null,
+                req.params.id,
                 0
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {

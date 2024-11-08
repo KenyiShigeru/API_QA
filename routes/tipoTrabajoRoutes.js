@@ -29,12 +29,12 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
-        const { id, nom_tipotrabajo, des_tipotrabajo } = req.body;
+        const { nom_tipotrabajo, des_tipotrabajo } = req.body;
         const resultado = await tipoTrabajoModel.modificarTipoTrabajo(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_tipotrabajo || null, 
                 des_tipotrabajo || null,
                 1
@@ -50,12 +50,12 @@ routes.put('/', async (req, res) => {
     }
 });
 
-routes.delete('/', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
-        const { id, nom_tipotrabajo, des_tipotrabajo } = req.body;
+        const { nom_tipotrabajo, des_tipotrabajo } = req.body;
         const resultado = await tipoTrabajoModel.modificarTipoTrabajo(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_tipotrabajo || null, 
                 des_tipotrabajo || null,
                 0

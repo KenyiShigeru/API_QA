@@ -52,11 +52,10 @@ routes.post("/",
     }
 });
 
-routes.put("/", 
+routes.put("/:id", 
     async (req, res) => {
     try {
         const {
-            id,
             nombre,
             apellidopaterno,
             apellidomaterno,
@@ -71,7 +70,7 @@ routes.put("/",
         } = req.body;
         const resultado = await clienteModel.modificarCliente(
             [
-                id,
+                req.params.id,
                 nombre,
                 apellidopaterno,
                 apellidomaterno,

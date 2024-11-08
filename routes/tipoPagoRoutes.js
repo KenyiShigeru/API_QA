@@ -29,11 +29,12 @@ routes.post('/', async (req, res) => {
     }
 });
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
+        const { nom_tipopago, des_tipopago } = req.body;
         const resultado = await tipoPagoModel.modificarTipoPago(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_tipopago || null, 
                 des_tipopago || null,
                 1
@@ -49,11 +50,12 @@ routes.put('/', async (req, res) => {
     }
 });
 
-routes.delete('/', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
+        const { nom_tipopago, des_tipopago } = req.body;
         const resultado = await tipoPagoModel.modificarTipoPago(
             [
-                id ||null, 
+                req.params.id ||null, 
                 nom_tipopago || null, 
                 des_tipopago || null,
                 1

@@ -61,6 +61,22 @@ class ClasificacionModel
             );
         });
     }
+
+    async borrarClasificacion(clasificacion)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute(
+                'UPDATE clasificacion SET alta_clasificacion = ? WHERE id_clasificacion = ?', 
+                clasificacion,
+                (error, resultados) => {
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(resultados[0]);
+                }
+            );
+        });
+    }
 }
 
 module.exports = {Clasificacion, ClasificacionModel}

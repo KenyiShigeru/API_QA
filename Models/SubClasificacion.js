@@ -61,6 +61,23 @@ class SubclasificacionModel
         });
     }
 
+
+    async borrarSubclasificacion(subclasificacion)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute(
+                'UPDATE subclasificaciones SET alta_subclasificacion = ? WHERE id_subclasificacion = ?', 
+                subclasificacion,
+                (error, resultados) => {
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(resultados[0]);
+                }
+            )
+        });
+    }
+
 }
 
 module.exports = {Subclasificacion, SubclasificacionModel};

@@ -31,12 +31,12 @@ routes.post('/', async (req, res) => {
 });
 
 
-routes.put('/', async (req, res) => {
+routes.put('/:id', async (req, res) => {
     try {
-        const { id,nom_clasificacion, des_clasificacion } = req.body;
+        const { nom_clasificacion, des_clasificacion } = req.body;
         const resultado = await clasificacionModel.modificarClasificacion(
             [
-                id,
+                req.params.id,
                 nom_clasificacion, 
                 des_clasificacion,
                 1
@@ -48,15 +48,12 @@ routes.put('/', async (req, res) => {
     }
 });
 
-routes.delete('/', async (req, res) => {
+routes.delete('/:id', async (req, res) => {
     try {
-        const { id, nom_clasificacion, des_clasificacion } = req.body;
         const resultado = await clasificacionModel.modificarClasificacion(
             [
-                id,
-                nom_clasificacion,
-                des_clasificacion,
-                0
+                0,
+                req.params.id
             ]);
         res.status(201).json({message:'Actualizado con exito'});
     } catch (error) {
