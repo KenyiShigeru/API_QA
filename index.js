@@ -4,7 +4,6 @@ const acabadosRoutes = require('./routes/acabadosRoutes');
 const clasificacionesRoutes = require('./routes/clasificacionesRoutes');
 const clientesRoutes = require('./routes/clientesRoutes');
 const cotizacionesRoutes = require('./routes/cotizacionesRoutes');
-const estatusClienteRoutes = require('./routes/estatclienRoutes');
 const estatusCobranzaRoutes = require('./routes/estatusRoutes');
 const formaspagoRoutes = require('./routes/formpagoRoutes');
 const materialesRoutes = require('./routes/materialesRoutes');
