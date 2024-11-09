@@ -45,9 +45,6 @@ app.use('/cotizaciones',cotizacionesRoutes);
 //Zona de los estatus de cobranza
 app.use('/estatuscobranza',estatusCobranzaRoutes);
 
-//Zona de los estatus del cliente
-app.use('/estatuscliente',estatusClienteRoutes);
-
 //Zona de las formas de pago
 app.use('/formaspago',formaspagoRoutes);
 

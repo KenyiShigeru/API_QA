@@ -52,14 +52,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const { nom_tipotrabajo, des_tipotrabajo } = req.body;
-        const resultado = await tipoTrabajoModel.modificarTipoTrabajo(
-            [
-                req.params.id ||null, 
-                nom_tipotrabajo || null, 
-                des_tipotrabajo || null,
-                0
-            ]);
+        const resultado = await tipoTrabajoModel.eliminarTipoTrabajo(req.params.id);
         if (resultado[0].mensaje === 'Tipo de trabajo actualizado correctamente.') {
             res.status(200).json({message:'Actualizado con exito'});
         } else {

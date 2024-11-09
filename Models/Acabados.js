@@ -51,6 +51,21 @@ class AcabadosModel
             });
         });
     }
+
+    eliminarAcabado(acabado)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.conexion.execute('update acabado set alta_acabado = 0 where id_acabado = ?', [acabado], (error, resultados) =>
+            {
+                if (error)
+                {
+                    return reject(error);
+                }
+                resolve(resultados[0]);
+            });
+        });
+    }
 }
 
 module.exports = {AcabadosModel};

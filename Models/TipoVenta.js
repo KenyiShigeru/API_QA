@@ -36,6 +36,16 @@ class TipoVentaModel
             })
         });
     }
+
+    eliminarTipoVenta(id)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('update tipoventa set alta_tipoVenta = 0 where id_tpVenta = ?', [id], (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
+    }
 }
 
 module.exports = {TipoVentaModel};

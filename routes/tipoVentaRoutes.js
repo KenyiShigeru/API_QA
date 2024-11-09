@@ -53,14 +53,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const { nom_tipos_venta, des_tipos_venta } = req.params;
-        const resultado = await tipoVentaModel.modificarTipoVenta(
-            [
-                req.params.id ||null, 
-                nom_tipos_venta || null, 
-                des_tipos_venta || null,
-                0
-            ]);
+        const resultado = await tipoVentaModel.eliminarTipoVenta(req.params.id);
         if (resultado[0].mensaje === 'Tipo de venta actualizado correctamente.') {
             res.status(200).json({message:'Actualizado con exito'});
         } else {

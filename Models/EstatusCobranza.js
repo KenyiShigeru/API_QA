@@ -50,6 +50,22 @@ class EstatusCobranzaModel
             reject(error);
         }
     }
+
+    borrarEstatusCobranza(estatusCobranza)
+    {
+        try
+        {
+            this.conexion.execute('update estatuscobranza set alta_estcobranza = 0 where id_estcobranza = ?', [estatusCobranza], (error, resultados) =>
+            {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            });
+        }
+        catch (error)
+        {
+            reject(error);
+        }
+    }
 }
 
 module.exports = {EstatusCobranzaModel};

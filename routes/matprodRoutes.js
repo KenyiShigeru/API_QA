@@ -59,17 +59,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const { id_material, id_unidad, base, altura, proveedor } = req.body;
-        const resultado = await material_ProduccionModel.modificarMaterial_Produccion(
-            [
-                req.params.id ||null,
-                id_material ||null, 
-                id_unidad || null,
-                base || null,
-                altura || null,
-                proveedor || null,
-                0
-            ]);
+        const resultado = await material_ProduccionModel.eliminarMaterial_Produccion(req.params.id);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {

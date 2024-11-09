@@ -94,6 +94,15 @@ class Material_ProduccionModel
         });
     }
 
+    eliminarMaterial_Produccion(id)
+    {
+        return new Promise((resolve, reject) => {
+            this.connection.execute('update Material_Produccion set alta_mat_prod = 0 where id_tpmaterial = ?', [id], (error, resultado) => {
+                if (error) return reject(error);
+                resolve(resultado[0]);
+            });
+        });
+    }
 
 }
 

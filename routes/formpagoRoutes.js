@@ -50,11 +50,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const resultado = await formaPagoModel.borrarForma_Pago(
-            [
-                req.params.id,
-                0
-            ]);
+        const resultado = await formaPagoModel.borrarForma_Pago(req.params.id);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {

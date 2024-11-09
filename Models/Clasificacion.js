@@ -66,8 +66,8 @@ class ClasificacionModel
     {
         return new Promise((resolve, reject) => {
             this.conexion.execute(
-                'UPDATE clasificacion SET alta_clasificacion = ? WHERE id_clasificacion = ?', 
-                clasificacion,
+                'UPDATE clasificacion SET alta_clasificacion = 0 WHERE id_clasificacion = ?', 
+                [clasificacion],
                 (error, resultados) => {
                     if (error) {
                         return reject(error);

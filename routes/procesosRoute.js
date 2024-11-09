@@ -50,13 +50,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const { nom_proceso } = req.body;
-        const resultado = await procesoModel.modificarProceso(
-            [
-                req.params.id ||null, 
-                nom_proceso || null,
-                0
-            ]);
+        const resultado = await procesoModel.eliminarProceso(req.params.id);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {

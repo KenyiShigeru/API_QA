@@ -52,14 +52,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const { nom_tipopago, des_tipopago } = req.body;
-        const resultado = await tipoPagoModel.modificarTipoPago(
-            [
-                req.params.id ||null, 
-                nom_tipopago || null, 
-                des_tipopago || null,
-                1
-            ]);
+        const resultado = await tipoPagoModel.eliminarTipoPago(req.params.id);
         if (resultado[0].mensaje === 'Tipo de pago actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {

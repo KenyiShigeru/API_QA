@@ -42,6 +42,18 @@ class TipoPagoModel
             });
         });
     }
+
+    eliminarTipoPago(id)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.conexion.execute('update tipopago set alta_tpago = 0 where id_tpago = ?', [id], (error, resultados) =>
+            {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            });
+        });
+    }
 }
 
 module.exports = {TipoPagoModel};

@@ -51,6 +51,21 @@ class TipoTrabajoModel
                 });
             });
     }
+
+    eliminarTipoTrabajo(id)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.conexion.execute('update tipotrabajo set alta_tpTrabajo = 0 where id_tpTrabajo = ?', [id], (error, resultados) =>
+            {
+                if (error)
+                {
+                    return reject(error);
+                }
+                resolve(resultados[0]);
+            });
+        });
+    }
 }
 
 module.exports = {TipoTrabajoModel};

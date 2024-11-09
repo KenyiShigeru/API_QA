@@ -50,11 +50,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const resultado = await clasificacionModel.modificarClasificacion(
-            [
-                0,
-                req.params.id
-            ]);
+        const resultado = await clasificacionModel.borrarClasificacion(req.params.id);
         res.status(201).json({message:'Actualizado con exito'});
     } catch (error) {
         console.error(error);

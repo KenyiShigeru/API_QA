@@ -58,6 +58,14 @@ class ProductoModel {
         });
     }
     
+    eliminarProducto(id) {
+        return new Promise((resolve, reject) => {
+            this.connection.execute('update productos set alta_producto = 0 where id_producto = ?', [id], (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
+    }
     
 }
 

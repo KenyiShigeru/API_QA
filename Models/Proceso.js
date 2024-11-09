@@ -50,6 +50,16 @@ class ProcesoModel
         });
     }
 
+    eliminarProceso(id)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('update procesos set alta_proceso = 0 where id_proceso = ?', [id], (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
+    }
+
 }
 
 module.exports = {Proceso, ProcesoModel};

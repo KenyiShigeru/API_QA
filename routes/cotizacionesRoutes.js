@@ -85,10 +85,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const resultado = await cotizacionModel.borrarCotizacion([
-            req.params.id,
-            0
-    ]);
+        const resultado = await cotizacionModel.borrarCotizacion(req.params.id);
         res.status(201).json({message:'Actualizado con exito'});
     } catch (error) {
         console.error(error);

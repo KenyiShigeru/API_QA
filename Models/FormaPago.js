@@ -70,7 +70,7 @@ class FormaPagoModel
         {
             try
             {
-                this.conexion.execute('update formaPago set estatus = ? where eliminacion = ?', forma, (error, resultados) =>
+                this.conexion.execute('update formaPago set alta_fmPago = 0 where id_fmPago = ?', [forma], (error, resultados) =>
                 {
                     if (error) return reject(error);
                     resolve(resultados[0]);

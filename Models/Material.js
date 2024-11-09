@@ -69,7 +69,7 @@ class MaterialModel
     {
         return new Promise((resolve, reject) =>
         {
-            this.conexion.execute('update material set alta_material = ? where id_material = ?', material, (error, resultados) =>
+            this.conexion.execute('update material set alta_material = 0 where id_material = ?', [material], (error, resultados) =>
             {
                 if (error)
                 {

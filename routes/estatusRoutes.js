@@ -50,14 +50,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const { nom_estatus, des_estatus } = req.body;
-        const resultado = await estatusModel.modificarEstatusCobranza(
-            [
-                req.params.id,
-                nom_estatus, 
-                des_estatus,
-                0
-            ]);
+        const resultado = await estatusModel.borrarEstatusCobranza(req.params.id);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {

@@ -43,8 +43,7 @@ router.put('/:id', async (req, res) => {
 // Ruta DELETE para "eliminar" un acabado usando req.body
 router.delete('/:id', async (req, res) => {
     try {
-        const { nom_acabados, des_acabados } = req.body;
-        const resultado = await acabadosModel.modificarAcabado([req.params.id, nom_acabados, des_acabados, 0]);
+        const resultado = await acabadosModel.eliminarAcabado(req.params.id);
         res.status(200).json({ message: 'Modificado con éxito' });
     } catch (error) {
         console.log(error);

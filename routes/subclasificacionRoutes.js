@@ -53,11 +53,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const resultado = await subclasificacionModel.borrarSubclasificacion(
-            [
-                0,
-                req.params.id
-            ]);
+        const resultado = await subclasificacionModel.borrarSubclasificacion(req.params.id);
         if (resultado[0].mensaje === 'Clasificación borrada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {

@@ -78,30 +78,7 @@ routes.put('/:id', async (req, res) => {
 
 routes.delete('/:id', async (req, res) => {
     try {
-        const 
-        {  
-            id_clasificacion, 
-            id_subclasificacion, 
-            id_tpmaterial, 
-            id_unidad, 
-            apl_inst, 
-            precio_sin_inst, 
-            precio_con_inst, 
-            observaciones 
-        } = req.body;
-        const resultado = await productoModel.modificarProducto(
-            [
-                req.params.id ||null, 
-                id_clasificacion ||null, 
-                id_subclasificacion || null,
-                id_tpmaterial || null, 
-                id_unidad || null,
-                apl_inst || null, 
-                precio_sin_inst || null,
-                precio_con_inst || null, 
-                observaciones || null,
-                0
-            ]);
+        const resultado = await productoModel.eliminarProducto(req.params.id);
         res.status(201).json({message:'Actualizado con exito'});
     } catch (error) {
         console.error(error);

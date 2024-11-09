@@ -65,7 +65,7 @@ class CotizacionModel
     async borrarCotizacion(cotizacion)
     {
         return new Promise((resolve, reject) => {
-            this.conexion.execute('update cotizacion set estatus = ? where eliminacion = ?', cotizacion, (error, resultados) => {
+            this.conexion.execute('update cotizacion set eliminacion = 0 where id_cotizacion = ?', cotizacion, (error, resultados) => {
                 if (error) {
                     return reject(error);
                 }
