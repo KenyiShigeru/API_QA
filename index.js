@@ -8,6 +8,7 @@ const estatusCobranzaRoutes = require('./routes/estatusRoutes');
 const formaspagoRoutes = require('./routes/formpagoRoutes');
 const materialesRoutes = require('./routes/materialesRoutes');
 const materialProduccionRoutes = require('./routes/matprodRoutes');
+const ordenTrabajoRoutes = require('./routes/ordenTrabajoRoutes');
 const procesosRoutes = require('./routes/procesosRoute');
 const productosRoutes = require('./routes/productosRoute');
 const subclasificacionesRoutes = require('./routes/subclasificacionRoutes');
@@ -52,6 +53,9 @@ app.use('/materialesproduccion',materialProduccionRoutes);
 
 //Zona de los materiales
 app.use('/materiales',materialesRoutes);
+
+//Zona de las ordene de trabajo
+app.use('/ordentrabajo',ordenTrabajoRoutes);
 
 //Zona de los procesos
 app.use('/procesos',procesosRoutes);
