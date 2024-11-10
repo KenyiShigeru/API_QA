@@ -1,7 +1,11 @@
 const express = require('express');
 const routes = express.Router();
 var {CotizacionModel} = require('../Models/Cotizacion');
+var {AcabCotizacionModel} = require('../Models/Acab_Cotizacion');
+var {ProductoModel} = require('../Models/Producto');
 const cotizacionModel = new CotizacionModel();
+const acabCotizacionModel = new AcabCotizacionModel();
+const producto = new ProductoModel();
 routes.get('/', async (req, res) => {
     try {
         const cotizaciones = await cotizacionModel.obtenerCotizaciones();
@@ -12,34 +16,58 @@ routes.get('/', async (req, res) => {
     }
 });
 
-routes.post('/', async (req, res) => {
+routes.get('/:id', async (req, res) => {
+    try {
+        const cotizacion = await acabCotizacionModel.obtenerAcabCotizacion(req.params.id);
+        res.send(cotizacion);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener la cotización' });
+    }
+});
+
+/*La ruta de producto es para identificar los productos que se van a agregar a la cotizacion
+y el id es el id de la cotizacion*/
+routes.post('/producto/:id', async (req, res) => {
     try {
          const 
          {
-            idCliente,
-            idtpVenta,
-            subtotal,
-            iva,
-            total,
-            fechavigencia,
-            estatus,
-            facturar,
-            personal,
-            observaciones
+            idProducto,
+            cantidad,
+            base,
+            altura,
+            precioUnitario,
+            importe
         } = req.body;
-        const resultado = await cotizacionModel.insertarCotizacion([
-            idCliente,
-            idtpVenta,
-            subtotal,
-            iva,
-            total,
-            fechavigencia,
-            estatus,
-            facturar,
-            personal,
-            observaciones,
-            0
-        ]);
+        const resultado = await producto.agregarProductoCotizacion(
+            [
+                idProducto,
+                cantidad,
+                base,
+                altura,
+                precioUnitario,
+                importe                                 
+            ]
+        );
+        res.status(201).json({message:'Agregado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al insertar la cotización' });
+    }
+});
+
+routes.post('/acab_cotizacion/:id', async (req, res) => {
+    try {
+         const 
+         {
+            id_acabado,
+        } = req.body;
+        const resultado = await acabCotizacionModel.agregarAcabCotizacion(
+            [
+                req.params.id,
+                id_acabado,                                
+            ]
+        );
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
@@ -92,5 +120,33 @@ routes.delete('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar la cotización' });
     }
 });
+
+routes.post('/productos/:id', 
+    async (req, res) => 
+        {
+            try {
+                const 
+                {
+                    idProducto,
+                    cantidad,
+                    precio,
+                    descuento,
+                    total
+                } = req.body;
+                const resultado = await acabCotizacionModel.insertarAcabCotizacion([
+                    req.params.id,
+                    idProducto,
+                    cantidad,
+                    precio,
+                    descuento,
+                    total
+                ]);
+                res.status(201).json({message:'Agregado con exito'});
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ error: 'Error al insertar la cotización' });
+            }
+        }
+);
 
 module.exports = routes;

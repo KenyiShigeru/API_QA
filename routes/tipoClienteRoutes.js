@@ -32,7 +32,7 @@ routes.post('/', async (req, res) => {
 routes.put('/:id', async (req, res) => {
     try {
         const { nom_tipocliente, des_tipocliente } = req.params;
-        const resultado = await tipoClienteModel.modificarTipoPago(
+        const resultado = await tipoClienteModel.modificarTipoCliente(
             [
                 req.params.id ||null, 
                 nom_tipocliente || null, 

@@ -30,6 +30,26 @@ class ProcesoModel
         });
     }
 
+    agregarProcesoCotizacion(proceso)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('call agg_proc_cotizacion(?, ?)', proceso, (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
+    }
+
+    obtenerProcesosCotizacion(id)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('call consulta_proceso_cotizacion(?)',[id], (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
+    }
+
     agregarProceso(proceso)
     {
         return new Promise((resolve, reject) => {

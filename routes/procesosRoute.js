@@ -14,6 +14,29 @@ routes.get('/',async (req,res)=>{
     }
 });
 
+
+//Aqui se manda el id de la cotizacion para obtener los procesos que se le asignaron
+routes.get('/:id', async (req, res) => {
+    try {
+        const proceso = await procesoModel.obtenerProcesosCotizacion(req.params.id);
+        res.send(proceso);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener el producto' });
+    }
+});
+
+//Aqui se manda el id de la cotizacion para obtener los procesos que se le asignaron
+routes.post('/:id', async (req, res) => {
+    try {
+        const proceso = await procesoModel.agregarProcesoCotizacion(req.params.id);
+        res.send(proceso);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener el producto' });
+    }
+});
+
 routes.post('/', async (req, res) => {
     try {
         const { nom_proceso } = req.body;
@@ -30,11 +53,12 @@ routes.post('/', async (req, res) => {
 
 routes.put('/:id', async (req, res) => {
     try {
-        const { nom_proceso } = req.body;
+        const { nom_proceso, descripcion } = req.body;
         const resultado = await procesoModel.modificarProceso(
             [
                 req.params.id ||null, 
                 nom_proceso || null,
+                descripcion || null,
                 1
             ]);
         if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {

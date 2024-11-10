@@ -1,21 +1,5 @@
 const conexion = require('../.env/conexion');
 
-class Cotizacion
-{
-    constructor(idCotizacion, id_cliente, idtipoVenta, 
-        subTotal, iva, total, fechaVigencia, estatus)
-    {
-        this.idCotizacion = idCotizacion;
-        this.id_cliente = id_cliente;
-        this.idtipoVenta = idtipoVenta;
-        this.subTotal = subTotal;
-        this.iva = iva;
-        this.total = total;
-        this.fechaVigencia = fechaVigencia;
-        this.estatus = estatus;
-    }
-
-}
 
 class CotizacionModel
 {
@@ -39,7 +23,7 @@ class CotizacionModel
     async insertarCotizacion(cotizacion)
     {
         return new Promise((resolve, reject) => {
-            this.conexion.execute('call agg.cotizacion(?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)', cotizacion, (error, resultados) => {
+            this.conexion.execute('call agg.cotizacion(?,?,?,?,?,?,?,?,?,?)', cotizacion, (error, resultados) => {
                 if (error) {
                     return reject(error);
                 }
@@ -77,4 +61,4 @@ class CotizacionModel
 
 }
 
-module.exports = {Cotizacion, CotizacionModel};
+module.exports = {CotizacionModel};

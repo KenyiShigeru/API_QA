@@ -32,6 +32,23 @@ class ProductoModel {
         });
     }
 
+    obtenerProductosCotizacion(id) {
+        return new Promise((resolve, reject) => {
+            this.connection.execute('call consulta_productos_cotizacion(?)', [id], (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
+    }
+
+    obtenerProductosOrdenTrabajo(id) {
+        return new Promise((resolve, reject) => {
+            this.connection.execute('call consulta_productos_cotizacion(?)', [id], (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
+    }
 
     async insertarProducto(producto) {
         try {
@@ -61,6 +78,17 @@ class ProductoModel {
     eliminarProducto(id) {
         return new Promise((resolve, reject) => {
             this.connection.execute('update productos set alta_producto = 0 where id_producto = ?', [id], (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
+    }
+
+    agregarProductoCotizacion(producto) {
+        return new Promise((resolve, reject) => {
+            this.connection.execute('call agg_product_cotizacion(?,?,?,?,?,?,?)', 
+                producto, 
+                (error, resultados) => {
                 if (error) return reject(error);
                 resolve(resultados[0]);
             })

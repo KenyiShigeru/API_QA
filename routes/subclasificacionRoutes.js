@@ -14,12 +14,13 @@ routes.get('/',async (req,res)=>{
     }
 });
 
-
-routes.post('/', async (req, res) => {
+//Id de la clasificacion a la que pertenece
+routes.post('/:id', async (req, res) => {
     try {
         const { nom_subclasificacion, des_subclasificacion } = req.body;
         const resultado = await subclasificacionModel.insertarSubclasificacion(
             [
+                req.params.id,
                 nom_subclasificacion, 
                 des_subclasificacion
             ]);

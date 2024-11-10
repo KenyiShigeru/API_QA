@@ -15,19 +15,7 @@ class ClienteModel
             
             this.conexion.execute(
                 'CALL agg_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-                [
-                    cliente.nombre,
-                    cliente.apellidopaterno,
-                    cliente.apellidomaterno,
-                    cliente.rutaconstancia,
-                    cliente.rfc,
-                    cliente.nomnegocio,
-                    cliente.domicilio,
-                    cliente.telWP,
-                    cliente.telFJ,
-                    cliente.correo,
-                    cliente.tpCliente
-                ],
+                cliente,
                 (error, results) => {
                     if (error) {
                         return reject(error);
