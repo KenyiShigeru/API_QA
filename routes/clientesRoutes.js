@@ -31,17 +31,17 @@ routes.post("/",
         //console.log(req.params);
         const resultado = await clienteModel.insertarCliente(
             [
-                nombre,
-                apellidopaterno,
-                apellidomaterno,
-                rutaconstancia,
-                rfc,
-                nomnegocio,
-                domicilio,
-                telWP,
-                telFJ,
-                correo,
-                tpCliente
+                nombre||null,
+                apellidopaterno||null,
+                apellidomaterno||null,
+                rutaconstancia||null,
+                rfc||null,
+                nomnegocio||null,
+                domicilio||null,
+                telWP||null,
+                telFJ||null,
+                correo||null,
+                tpCliente||null
             ]
         );
         //console.log(resultado.id_cliente);
