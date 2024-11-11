@@ -1,5 +1,7 @@
 var express = require('express');
 var cors = require('cors');
+var morgan = require('morgan');
+
 const acabadosRoutes = require('./routes/acabadosRoutes');
 const clasificacionesRoutes = require('./routes/clasificacionesRoutes');
 const clientesRoutes = require('./routes/clientesRoutes');
@@ -25,6 +27,8 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "Content-Type");
     next();
 });
+
+app.use(morgan('dev'));
 
 app.use(express.json());
 //DE AQUI PARA abajo es para las rutas
