@@ -28,57 +28,57 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 //DE AQUI PARA abajo es para las rutas
-app.get('/',(req,res)=>res.send("<h1>Ruta de inicio con nodemon</h1>"));
+app.get('/api',(req,res)=>res.send("<h1>Ruta de inicio con nodemon</h1>"));
 
 //Zona de los acabados
-app.use('/acabados',acabadosRoutes);
+app.use('/api/acabados',acabadosRoutes);
 
 //Zona de las clasificaciones
-app.use('/clasificaciones', clasificacionesRoutes);
+app.use('/api/clasificaciones', clasificacionesRoutes);
 
 //Zona de los clientes
-app.use('/clientes',clientesRoutes);
+app.use('/api/clientes',clientesRoutes);
 
 //Zona de las cotizaciones
-app.use('/cotizaciones',cotizacionesRoutes);
+app.use('/api/cotizaciones',cotizacionesRoutes);
 
 //Zona de los estatus de cobranza
-app.use('/estatuscobranza',estatusCobranzaRoutes);
+app.use('/api/estatuscobranza',estatusCobranzaRoutes);
 
 //Zona de las formas de pago
-app.use('/formaspago',formaspagoRoutes);
+app.use('/api/formaspago',formaspagoRoutes);
 
 //Zona de los materiales de produccion
-app.use('/materialesproduccion',materialProduccionRoutes);
+app.use('/api/materialesproduccion',materialProduccionRoutes);
 
 //Zona de los materiales
-app.use('/materiales',materialesRoutes);
+app.use('/api/materiales',materialesRoutes);
 
 //Zona de las ordene de trabajo
-app.use('/ordentrabajo',ordenTrabajoRoutes);
+app.use('/api/ordentrabajo',ordenTrabajoRoutes);
 
 //Zona de los procesos
-app.use('/procesos',procesosRoutes);
+app.use('/api/procesos',procesosRoutes);
 
 //Zona de los productos
-app.use('/producto',productosRoutes);
+app.use('/api/producto',productosRoutes);
 
 //Zona de las subclasificaciones
-app.use('/subclasificaciones',subclasificacionesRoutes);
+app.use('/api/subclasificaciones',subclasificacionesRoutes);
 
 //Zona de los tipos de cliente
-app.use('/tipocliente',tipoClienteRoutes);
+app.use('/api/tipocliente',tipoClienteRoutes);
 
 //Zona de los tipos de pago
-app.use('/tipopago',tipoPagoRoutes);
+app.use('/api/tipopago',tipoPagoRoutes);
         
 //Zona de los tipos de trabajo
-app.use('/tipotrabajo',tipoTrabajosRoutes);
+app.use('/api/tipotrabajo',tipoTrabajosRoutes);
 
 //Zona de los tipos de venta
-app.use('/tipoventa',tipoVentasRoutes);
+app.use('/api/tipoventa',tipoVentasRoutes);
 
 //Zona de las unidades
-app.use('/unidades',unidadesRoutes);
+app.use('/api/unidades',unidadesRoutes);
 
 app.listen("3000",()=>console.log("El servidor esta corriendo en el puerto 3000"));
