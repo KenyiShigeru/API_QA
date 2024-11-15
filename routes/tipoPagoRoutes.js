@@ -14,6 +14,18 @@ routes.get('/',async (req,res)=>{
     }
 });
 
+routes.get('/:id',async (req,res)=>{
+    try{
+        const tiposPago = await tipoPagoModel.obtenerTiposPagosId(req.params.id);
+        res.send(tiposPago);
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+});
+
 routes.post('/', async (req, res) => {
     try {
         const { nom_tipopago, des_tipopago } = req.body;

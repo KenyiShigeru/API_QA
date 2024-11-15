@@ -14,6 +14,18 @@ routes.get('/',async (req,res)=>{
     }
 });
 
+routes.get('/:id',async (req,res)=>{
+    try{
+        const tiposCliente = await tipoClienteModel.obtenerTiposClientesId(req.params.id);
+        res.send(tiposCliente);
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+});
+
 routes.post('/', async (req, res) => {
     try {
         const { nom_tipocliente, des_tipocliente } = req.body;

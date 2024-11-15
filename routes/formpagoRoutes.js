@@ -12,6 +12,16 @@ routes.get('/', async (req, res) => {
     }
 });
 
+routes.get('/:id', async (req, res) => {
+    try {
+        const fpago = await formaPagoModel.obtenerFormasPagos(req.params.id);
+        res.send(fpago);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener las formas de pago' });
+    }
+});
+
 routes.post('/', async (req, res) => {
     try {
         const { nom_fpago, des_fpago } = req.body;

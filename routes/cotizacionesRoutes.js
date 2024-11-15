@@ -18,6 +18,16 @@ routes.get('/', async (req, res) => {
 
 routes.get('/:id', async (req, res) => {
     try {
+        const cotizaciones = await cotizacionModel.obtenerCotizacionesId(req.params.id);
+        res.send(cotizaciones);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener las cotizaciones' });
+    }
+});
+
+routes.get('/acabado/:id', async (req, res) => {
+    try {
         const cotizacion = await acabCotizacionModel.obtenerAcabCotizacion(req.params.id);
         res.send(cotizacion);
     } catch (error) {

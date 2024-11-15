@@ -12,6 +12,16 @@ routes.get('/', async (req, res) => {
     }
 });
 
+routes.get('/:id', async (req, res) => {
+    try {
+        const clientes = await clienteModel.obtenerClientesId(req.params.id);
+        res.send(clientes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los clientes' });
+    }
+});
+
 routes.post("/", 
     async (req, res) => {
     try {

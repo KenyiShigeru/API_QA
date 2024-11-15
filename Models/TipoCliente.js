@@ -19,7 +19,7 @@ class TipoClienteModel
         });
     }
 
-    obtenerTiposClientes(id)
+    obtenerTiposClientesId(id)
     {
         return new Promise((resolve, reject) =>
         {

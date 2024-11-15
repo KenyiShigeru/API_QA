@@ -14,6 +14,18 @@ routes.get('/',async (req,res)=>{
     }
 });
 
+routes.get('/:id',async (req,res)=>{
+    try{
+        const subclasificaciones = await subclasificacionModel.obtenerSubclasificacionesId(req.params.id);
+        res.send(subclasificaciones);
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+});
+
 //Id de la clasificacion a la que pertenece
 routes.post('/:id', async (req, res) => {
     try {

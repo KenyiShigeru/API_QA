@@ -15,6 +15,16 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+    try {
+        const acabados = await acabadosModel.obtenerAcabadosId(req.params.id);
+        res.send(acabados);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+});
+
 // Ruta POST para agregar un nuevo acabado usando req.body
 router.post('/', async (req, res) => {
     try {

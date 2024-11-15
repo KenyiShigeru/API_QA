@@ -12,6 +12,16 @@ routes.get('/', async (req, res) => {
     }
 });
 
+routes.get('/:id', async (req, res) => {
+    try {
+        const productos = await productoModel.obtenerProductosId(req.params.id);
+        res.send(productos);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+});
+
 //Otro get para ver que productos estan asignados a una cotizacion
 routes.get('/cotizacion/:id', async (req, res) => {
     try {

@@ -14,9 +14,21 @@ routes.get('/',async (req,res)=>{
     }
 });
 
+routes.get('/:id',async (req,res)=>{
+    try{
+        const procesos = await procesoModel.obtenerProcesosId(req.params.id);
+        res.send(procesos);
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+});
+
 
 //Aqui se manda el id de la cotizacion para obtener los procesos que se le asignaron
-routes.get('/:id', async (req, res) => {
+routes.get('/cotizacion/:id', async (req, res) => {
     try {
         const proceso = await procesoModel.obtenerProcesosCotizacion(req.params.id);
         res.send(proceso);

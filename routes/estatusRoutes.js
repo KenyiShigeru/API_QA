@@ -12,6 +12,16 @@ routes.get('/', async (req, res) => {
     }
 });
 
+routes.get('/:id', async (req, res) => {
+    try {
+        const estatus = await estatusModel.obtenerEstatusCobranzaId(req.params.id);
+        res.send(estatus);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los estatus' });
+    }
+});
+
 routes.post('/', async (req, res) => {
     try {
         const { nom_estatus, des_estatus } = req.body;

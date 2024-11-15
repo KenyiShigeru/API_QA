@@ -13,6 +13,17 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/:id", async (req, res) => {
+    try {
+        const ordenes = await Orden_TrabajoModel.obtenerOrdenesTrabajoId(req.params.id);
+        res.send(ordenes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener las ordenes de trabajo' });
+    }
+});
+
+
 router.get("/abonos/:id", async (req, res) => {
     try {
         const ordenes = await Orden_TrabajoModel.obtenerOrdenesTrabajoPagadas(req.params.id);

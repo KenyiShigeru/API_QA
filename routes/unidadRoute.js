@@ -16,6 +16,19 @@ routes.get('/',async (req,res)=>{
 });
 
 
+routes.get('/:id',async (req,res)=>{
+    try{
+        const unidades = await unidadModel.obtenerUnidadesId(req.params.id);
+        res.send(unidades);
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos' });
+    }
+});
+
+
 routes.post('/', async (req, res)=>{
     try{
         const {nom_unidad, des_unidad} = req.body;
