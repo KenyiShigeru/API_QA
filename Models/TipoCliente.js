@@ -19,6 +19,20 @@ class TipoClienteModel
         });
     }
 
+    obtenerTiposClientes(id)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.conexion.execute('call consulta_tpCliente_ID(?)', 
+                [id],
+                (error, resultados) =>
+            {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            });
+        });
+    }
+
     insertarTipoCliente(tipo)
     {
         return new Promise((resolve, reject) =>

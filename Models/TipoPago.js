@@ -19,6 +19,20 @@ class TipoPagoModel
         });
     }
 
+    obtenerTiposPagosId(id)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.conexion.execute('call consulta_tipoPago_ID(?)', 
+                [id],
+                (error, resultados) =>
+            {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            });
+        });
+    }
+
     insertarTipoPago(tipo)
     {
         return new Promise((resolve, reject) =>
@@ -47,7 +61,7 @@ class TipoPagoModel
     {
         return new Promise((resolve, reject) =>
         {
-            this.conexion.execute('update tipopago set alta_tpago = 0 where id_tpago = ?', [id], (error, resultados) =>
+            this.conexion.execute('call baja_tipoPago(?)', [id], (error, resultados) =>
             {
                 if (error) return reject(error);
                 resolve(resultados[0]);

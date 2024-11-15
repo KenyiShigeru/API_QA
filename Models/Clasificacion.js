@@ -29,6 +29,20 @@ class ClasificacionModel
         });
     }
 
+    async obtenerClasificacionesId(identificador)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('call  consulta_clasificacion_ID(?)',
+                [identificador],
+                (error, resultados) => {
+                    if (error)
+                    {
+                        return reject(error);
+                    }
+                    resolve(resultados[0]);
+            })
+        });
+    }
 
     async insertarClasificacion(clasificacion)
     {
@@ -66,7 +80,7 @@ class ClasificacionModel
     {
         return new Promise((resolve, reject) => {
             this.conexion.execute(
-                'UPDATE clasificacion SET alta_clasificacion = 0 WHERE id_clasificacion = ?', 
+                'call baja_clasificacion(?)', 
                 [clasificacion],
                 (error, resultados) => {
                     if (error) {

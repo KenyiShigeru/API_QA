@@ -20,6 +20,20 @@ class CotizacionModel
         });
     }
 
+    obtenerCotizacionesId(id)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('call consulta_cotizacion_ID(?)', 
+                [id],
+                (error, resultados) => {
+                if (error) {
+                    return reject(error);
+                }
+                resolve(resultados[0]);
+            })
+        });
+    }
+
     async insertarCotizacion(cotizacion)
     {
         return new Promise((resolve, reject) => {

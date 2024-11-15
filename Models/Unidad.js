@@ -29,6 +29,21 @@ class UnidadModel{
         });
     }
 
+    async obtenerUnidadesId(id){
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('call  consulta_unidad_ID(?)',
+                [id], 
+                (error, resultados) => {
+                    if (error)
+                    {
+                        return reject(error);
+                    }
+                    resolve(resultados[0]);//Se agrega ese parametro de cero
+                    //Por que si no me arroja datos de información de los campos
+            })
+        });
+    }
+
     async insertarUnidad(unidad)
     {
         try{

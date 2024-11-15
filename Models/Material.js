@@ -48,6 +48,23 @@ class MaterialModel
         });
     }
 
+    obtenerMaterialesId(id)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.conexion.execute('call consulta_material_ID(?)', 
+                [id],
+                (error, resultados) =>
+            {
+                if (error)
+                {
+                    return reject(error);
+                }
+                resolve(resultados[0]);
+            });
+        });
+    }
+
     //Modifica un material
     modificarMaterial(material)
     {
@@ -69,7 +86,7 @@ class MaterialModel
     {
         return new Promise((resolve, reject) =>
         {
-            this.conexion.execute('update material set alta_material = 0 where id_material = ?', [material], (error, resultados) =>
+            this.conexion.execute('call baja_material(?)', [material], (error, resultados) =>
             {
                 if (error)
                 {

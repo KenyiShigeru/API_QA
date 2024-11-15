@@ -26,6 +26,27 @@ class FormaPagoModel
         });
     }
 
+    obtenerFormasPagos(id)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            try
+            {
+                this.conexion.execute('call consulta_formaPago?ID(?)', 
+                    [id],
+                    (error, resultados) =>
+                {
+                    if (error) return reject(error);
+                    resolve(resultados[0]);
+                });
+            }
+            catch (error)
+            {
+                reject(error);
+            }
+        });
+    }
+
     insertarFormaPago(forma)
     {
         return new Promise((resolve, reject) =>
@@ -70,7 +91,7 @@ class FormaPagoModel
         {
             try
             {
-                this.conexion.execute('update formaPago set alta_fmPago = 0 where id_fmPago = ?', [forma], (error, resultados) =>
+                this.conexion.execute('call baja_formaPago(?)', [forma], (error, resultados) =>
                 {
                     if (error) return reject(error);
                     resolve(resultados[0]);

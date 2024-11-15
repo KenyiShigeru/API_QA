@@ -30,6 +30,18 @@ class ProcesoModel
         });
     }
 
+    obtenerProcesosId(id)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('call consulta_proceso_ID(?)', 
+                [id],
+                (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
+    }
+
     agregarProcesoCotizacion(proceso)
     {
         return new Promise((resolve, reject) => {
@@ -73,7 +85,7 @@ class ProcesoModel
     eliminarProceso(id)
     {
         return new Promise((resolve, reject) => {
-            this.conexion.execute('update procesos set alta_proceso = 0 where id_proceso = ?', [id], (error, resultados) => {
+            this.conexion.execute('call baja_proceso(?)', [id], (error, resultados) => {
                 if (error) return reject(error);
                 resolve(resultados[0]);
             })

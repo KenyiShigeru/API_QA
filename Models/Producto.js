@@ -32,6 +32,17 @@ class ProductoModel {
         });
     }
 
+    obtenerProductosId(id) {
+        return new Promise((resolve, reject) => {
+            this.connection.execute('call consulta_producto(?)', 
+                [id],
+                (error, resultados) => {
+                if (error) return reject(error);
+                resolve(resultados[0]);
+            })
+        });
+    }
+
     obtenerProductosCotizacion(id) {
         return new Promise((resolve, reject) => {
             this.connection.execute('call consulta_productos_cotizacion(?)', [id], (error, resultados) => {
@@ -77,7 +88,7 @@ class ProductoModel {
     
     eliminarProducto(id) {
         return new Promise((resolve, reject) => {
-            this.connection.execute('update productos set alta_producto = 0 where id_producto = ?', [id], (error, resultados) => {
+            this.connection.execute('call baja_producto(?)', [id], (error, resultados) => {
                 if (error) return reject(error);
                 resolve(resultados[0]);
             })

@@ -28,6 +28,20 @@ class SubclasificacionModel
         });
     }
 
+    obtenerSubclasificacionesId(id)
+    {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('call consulta_subclasificacion_ID(?)',
+            [id], 
+                (error, resultados) => {
+                if (error) {    
+                    return reject(error);
+                }    
+                resolve(resultados[0]); 
+            })
+        });
+    }
+
     async insertarSubclasificacion(subclasificacion)
     {
         return new Promise((resolve, reject) => {
@@ -62,19 +76,20 @@ class SubclasificacionModel
     }
 
 
-    async borrarSubclasificacion(subclasificacion)
+
+    async borrarSubClasificacion(clasificacion)
     {
         return new Promise((resolve, reject) => {
             this.conexion.execute(
-                'UPDATE subclasificaciones SET alta_subclasificacion = 0 WHERE id_subclasificacion = ?', 
-                [subclasificacion],
+                'call baja_subclasificacion(?)', 
+                [clasificacion],
                 (error, resultados) => {
                     if (error) {
                         return reject(error);
                     }
                     resolve(resultados[0]);
                 }
-            )
+            );
         });
     }
 

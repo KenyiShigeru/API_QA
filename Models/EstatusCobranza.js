@@ -19,6 +19,20 @@ class EstatusCobranzaModel
        });
     }
 
+    obtenerEstatusCobranzaId(identificador)
+    {
+       return new Promise((resolve, reject) =>
+       {
+           this.conexion.execute('call consulta_estatusCobranza_ID(?)', 
+            [identificador], 
+            (error, resultados) =>
+           {
+               if (error) return reject(error);
+               resolve(resultados[0]);
+           });
+       });
+    }
+
     insertarEstatusCobranza(estatusCobranza)
     {
         try
@@ -55,7 +69,7 @@ class EstatusCobranzaModel
     {
         try
         {
-            this.conexion.execute('update estatuscobranza set alta_estcobranza = 0 where id_estcobranza = ?', [estatusCobranza], (error, resultados) =>
+            this.conexion.execute('call baja_estCobranza(?)', [estatusCobranza], (error, resultados) =>
             {
                 if (error) return reject(error);
                 resolve(resultados[0]);

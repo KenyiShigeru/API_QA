@@ -9,14 +9,12 @@ const cotizacionesRoutes = require('./routes/cotizacionesRoutes');
 const estatusCobranzaRoutes = require('./routes/estatusRoutes');
 const formaspagoRoutes = require('./routes/formpagoRoutes');
 const materialesRoutes = require('./routes/materialesRoutes');
-const materialProduccionRoutes = require('./routes/matprodRoutes');
 const ordenTrabajoRoutes = require('./routes/ordenTrabajoRoutes');
 const procesosRoutes = require('./routes/procesosRoute');
 const productosRoutes = require('./routes/productosRoute');
 const subclasificacionesRoutes = require('./routes/subclasificacionRoutes');
 const tipoClienteRoutes = require('./routes/tipoclienteRoutes');
 const tipoPagoRoutes = require('./routes/tipoPagoRoutes');
-const tipoTrabajosRoutes = require('./routes/tipotrabajoRoutes');
 const tipoVentasRoutes = require('./routes/tipoventaRoutes');
 const unidadesRoutes = require('./routes/unidadRoute');
 
@@ -52,9 +50,6 @@ app.use('/api/estatuscobranza',estatusCobranzaRoutes);
 //Zona de las formas de pago
 app.use('/api/formaspago',formaspagoRoutes);
 
-//Zona de los materiales de produccion
-app.use('/api/materialesproduccion',materialProduccionRoutes);
-
 //Zona de los materiales
 app.use('/api/materiales',materialesRoutes);
 
@@ -75,9 +70,6 @@ app.use('/api/tipocliente',tipoClienteRoutes);
 
 //Zona de los tipos de pago
 app.use('/api/tipopago',tipoPagoRoutes);
-        
-//Zona de los tipos de trabajo
-app.use('/api/tipotrabajo',tipoTrabajosRoutes);
 
 //Zona de los tipos de venta
 app.use('/api/tipoventa',tipoVentasRoutes);
