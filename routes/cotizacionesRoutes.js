@@ -36,6 +36,43 @@ routes.get('/acabado/:id', async (req, res) => {
     }
 });
 
+routes.post('/', async (req, res) => {
+    try {
+         const 
+         {
+            idCliente,
+            idtpVenta,
+            subtotal,
+            iva,
+            total,
+            fechavigencia,
+            facturar,
+            personal,
+            observaciones,
+            correo_del_personal
+        } = req.body;
+        const resultado = await producto.agregarProductoCotizacion(
+            [
+                idCliente,
+                idtpVenta,
+                subtotal,
+                iva,
+                total,
+                fechavigencia,
+                facturar,
+                personal,
+                observaciones,
+                correo_del_personal                                
+            ]
+        );
+        res.status(201).json({message:'Agregado con exito'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al insertar la cotización' });
+    }
+});
+
+
 /*La ruta de producto es para identificar los productos que se van a agregar a la cotizacion
 y el id es el id de la cotizacion*/
 routes.post('/producto/:id', async (req, res) => {
