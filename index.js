@@ -17,6 +17,7 @@ const tipoClienteRoutes = require('./routes/tipoclienteRoutes');
 const tipoPagoRoutes = require('./routes/tipoPagoRoutes');
 const tipoVentasRoutes = require('./routes/tipoventaRoutes');
 const unidadesRoutes = require('./routes/unidadRoute');
+const prod_cotRoutes = require('./routes/prod_cotRoute');
 
 var app = express();
 app.use((req, res, next) => {
@@ -61,6 +62,8 @@ app.use('/api/procesos',procesosRoutes);
 
 //Zona de los productos
 app.use('/api/producto',productosRoutes);
+
+app.use('/api/prodcot',prod_cotRoutes);
 
 //Zona de las subclasificaciones
 app.use('/api/subclasificaciones',subclasificacionesRoutes);
