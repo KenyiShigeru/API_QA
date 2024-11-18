@@ -51,7 +51,7 @@ routes.post('/', async (req, res) => {
             observaciones,
             correo_del_personal
         } = req.body;
-        const resultado = await producto.agregarProductoCotizacion(
+        const resultado = await cotizacionModel.insertarCotizacion(
             [
                 idCliente,
                 idtpVenta,
