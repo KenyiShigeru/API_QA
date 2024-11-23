@@ -34,7 +34,7 @@ class ProductoModel {
 
     obtenerProductosId(id) {
         return new Promise((resolve, reject) => {
-            this.connection.execute('call consulta_producto(?)', 
+            this.connection.execute('call consulta_producto_ID(?)',
                 [id],
                 (error, resultados) => {
                 if (error) return reject(error);
