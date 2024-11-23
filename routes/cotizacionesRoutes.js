@@ -65,7 +65,7 @@ routes.post('/', async (req, res) => {
                 correo_del_personal                                
             ]
         );
-        res.status(201).json({message:'Agregado con exito'});
+        res.status(201).json(resultado);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al insertar la cotización' });
