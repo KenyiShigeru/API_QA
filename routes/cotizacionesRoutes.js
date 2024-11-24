@@ -92,7 +92,7 @@ routes.post('/producto/:id', async (req, res) => {
                 req.params.id,
                 idProducto,
                 cantidad,
-                base,
+                base, 
                 altura,
                 precioUnitario,
                 importe                                 
