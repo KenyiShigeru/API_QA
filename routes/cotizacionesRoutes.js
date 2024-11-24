@@ -9,7 +9,6 @@ const producto = new ProductoModel();
 routes.get('/', async (req, res) => {
     try {
         const cotizaciones = await cotizacionModel.obtenerCotizaciones();
-        console.log(cotizaciones);
         res.send(cotizaciones);
     } catch (error) {
         console.error(error);
