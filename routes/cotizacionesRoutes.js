@@ -9,6 +9,7 @@ const producto = new ProductoModel();
 routes.get('/', async (req, res) => {
     try {
         const cotizaciones = await cotizacionModel.obtenerCotizaciones();
+        console.log(cotizaciones);
         res.send(cotizaciones);
     } catch (error) {
         console.error(error);
@@ -88,6 +89,7 @@ routes.post('/producto/:id', async (req, res) => {
         } = req.body;
         const resultado = await producto.agregarProductoCotizacion(
             [
+                req.params.id,
                 idProducto,
                 cantidad,
                 base,
