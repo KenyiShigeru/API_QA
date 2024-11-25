@@ -4,9 +4,7 @@ var {FormaPagoModel} = require('../Models/FormaPago');
 const formaPagoModel = new FormaPagoModel();
 routes.get('/', async (req, res) => {
     try {
-        console.log("Cayo el error en el get vacio antes de la consulta");
         const fpago = await formaPagoModel.obtenerFormasPagos();
-        console.log("Cayo el error en el get vacio"); 
         res.send(fpago);
     } catch (error) {
         console.error(error);
@@ -16,9 +14,7 @@ routes.get('/', async (req, res) => {
 
 routes.get('/:id', async (req, res) => {
     try {
-        console.log("Cayo el error en el get con id antes de la consulta");
         const fpago = await formaPagoModel.obtenerFormasPagosId(req.params.id);
-        console.log("Cayo el error en el get con id");
         res.send(fpago);
     } catch (error) {
         console.error(error);
