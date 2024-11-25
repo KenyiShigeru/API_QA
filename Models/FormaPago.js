@@ -26,13 +26,13 @@ class FormaPagoModel
         });
     }
 
-    obtenerFormasPagos(id)
+    obtenerFormasPagosId(id)
     {
         return new Promise((resolve, reject) =>
         {
             try
             {
-                this.conexion.execute('call consulta_formaPago?ID(?)', 
+                this.conexion.execute('call consulta_formaPagoID(?)', 
                     [id],
                     (error, resultados) =>
                 {
