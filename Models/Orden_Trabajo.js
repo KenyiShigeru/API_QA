@@ -44,6 +44,19 @@ class Orden_Trabajo
             )
         });
     }
+
+    async agregarOrdenTrabajo(datos) {
+        return new Promise((resolve, reject) => {
+            this.conexion.execute('call insertar_ordenTrabajo(?,?,?)',datos,
+                (error, results) =>{
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(results[0]);
+                }
+            )
+        });
+    }
 }
 
 module.exports = {Orden_Trabajo};
