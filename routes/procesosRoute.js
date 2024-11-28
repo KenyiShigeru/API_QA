@@ -34,27 +34,29 @@ routes.get('/cotizacion/:id', async (req, res) => {
         res.send(proceso);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error al obtener el producto' });
+        res.status(500).json({ error: 'Error al agregar' });
     }
 });
 
 //Aqui se manda el id de la cotizacion para obtener los procesos que se le asignaron
-routes.post('/:id', async (req, res) => {
+routes.post('/cotizacion/:id', async (req, res) => {
     try {
-        const proceso = await procesoModel.agregarProcesoCotizacion(req.params.id);
-        res.send(proceso);
+        const { id_proceso } = req.body;
+        const proceso = await procesoModel.agregarProcesoCotizacion([req.params.id, id_proceso]);
+        res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error al obtener el producto' });
+        res.status(500).json({ error: 'Error al agregar' });
     }
 });
 
 routes.post('/', async (req, res) => {
     try {
-        const { nom_proceso } = req.body;
+        const { nom_proceso, desc_proceso } = req.body;
         const resultado = await procesoModel.agregarProceso(
             [
-                nom_proceso
+                nom_proceso,
+                desc_proceso
             ]);
         res.status(201).json({message:'Agregado con exito'});
     } catch (error) {
@@ -70,10 +72,9 @@ routes.put('/:id', async (req, res) => {
             [
                 req.params.id ||null, 
                 nom_proceso || null,
-                descripcion || null,
-                1
+                descripcion || null
             ]);
-        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+        if (resultado[0].mensaje === 'Proceso actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el material' });
@@ -87,7 +88,7 @@ routes.put('/:id', async (req, res) => {
 routes.delete('/:id', async (req, res) => {
     try {
         const resultado = await procesoModel.eliminarProceso(req.params.id);
-        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+        if (resultado[0].mensaje === 'Proceso actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el material' });

@@ -32,7 +32,7 @@ class FormaPagoModel
         {
             try
             {
-                this.conexion.execute('call consulta_formaPagoID(?)', 
+                this.conexion.execute('call consulta_formaPago_ID(?)', 
                     [id],
                     (error, resultados) =>
                 {
@@ -70,18 +70,11 @@ class FormaPagoModel
     {
         return new Promise((resolve, reject) =>
         {
-            try
-            {
-                this.conexion.execute('call modificar_formaPago(?, ?, ?, ?)', forma, (error, resultados) =>
+                this.conexion.execute('call modificar_formaPago(?, ?, ?)', forma, (error, resultados) =>
                 {
                     if (error) return reject(error);
                     resolve(resultados[0]);
                 });
-            }
-            catch (error)
-            {
-                reject(error);
-            }
         });
     }
 
@@ -89,18 +82,11 @@ class FormaPagoModel
     {
         return new Promise((resolve, reject) =>
         {
-            try
-            {
                 this.conexion.execute('call baja_formaPago(?)', [forma], (error, resultados) =>
                 {
                     if (error) return reject(error);
                     resolve(resultados[0]);
                 });
-            }
-            catch (error)
-            {
-                reject(error);
-            }
         });
     }
 }

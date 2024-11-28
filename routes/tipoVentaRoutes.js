@@ -49,10 +49,9 @@ routes.put('/:id', async (req, res) => {
             [
                 req.params.id ||null, 
                 nom_tipos_venta || null, 
-                des_tipos_venta || null,
-                1
+                des_tipos_venta || null
             ]);
-        if (resultado[0].mensaje === 'Tipo de venta actualizado correctamente.') {
+        if (resultado[0].mensaje === 'Tipo de Venta actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el tipo de venta' });
@@ -66,7 +65,7 @@ routes.put('/:id', async (req, res) => {
 routes.delete('/:id', async (req, res) => {
     try {
         const resultado = await tipoVentaModel.eliminarTipoVenta(req.params.id);
-        if (resultado[0].mensaje === 'Tipo de venta actualizado correctamente.') {
+        if (resultado[0].mensaje === 'Tipo de Venta actualizado correctamente.') {
             res.status(200).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el tipo de venta' });

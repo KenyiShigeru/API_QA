@@ -5,7 +5,7 @@ datosConexion =
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'prueba2',
+    database: 'qualitydb',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,

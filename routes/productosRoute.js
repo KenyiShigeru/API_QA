@@ -23,6 +23,7 @@ routes.get('/:id', async (req, res) => {
 });
 
 //Otro get para ver que productos estan asignados a una cotizacion
+//por ende se necesita el id de la cotizacion
 routes.get('/cotizacion/:id', async (req, res) => {
     try {
         const productos = await productoModel.obtenerProductosCotizacion(req.params.id);
@@ -78,19 +79,18 @@ routes.put('/:id', async (req, res) => {
     try {
         const 
         {  
-            id_clasificacion, 
             id_subclasificacion, 
             id_material, 
             id_unidad, 
             apl_inst, 
             precio_sin_inst, 
             precio_con_inst, 
-            observaciones 
+            observaciones,
+            nombredescriptivoProducto 
         } = req.body;
         const resultado = await productoModel.modificarProducto(
             [
                 req.params.id ||null, 
-                id_clasificacion ||null, 
                 id_subclasificacion || null,
                 id_material || null, 
                 id_unidad || null,
@@ -98,7 +98,7 @@ routes.put('/:id', async (req, res) => {
                 precio_sin_inst || null,
                 precio_con_inst || null, 
                 observaciones || null,
-                1
+                nombredescriptivoProducto || null
             ]);
         res.status(201).json({message:'Actualizado con exito'});
     } catch (error) {

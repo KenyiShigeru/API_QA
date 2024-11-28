@@ -45,15 +45,15 @@ routes.post('/:id', async (req, res) => {
 
 routes.put('/:id', async (req, res) => {
     try {
-        const { nom_subclasificacion, des_subclasificacion } = req.body;
+        const { nom_subclasificacion, des_subclasificacion, id_clasificacion } = req.body;
         const resultado = await subclasificacionModel.modificarSubclasificacion(
             [
                 req.params.id ||null, 
                 nom_subclasificacion || null, 
                 des_subclasificacion || null,
-                1
+                id_clasificacion
             ]);
-        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+        if (resultado[0].mensaje === 'Subclasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar la subclasificación' });
@@ -67,7 +67,7 @@ routes.put('/:id', async (req, res) => {
 routes.delete('/:id', async (req, res) => {
     try {
         const resultado = await subclasificacionModel.borrarSubClasificacion(req.params.id);
-        if (resultado[0].mensaje === 'Clasificación borrada correctamente.') {
+        if (resultado[0].mensaje === 'Subclasificación actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar la subclasificación' });

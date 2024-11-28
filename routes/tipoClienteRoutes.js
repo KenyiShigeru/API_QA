@@ -50,7 +50,7 @@ routes.put('/:id', async (req, res) => {
                 nom_tipocliente || null, 
                 des_tipocliente || null
             ]);
-        if (resultado[0].mensaje === 'Tipo de cliente actualizado correctamente.') {
+        if (resultado[0].mensaje === 'Tipo de Cliente actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el tipo de cliente' });

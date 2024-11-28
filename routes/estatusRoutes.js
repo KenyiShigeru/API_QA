@@ -25,7 +25,7 @@ routes.get('/:id', async (req, res) => {
 routes.post('/', async (req, res) => {
     try {
         const { nom_estatus, des_estatus } = req.body;
-        const resultado = await estatusModel.insertarEstatus(
+        const resultado = await estatusModel.insertarEstatusCobranza(
             [
                 nom_estatus, 
                 des_estatus
@@ -44,10 +44,9 @@ routes.put('/:id', async (req, res) => {
             [
                 req.params.id,
                 nom_estatus, 
-                des_estatus,
-                1
+                des_estatus
             ]);
-        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+        if (resultado[0].mensaje === 'Estatus Cobranza actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el estatus' });
@@ -61,7 +60,7 @@ routes.put('/:id', async (req, res) => {
 routes.delete('/:id', async (req, res) => {
     try {
         const resultado = await estatusModel.borrarEstatusCobranza(req.params.id);
-        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+        if (resultado[0].mensaje === 'Estatus de Cobranza actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el estatus' });

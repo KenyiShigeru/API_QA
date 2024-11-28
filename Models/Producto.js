@@ -79,7 +79,7 @@ class ProductoModel {
 
     modificarProducto(producto) {
         return new Promise((resolve, reject) => {
-            this.connection.execute('call modificar_productos(?,?,?,?,?,?,?,?,?,?)', producto, (error, resultados) => {
+            this.connection.execute('call modificar_producto(?,?,?,?,?,?,?,?,?)', producto, (error, resultados) => {
                 if (error) return reject(error);
                 resolve(resultados[0]);
             })

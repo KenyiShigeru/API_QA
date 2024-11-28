@@ -48,10 +48,9 @@ routes.put('/:id', async (req, res) => {
             [
                 req.params.id ||null, 
                 nom_material || null, 
-                des_material || null,
-                1
+                des_material || null
             ]);
-        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+        if (resultado[0].mensaje === 'Material actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el material' });
@@ -65,7 +64,7 @@ routes.put('/:id', async (req, res) => {
 routes.delete('/:id', async (req, res) => {
     try {
         const resultado = await materialModel.borrarMaterial(req.params.id);
-        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+        if (resultado[0].mensaje === 'Material actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el material' });

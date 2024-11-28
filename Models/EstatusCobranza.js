@@ -35,50 +35,37 @@ class EstatusCobranzaModel
 
     insertarEstatusCobranza(estatusCobranza)
     {
-        try
-        {
-            this.conexion.execute('call agg_estatusCobranza(?, ?)', estatusCobranza, (error, resultados) =>
-            {
-                if (error) return reject(error);
-                resolve(resultados[0]);
-            });
-        }
-        catch (error)
-        {
-            reject(error);
-        }
+        return new Promise((resolve, reject) =>{
+            this.conexion.execute('call agg_estatusCobranza(?, ?)', 
+                estatusCobranza, (error, resultados) =>
+                {
+                    if (error) return reject(error);
+                    resolve(resultados[0]);
+                });
+    });
     }
 
     modificarEstatusCobranza(estatusCobranza)
     {
-        try
-        {
-            this.conexion.execute('call modificar_estatusCobranza(?, ?, ?, ?)', estatusCobranza, (error, resultados) =>
+        return new Promise((resolve, reject) =>{
+            this.conexion.execute('call modificar_estCobranza(?, ?, ?)', estatusCobranza, (error, resultados) =>
             {
                 if (error) return reject(error);
                 resolve(resultados[0]);
             });
-        }
-        catch (error)
-        {
-            reject(error);
-        }
+        });
     }
 
     borrarEstatusCobranza(estatusCobranza)
+
     {
-        try
-        {
-            this.conexion.execute('call baja_estCobranza(?)', [estatusCobranza], (error, resultados) =>
+        return new Promise((resolve, reject) =>{
+            this.conexion.execute('call baja_estCobranza(?)', estatusCobranza, (error, resultados) =>
             {
                 if (error) return reject(error);
                 resolve(resultados[0]);
             });
-        }
-        catch (error)
-        {
-            reject(error);
-        }
+        });
     }
 }
 

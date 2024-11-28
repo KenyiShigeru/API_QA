@@ -20,11 +20,11 @@ class TipoVentaModel
     obtenerTiposVentasId(id)
     {
         return new Promise((resolve, reject) => {
-            this.conexion.execute('call consulta_tipoVenta("")', 
+            this.conexion.execute('call consulta_tipoVenta_id(?)', 
                 [id],
                 (error, resultados) => {
                 if (error) return reject(error);
-                resolve(resultados[0]);
+                resolve(resultados[0][0]);
             })
         });
     }
@@ -42,7 +42,7 @@ class TipoVentaModel
     modificarTipoVenta(tipo)
     {
         return new Promise((resolve, reject) => {
-            this.conexion.execute('call modificar_tipoVenta(?, ?, ?, ?)', tipo, (error, resultados) => {
+            this.conexion.execute('call modificar_tipoVenta(?, ?, ?)', tipo, (error, resultados) => {
                 if (error) return reject(error);
                 resolve(resultados[0]);
             })

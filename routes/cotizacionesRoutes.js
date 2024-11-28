@@ -104,24 +104,7 @@ routes.post('/producto/:id', async (req, res) => {
     }
 });
 
-routes.post('/acab_cotizacion/:id', async (req, res) => {
-    try {
-         const 
-         {
-            id_acabado,
-        } = req.body;
-        const resultado = await acabCotizacionModel.agregarAcabCotizacion(
-            [
-                req.params.id,
-                id_acabado,                                
-            ]
-        );
-        res.status(201).json({message:'Agregado con exito'});
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al insertar la cotización' });
-    }
-});
+
 
 routes.put('/:id', async (req, res) => {
     try {
@@ -133,10 +116,11 @@ routes.put('/:id', async (req, res) => {
             iva,
             total,
             fechavigencia,
-            estatus,
             facturar,
             personal,
-            observaciones
+            observaciones,
+            fechaemision,
+            correo_del_personal
         } = req.body;
         const resultado = await cotizacionModel.modificarCotizacion([
             req.params.id,
@@ -146,12 +130,12 @@ routes.put('/:id', async (req, res) => {
             iva,
             total,
             fechavigencia,
-            estatus,
             facturar,
             personal,
             observaciones,
-            1
-    ]);
+            fechaemision,
+            correo_del_personal                              
+        ]);
         res.status(201).json({message:'Actualizado con exito'});
     } catch (error) {
         console.error(error);

@@ -55,7 +55,7 @@ routes.put('/:id', async (req, res) => {
                 nom_unidad || null, 
                 des_unidad || null
             ]);
-        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+        if (resultado[0].mensaje === 'Unidad actualizada correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar la clasificación' });

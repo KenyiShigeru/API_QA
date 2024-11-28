@@ -42,7 +42,7 @@ router.put('/:id', async (req, res) => {
     try {
         
         const {nom_acabados, des_acabados } = req.body;
-        const resultado = await acabadosModel.modificarAcabado([req.params.id, nom_acabados, des_acabados, 1]);
+        const resultado = await acabadosModel.modificarAcabado([req.params.id, nom_acabados, des_acabados]);
         res.status(200).json({ message: 'Modificado con éxito' });
     } catch (error) {
         console.log(error);

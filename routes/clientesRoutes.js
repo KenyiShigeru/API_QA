@@ -73,7 +73,7 @@ routes.put("/:id",
             rfc,
             nomnegocio,
             domicilio,
-            telWP,
+            telWP, 
             telFJ,
             correo,
             tpCliente
@@ -82,20 +82,19 @@ routes.put("/:id",
             [
                 req.params.id,
                 nombre,
-                apellidopaterno,
-                apellidomaterno,
-                rutaconstancia,
-                rfc,
-                nomnegocio,
-                domicilio,
-                telWP,
-                telFJ,
-                correo,
-                tpCliente
-            ]
-        );
+                    apellidopaterno,
+                    apellidomaterno,
+                    rutaconstancia,
+                    rfc,
+                    nomnegocio,
+                    domicilio,
+                    telWP,
+                    telFJ,
+                    correo,
+                    tpCliente
+            ]);
         //La respuesta de la base de datos es un array con un objeto que tiene un mensaje por eso se toma el primer elemento
-        if (resultado[0].mensaje === 'Clasificación actualizada correctamente.') {
+        if (resultado[0].mensaje === 'Cliente actualizado correctamente.') {
             res.status(201).json({message:'Actualizado con exito'});
         } else {
             res.status(500).json({ error: 'No se pudo actualizar el cliente' });
