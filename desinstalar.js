@@ -5,15 +5,7 @@ var Service = require('node-windows').Service;
 
 // Create a new service object
 var svc = new Service({
-  name:'API_QA',
-  description: 'API de backend para el software de Quality Art.',
-  script: 'D:\\Residencias\\API_QA\\index.js',
-  nodeOptions: [
-    '--harmony',
-    '--max_old_space_size=4096'
-  ]
-  //, workingDirectory: '...'
-  //, allowServiceLogon: true
+  name:'API_QA'
 });
 
 // Listen for the "install" event, which indicates the
