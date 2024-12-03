@@ -2,6 +2,9 @@ const app = require('express');
 const router = app.Router();
 var {Orden_Trabajo} = require('../Models/Orden_Trabajo');
 const Orden_TrabajoModel = new Orden_Trabajo();
+var {crearPDF} = require('../libs/pdfkt');
+const fs = require('fs');
+const PDFDocument = require('pdfkit');
 
 router.get("/", async (req, res) => {
     try {
@@ -55,5 +58,47 @@ router.post("/:id",async (req, res) =>
         }
     }
 );
+
+//Modulo para imprimir la orden de trabajo
+router.get("/imprimir/:id", async (req, res) => {
+    try {
+        const stream = res.writeHead(200, {
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `attachment; filename=orden_trabajo_${req.params.id}.pdf`
+        });
+
+        const doc = new PDFDocument();
+        const ordenes = await Orden_TrabajoModel.imprimirOrden(req.params.id);
+        doc.pipe(stream);
+        doc.fontSize(12).text('Orden de trabajo' , { align: 'center' });
+        doc.text(`Fecha de emisión: ${ordenes.fechaEmision}`, { align: 'center' });
+        doc.text(`Nombre del cliente: ${ordenes.nombreCliente}`, { align: 'center' });
+        //Nombre del negocio
+        //Correo del cliente
+        //Productos debe ser un arreglo de objetos
+        ordenes.productos.forEach(producto => {
+            doc.text(`Nombre del producto: ${producto.nombreProducto}`);
+            doc.text(`Descripción: ${producto.descripcion}`);
+            doc.text(`Base: ${producto.base}`);
+            doc.text(`Altura: ${producto.altura}`);
+            doc.text(`Medida: ${producto.medida}`);
+        });
+        //Total metros cuadrados
+        //Total venta
+        //Anticipo
+        //Saldo
+        doc.end();
+
+        //console.log(ordenes);
+
+    } catch (error) {
+        console.error(error);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Error al generar el PDF' });
+        }
+    }
+});
+
+
 
 module.exports = router;
