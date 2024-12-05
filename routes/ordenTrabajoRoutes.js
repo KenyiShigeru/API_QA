@@ -2,7 +2,6 @@ const app = require('express');
 const router = app.Router();
 var {Orden_Trabajo} = require('../Models/Orden_Trabajo');
 const Orden_TrabajoModel = new Orden_Trabajo();
-var {crearPDF} = require('../libs/pdfkt');
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
@@ -70,24 +69,78 @@ router.get("/imprimir/:id", async (req, res) => {
         const doc = new PDFDocument();
         const ordenes = await Orden_TrabajoModel.imprimirOrden(req.params.id);
         doc.pipe(stream);
-        doc.fontSize(12).text('Orden de trabajo' , { align: 'center' });
-        doc.text(`Fecha de emisión: ${ordenes.fechaEmision}`, { align: 'center' });
+
+        // Encabezado
+        doc.fontSize(12).text('Orden de Trabajo', { align: 'center' });
+        doc.fontSize(10).text(`Fecha de emisión: ${ordenes.fechaEmision}`, { align: 'center' });
         doc.text(`Nombre del cliente: ${ordenes.nombreCliente}`, { align: 'center' });
-        //Nombre del negocio
-        //Correo del cliente
-        //Productos debe ser un arreglo de objetos
-        ordenes.productos.forEach(producto => {
-            doc.text(`Nombre del producto: ${producto.nombreProducto}`);
-            doc.text(`Descripción: ${producto.descripcion}`);
-            doc.text(`Base: ${producto.base}`);
-            doc.text(`Altura: ${producto.altura}`);
-            doc.text(`Medida: ${producto.medida}`);
+        doc.text(`Negocio: ${ordenes.nombreNegocio}`, { align: 'center' });
+        doc.moveDown(1);
+
+        // Posición inicial y ancho de columnas
+        const tableStartY = 150;
+        let yPosition = tableStartY;
+
+        // Encabezados de la tabla
+        doc.fontSize(10).text('Cantidad', 50, yPosition);
+        doc.text('Descripción del trabajo', 110, yPosition);
+        doc.text('Base', 320, yPosition);
+        doc.text('Altura', 370, yPosition);
+        doc.text('Total m2', 420, yPosition);
+        doc.text('Precio', 480, yPosition,{ width: 40, align: 'left', lineBreak: true });
+        doc.text('Acabados', 530, yPosition,{ align: 'center', lineBreak: false });
+
+        yPosition += 20; // Mover la posición vertical para las filas
+
+        // Línea horizontal debajo de encabezados
+        doc.moveTo(50, yPosition - 5).lineTo(575, yPosition - 5).stroke();
+        let contar = 0;
+        // Agregar productos a la tabla
+        ordenes.productos.forEach((producto) => {
+            doc.text(`${producto.cantidad}`, 50, yPosition);
+            
+            // Texto de descripción ajustado con un ancho fijo
+            doc.text(
+                `${producto.nombreProducto} - ${producto.descripcion}`,
+                110, 
+                yPosition, 
+                { width: 200, align: 'left', lineBreak: true }
+            );
+
+            doc.text(producto.base, 320, yPosition);
+            doc.text(producto.altura, 370, yPosition);
+            doc.text(producto.medida, 420, yPosition);
+            doc.text(`$${producto.total}`, 470, yPosition, { width: 50, align: 'left' });
+            contar+= producto.total;
+            const totalAcabados = producto.acabados;
+            doc.text(producto.acabados, 530, yPosition, { width: 50,align: 'left' });
+            const palabras = totalAcabados.split(',').map(p => p.trim()); // Separa por comas y elimina espacios
+            const totalPalabras = palabras.length>=4? (palabras.length-3)*10 +5: 0;
+            yPosition += 40+totalPalabras; // Aumentar el espacio entre filas
         });
-        //Total metros cuadrados
-        //Total venta
-        //Anticipo
-        //Saldo
+
+        // Línea final debajo de la tabla
+        doc.moveTo(50, yPosition - 5).lineTo(575, yPosition - 5).stroke();
+
+
+        // Información de costos en una sola línea
+        doc.fontSize(10).text(
+            `Total m2: ${ordenes.totalMetrosCuadrados}`,
+            400,
+            yPosition,
+            { align: 'left' }
+        );
+        yPosition += 20;
+        doc.moveTo(50, yPosition - 5).lineTo(575, yPosition - 5).stroke();
+        doc.text(
+            `Total neto: $${parseFloat(ordenes.totalVenta-ordenes.totalVenta*0.16).toFixed(2)}    IVA: $${parseFloat(ordenes.totalVenta*0.16).toFixed(2)}    Total: $${parseFloat(ordenes.totalVenta).toFixed(2)}`,
+            320,
+            yPosition,
+            { align: 'right' }
+        );
+        
         doc.end();
+
 
         //console.log(ordenes);
 

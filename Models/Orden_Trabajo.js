@@ -67,31 +67,26 @@ class Orden_Trabajo
             const ordenResult = await conexion.promise().query(`
                 select * from view_ordentrabajo where id_ordentrabajo = ?;
                 call consulta_Prod_ordenTrabajo(?);
-            `, [id, id]);
-
-            console.log(ordenResult);
-    
+                call consultar_proc_OrdenTrabajo(?);
+            `, [id, id, id]);
+            //console.log(ordenResult[0]);
             const orden = ordenResult[0][0]; // Primer resultado de la consulta de la orden
             const productos = ordenResult[0][1]; // Resultados de la consulta del procedimiento
-
-                //console.log(productos);
-
             let total = 0;
             const detallesProductos = productos.map((prod) => {
-                const base = parseFloat(prod.base);
-                const altura = parseFloat(prod.altura);
-                const medida = base * altura;
-                total += medida;
     
                 return {
+                    cantidad: prod.cantidad,
                     nombreProducto: prod.nom_subclasificacion,
                     descripcion: prod.Descripcion,
-                    base: base,
-                    altura: altura,
-                    medida: medida
+                    base: prod.base,
+                    altura: prod.altura,
+                    medida: prod.m2,
+                    acabados: prod.Acabados,
+                    precio_unitario: prod.precio_Uni,
+                    total: parseFloat(prod.m2) * parseFloat(prod.precio_Uni)*prod.cantidad
                 };
             });
-    
             const totalVenta = parseFloat(orden[0]['Total Venta']);
             const anticipo = parseFloat(orden[0].totalPagado);
 
