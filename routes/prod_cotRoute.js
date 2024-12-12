@@ -1,7 +1,6 @@
 const express = require('express');
 const routes = express.Router();
 const {Prod_cotModel} = require('../Models/Prod_cot');
-const {AcabCotizacionModel} = require('../Models/Acab_cotizacion');
 var prod_cotModel = new Prod_cotModel();
 var acabCotizacionModel = new AcabCotizacionModel();
 conexion = require('../.env/conexion');

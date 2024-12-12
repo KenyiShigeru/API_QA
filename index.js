@@ -20,12 +20,15 @@ const unidadesRoutes = require('./routes/unidadRoute');
 const prod_cotRoutes = require('./routes/prod_cotRoute');
 
 var app = express();
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "GET, POST, PUT, DELETE");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
-    next();
-});
+
+const corsOptions = {
+    origin: 'http://192.168.1.91', // Cambia a tu dominio frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Disposition'], // Permite que el navegador lea el header de descarga
+};
+
+app.use(cors(corsOptions));
 
 app.use(morgan('dev'));
 

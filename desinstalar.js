@@ -5,7 +5,8 @@ var Service = require('node-windows').Service;
 
 // Create a new service object
 var svc = new Service({
-  name:'API_QA'
+  name:'API_QA',
+  script: require('path').join(__dirname,'helloworld.js')
 });
 
 // Listen for the "install" event, which indicates the
