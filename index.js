@@ -18,15 +18,17 @@ const tipoPagoRoutes = require('./routes/tipoPagoRoutes');
 const tipoVentasRoutes = require('./routes/tipoventaRoutes');
 const unidadesRoutes = require('./routes/unidadRoute');
 const prod_cotRoutes = require('./routes/prod_cotRoute');
+const { access } = require('fs');
 
 var app = express();
 
 const corsOptions = {
-    origin: 'http://192.168.1.91', // Cambia a tu dominio frontend
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Content-Disposition'], // Permite que el navegador lea el header de descarga
 };
+
 
 app.use(cors(corsOptions));
 

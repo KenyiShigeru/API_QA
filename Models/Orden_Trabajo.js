@@ -69,7 +69,6 @@ class Orden_Trabajo
                 call consulta_Prod_ordenTrabajo(?);
                 call consultar_proc_OrdenTrabajo(?);
             `, [id, id, id]);
-            //console.log(ordenResult[0]);
             const orden = ordenResult[0][0]; // Primer resultado de la consulta de la orden
             const productos = ordenResult[0][1]; // Resultados de la consulta del procedimiento
             let total = 0;
