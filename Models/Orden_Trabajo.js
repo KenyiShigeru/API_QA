@@ -74,6 +74,7 @@ class Orden_Trabajo
             const productos = ordenResult[0][1]; // Resultados de la consulta del procedimiento
             let total = 0;
             const detallesProductos = productos.map((prod) => {
+                total += prod.m2;
                 return {
                     cantidad: prod.cantidad,
                     nombreProducto: prod.nom_subclasificacion,
