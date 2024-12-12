@@ -153,25 +153,18 @@ routes.delete('/:id', async (req, res) => {
     }
 });
 
-routes.post('/productos/:id', 
+routes.post('/acabados/:id', 
     async (req, res) => 
         {
             try {
                 const 
                 {
-                    idProducto,
-                    cantidad,
-                    precio,
-                    descuento,
-                    total
+                    idProducto_cot,
+                    idAcabado,
                 } = req.body;
-                const resultado = await acabCotizacionModel.insertarAcabCotizacion([
-                    req.params.id,
-                    idProducto,
-                    cantidad,
-                    precio,
-                    descuento,
-                    total
+                const resultado = await acabCotizacionModel.agregarAcabCotizacion([
+                    idProducto_cot,
+                    idAcabado
                 ]);
                 res.status(201).json({message:'Agregado con exito'});
             } catch (error) {

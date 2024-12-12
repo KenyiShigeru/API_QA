@@ -133,8 +133,8 @@ router.get("/imprimir/:id", async (req, res) => {
         yPosition += 20;
         doc.moveTo(50, yPosition - 5).lineTo(575, yPosition - 5).stroke();
         doc.text(
-            `Total neto: $${parseFloat(ordenes.totalVenta-ordenes.totalVenta*0.16).toFixed(2)}    `+
-            `IVA: $${parseFloat(ordenes.totalVenta*0.16).toFixed(2)}    Total: $${parseFloat(ordenes.totalVenta).toFixed(2)}`,
+            `Total neto: $${parseFloat(ordenes.subtotal).toFixed(2)}    `+
+            `IVA: $${parseFloat(ordenes.iva).toFixed(2)}    Total: $${parseFloat(ordenes.totalVenta).toFixed(2)}`,
             320,
             yPosition,
             { align: 'right' }

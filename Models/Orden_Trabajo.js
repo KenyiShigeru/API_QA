@@ -1,6 +1,7 @@
 const conexion = require('../.env/conexion');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
+const { console } = require('inspector');
 
 class Orden_Trabajo
 {
@@ -73,7 +74,6 @@ class Orden_Trabajo
             const productos = ordenResult[0][1]; // Resultados de la consulta del procedimiento
             let total = 0;
             const detallesProductos = productos.map((prod) => {
-    
                 return {
                     cantidad: prod.cantidad,
                     nombreProducto: prod.nom_subclasificacion,
@@ -82,11 +82,12 @@ class Orden_Trabajo
                     altura: prod.altura,
                     medida: prod.m2,
                     acabados: prod.Acabados,
-                    precio_unitario: prod.precio_Uni,
-                    total: parseFloat(prod.m2) * parseFloat(prod.precio_Uni)*prod.cantidad
+                    total: prod.precio_Uni
                 };
             });
             const totalVenta = parseFloat(orden[0]['Total Venta']);
+            const subtotal = parseFloat(orden[0].subTotal);
+            const iva = parseFloat(orden[0].iva);
             const anticipo = parseFloat(orden[0].totalPagado);
 
             var {fechaEmision} = orden[0];
@@ -101,6 +102,8 @@ class Orden_Trabajo
                 productos: detallesProductos,
                 totalMetrosCuadrados: total,
                 totalVenta: totalVenta,
+                subtotal: subtotal,
+                iva: iva,
                 anticipo: anticipo,
                 saldo: totalVenta - anticipo
             };
