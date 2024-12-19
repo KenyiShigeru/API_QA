@@ -7,7 +7,7 @@ var Service = require('node-windows').Service;
 var svc = new Service({
   name:'API_QA',
   description: 'API de backend para el software de Quality Art.',
-  script: require('path').join(__dirname,'helloworld.js'),
+  script: require('path').join(__dirname,'index.js'),
   nodeOptions: [
     '--harmony',
     '--max_old_space_size=4096'
